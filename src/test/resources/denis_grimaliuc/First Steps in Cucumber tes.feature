@@ -1,5 +1,8 @@
 Feature: First Steps in Cucumber
 
+  Background: Before All
+    Given Echo Background
+
   @Smoke
   Scenario: Addition of two numbers
     Given I have two numbers "5" and "6"
