@@ -1,8 +1,11 @@
 package actionLibraries;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
 
@@ -13,6 +16,16 @@ public class MyStepdefs {
     Logger logger = Logger.getLogger(MyStepdefs.class);
 
     Integer a, b, result;
+
+    @Before
+    public void beforeMethod() {
+        System.out.println("Before");
+    }
+
+    @After
+    public void afterMethod() {
+        System.out.println("afterMethod");
+    }
 
     @Given("^I have two numbers \"([^\"]*)\" and \"([^\"]*)\"$")
     public void iHaveTwoNumbersAnd(Integer num1, Integer num2) {
@@ -38,5 +51,10 @@ public class MyStepdefs {
     public void validatePassword(String password) {
         assertThat(password, Matchers.matchesPattern("[\\w]{5,32}"));
 
+    }
+
+    @Given("^Echo Background$")
+    public void echoBackground() {
+        System.out.println("Background");
     }
 }
