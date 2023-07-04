@@ -1,41 +1,23 @@
 package Leas_Liudmila;
 
 import helpers.Helpers;
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static helpers.Helpers.stepResults;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LLSecondTask {
 
     Logger log = Helpers.createLogger(LLSecondTask.class);
-    Helpers.Appender appLL = null;
     Map<String, Object> context = new HashMap<>();
 
-    @Before
-    public void beforeMethod(Scenario scenario) {
-        appLL = new Helpers.Appender(scenario);
-        log.addAppender(appLL);
-        stepResults = new ArrayList<>();
-    }
-
-    @After
-    public void afterMethod() {
-        log.removeAllAppenders();
-        stepResults.clear();
-    }
 
     @Given("LL I have a string {string}")
     public void iHaveAStringLL(String arg0) {
