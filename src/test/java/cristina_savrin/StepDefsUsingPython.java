@@ -41,6 +41,12 @@ public class StepDefsUsingPython {
         stepResults.add(arg0);
     }
 
+    @Given("^I have a number \"(\\d+)\" CS$")
+    public void iHaveANumberCS(Integer arg0) {
+        logger.info("I have a number: " + arg0);
+        stepResults.add(arg0);
+    }
+
     @When("^Execute Python Script \"(.+)\" CS$")
     public void executePythonScript(String script) {
         String scriptRes = getValue(script, String.class);
@@ -60,47 +66,9 @@ public class StepDefsUsingPython {
         stepResults.add(EMPTY);
     }
 
-    @Then("^the string should contain \"([^\"]*)\" CS$")
-    public void theStringShouldContainCS(String arg0) {
-        String string = (String) stepResults.get(0);
-        logger.info("Substring assertion");
-        assertThat(string, Matchers.containsString(arg0));
-        stepResults.add(EMPTY);
-    }
-
-    @Given("^I have a number \"(\\d+)\" CS$")
-    public void iHaveANumberCS(Integer arg0) {
-        logger.info("I have a number: " + arg0);
-        stepResults.add(arg0);
-    }
-
-    @Then("^the number should be even CS$")
-    public void theNumberShouldBeEvenCS() {
-        Integer num = (Integer) stepResults.get(0);
-        logger.info("Even number assertion");
-        assertThat(0, Matchers.equalTo(num % 2));
-        stepResults.add(EMPTY);
-    }
-
-    @Then("^the number should be odd CS$")
-    public void theNumberShouldBeOddCS() {
-        Integer num = (Integer) stepResults.get(0);
-        logger.info("Odd number assertion");
-        assertThat(1, Matchers.equalTo(num % 2));
-        stepResults.add(EMPTY);
-    }
-
     @Given("^I have a list with elements CS$")
     public void iHaveAListWithElementsCS(List<String> fruits) {
         logger.info("I have a list: " + fruits);
         stepResults.add(fruits);
-    }
-
-    @Then("^the size of the list should be \"([^\"]*)\" CS$")
-    public void theSizeOfTheListShouldBeCS(String arg0) {
-        String size = (String) stepResults.get(1);
-        logger.info("List size assertion");
-        assertThat(arg0, Matchers.equalTo(size));
-        stepResults.add(EMPTY);
     }
 }
