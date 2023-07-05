@@ -3,7 +3,7 @@ Feature: The first automation tests
 
   Scenario: Average of three numbers
 
-    Given Given three numbers "5", "4" and "6"
+    Given Given three numbers "5", "4" and "6" RM
     When Find average of three numbers
     Then Average should be "5"
 
