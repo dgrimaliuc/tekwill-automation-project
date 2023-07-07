@@ -3,8 +3,6 @@ package denis_grimaliuc;
 
 import helpers.Helpers;
 import helpers.PythonExecutor;
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -26,17 +24,16 @@ public class MyStepdefs {
     Logger log = Helpers.createLogger(MyStepdefs.class);
     Helpers.Appender app = null;
 
-    @Before
+    //    @Before
     public void beforeMethod(Scenario scenario) {
         app = new Helpers.Appender(scenario);
         log.addAppender(app);
         stepResults = new ArrayList<>();
     }
 
-    @After
+    //    @After
     public void afterMethod() {
         log.removeAllAppenders();
-        stepResults.clear();
     }
 
 
