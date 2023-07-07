@@ -20,6 +20,7 @@ import java.util.List;
 
 public class Helpers {
     public static ArrayList<Object> stepResults = null;
+    public static Logger log = createLogger(Helpers.class);
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(Helpers::generateCucumberReport));
@@ -68,6 +69,19 @@ public class Helpers {
             System.out.println("Json file was not found");
     }
 
+    public static String addQuotes(String value) {
+        return "\"" + value + "\"";
+    }
+
+
+    public static void waitInSeconds(int seconds) {
+        try {
+            log.info("Wait for " + seconds + " seconds");
+            Thread.sleep(seconds * 1000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static class Appender extends WriterAppender {
         private final Scenario scenario;

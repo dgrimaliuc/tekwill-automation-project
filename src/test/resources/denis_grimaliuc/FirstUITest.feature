@@ -1,5 +1,14 @@
 Feature: First UI Test
 
-  Scenario: Verify URL
+  Background: Open Page
     Given Adopt Page is Open
-    Then Hover Change Location button
+
+  Scenario Outline: Verify Location can be changed
+    When Change location to "<new_location>"
+    Then Verify location changed "<new_location>"
+    
+    Examples:
+      | new_location |
+      | Belt         |
+
+
