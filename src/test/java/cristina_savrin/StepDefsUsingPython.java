@@ -1,10 +1,8 @@
 package cristina_savrin;
 
-import helpers.Helpers;
 import helpers.PythonExecutor;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -12,14 +10,12 @@ import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static helpers.Helpers.getValue;
 import static helpers.Helpers.stepResults;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import static org.hamcrest.MatcherAssert.assertThat;
-//import static helpers.Helpers.stepResults;
 
 public class StepDefsUsingPython {
 
