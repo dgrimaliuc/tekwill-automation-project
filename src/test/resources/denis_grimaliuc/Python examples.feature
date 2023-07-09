@@ -44,3 +44,7 @@ Feature: Password Test
     Given I have two strings "Hello" and "World"
     When Execute Python Script "'{0[0]}' + '{0[1]}'"
     Then Assert that "'{1}' == 'HelloWorld'"
+
+  Scenario: Containing Scenario
+    Given I have a string "Java Help"
+    Then Assert that "'He' in '{0}'"
