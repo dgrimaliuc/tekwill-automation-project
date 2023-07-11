@@ -5,10 +5,9 @@ Feature: First steps in cucumber
     When find average of three numbers
     Then average should be "5"
 
-
-     # 1. Matching Digits: Write a regex pattern that matches any sequence
-     # of digits in a given string. Test it with various inputs, such
-     # as "Hello123", "456", and "abc789xyz".
+     # 1. Matching Digits: Write a regex pattern that matches
+     # any sequence of digits in a given string. Test it with various
+     # inputs, such as "Hello123", "456", and "abc789xyz".
      # Input: \d+
 
      # 2. Matching Words: Create a regex pattern that matches any word
