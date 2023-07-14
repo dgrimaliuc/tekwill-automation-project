@@ -26,7 +26,6 @@ import static org.junit.Assert.assertEquals;
 public class UIStepDefinition {
     WebDriver driver = null;
     WebDriverWait wait = null;
-    //String customLocation = "Paris";
     Logger log = Logger.getLogger(UIStepDefinition.class);
 
     @Before
