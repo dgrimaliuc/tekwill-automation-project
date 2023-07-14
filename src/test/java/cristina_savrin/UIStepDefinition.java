@@ -1,10 +1,12 @@
 package cristina_savrin;
 
+import helpers.Helpers;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.By;
@@ -17,15 +19,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 
-import static helpers.Helpers.addQuotes;
-import static helpers.Helpers.waitInSeconds;
+import static helpers.Helpers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 public class UIStepDefinition {
     WebDriver driver = null;
     WebDriverWait wait = null;
-    String customLocation = "Paris";
+    //String customLocation = "Paris";
     Logger log = Logger.getLogger(UIStepDefinition.class);
 
     @Before
@@ -37,6 +38,7 @@ public class UIStepDefinition {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, 5);
+        stepResults = new ArrayList<>();
     }
 
     @After
@@ -44,25 +46,27 @@ public class UIStepDefinition {
         driver.close();
     }
 
-    @Given("Open AdoptPage with custom location")
-    public void customLocation() {
-        if (customLocation == null || customLocation.isEmpty()) {
-            throw new RuntimeException("Custom location is Empty");
-        }
-        driver.get("https://petstore-kafka.swagger.io/?location=" + customLocation);
-        wait.until(ExpectedConditions.textToBe(By.xpath("//div[@id='root']/div/div[3]/div[1]//h2"), "Pets in " + customLocation));
+    @Given("Open AdoptPage with random location")
+    public void randomLocation() {
+        String randomLocation = RandomStringUtils.random(10, true, true);
+        log.debug("Open random location: " + addQuotes(randomLocation));
+        driver.get("https://petstore-kafka.swagger.io/?location=" + randomLocation);
+        wait.until(ExpectedConditions.textToBe(By.xpath("//div[@id='root']/div/div[3]/div[1]//h2"), "Pets in " + randomLocation));
+        stepResults.add(randomLocation);
     }
 
-    @Then("Verify custom location in [Text Input], [Pets in ..] and [Adoptions in ..]")
-    public void verifyCustomLocation() {
-        log.debug("Verify new location is displayed: " + addQuotes(customLocation));
+    @Then("Verify random location {string} in [Text Input], [Pets in ..] and [Adoptions in ..]")
+    public void verifyRandomLocation(String location) {
+        location = Helpers.getValue(location, String.class);
+        log.debug("Verify random location is displayed: " + addQuotes(location));
+
         WebElement input = driver.findElement(By.xpath("//input[@id='location-input']"));
         WebElement petsLocationEl = driver.findElement(By.xpath("//div[@id='root']/div/div[3]/div[1]//h2"));
         WebElement adoptTitle = driver.findElement(By.xpath("//div[@id='root']/div/div[3]/div[2]/h2"));
 
-        assertThat(petsLocationEl.getText(), Matchers.equalTo("Pets in " + customLocation));
-        assertThat(adoptTitle.getText(), Matchers.equalTo("Adoptions in " + customLocation));
-        assertThat(input.getAttribute("value"), Matchers.equalTo(customLocation));
+        assertThat(petsLocationEl.getText(), Matchers.equalTo("Pets in " + location));
+        assertThat(adoptTitle.getText(), Matchers.equalTo("Adoptions in " + location));
+        assertThat(input.getAttribute("value"), Matchers.equalTo(location));
     }
 
     @And("Verify [The game] section")
@@ -80,11 +84,11 @@ public class UIStepDefinition {
         WebElement adoptions = driver.findElement(By.xpath("//div[@class='p-8']/p[3]"));
 
         ArrayList<String> gameActual = new ArrayList<>();
-        gameActual.add(title.getText());
+        gameActual.add(title.getText().trim());
         waitInSeconds(5);
-        gameActual.add(websocket.getText());
-        gameActual.add(pets.getText());
-        gameActual.add(adoptions.getText());
+        gameActual.add(websocket.getText().trim());
+        gameActual.add(pets.getText().trim());
+        gameActual.add(adoptions.getText().trim());
 
         assertEquals(gameExpected, gameActual);
     }
