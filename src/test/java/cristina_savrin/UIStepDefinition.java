@@ -9,9 +9,7 @@ import io.cucumber.java.en.Then;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -21,15 +19,23 @@ import java.util.ArrayList;
 
 import static helpers.Helpers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 
 public class UIStepDefinition {
     WebDriver driver = null;
     WebDriverWait wait = null;
+    AdoptPetsPage page = null;
     Logger log = Logger.getLogger(UIStepDefinition.class);
+
+    @After
+    public void after() {
+        driver.close();
+    }
 
     @Before
     public void before() {
+
         var pathToChrome = "src/main/resources/chromedriver.exe";
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         ChromeOptions options = new ChromeOptions();
@@ -37,58 +43,101 @@ public class UIStepDefinition {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, 5);
+        page = new AdoptPetsPage(driver, wait);
         stepResults = new ArrayList<>();
-    }
-
-    @After
-    public void after() {
-        driver.close();
     }
 
     @Given("Open AdoptPage with random location")
     public void randomLocation() {
+
         String randomLocation = RandomStringUtils.random(10, true, true);
         log.debug("Open random location: " + addQuotes(randomLocation));
         driver.get("https://petstore-kafka.swagger.io/?location=" + randomLocation);
-        wait.until(ExpectedConditions.textToBe(By.xpath("//div[@id='root']/div/div[3]/div[1]//h2"), "Pets in " + randomLocation));
+        wait.until(ExpectedConditions.textToBePresentInElement(page.petsTitle, "Pets in " + randomLocation));
         stepResults.add(randomLocation);
     }
 
     @Then("Verify random location {string} in [Text Input], [Pets in ..] and [Adoptions in ..]")
     public void verifyRandomLocation(String location) {
+
         location = Helpers.getValue(location, String.class);
         log.debug("Verify random location is displayed: " + addQuotes(location));
 
-        WebElement input = driver.findElement(By.xpath("//input[@id='location-input']"));
-        WebElement petsLocationEl = driver.findElement(By.xpath("//div[@id='root']/div/div[3]/div[1]//h2"));
-        WebElement adoptTitle = driver.findElement(By.xpath("//div[@id='root']/div/div[3]/div[2]/h2"));
-
-        assertThat(petsLocationEl.getText(), Matchers.equalTo("Pets in " + location));
-        assertThat(adoptTitle.getText(), Matchers.equalTo("Adoptions in " + location));
-        assertThat(input.getAttribute("value"), Matchers.equalTo(location));
+        assertThat(page.locationInput.getAttribute("value"), Matchers.equalTo(location));
+        assertThat(page.petsTitle.getText(), Matchers.equalTo("Pets in " + location));
+        assertThat(page.adoptsTitle.getText(), Matchers.equalTo("Adoptions in " + location));
     }
 
-    @And("Verify [The game] section")
-    public void verifyTheGameSection() {
+    @And("Verify [The game] section for random location {string}")
+    public void verifyTheGameSection(String location) {
+
         ArrayList<String> gameExpected = new ArrayList<>();
-        gameExpected.add("The game");
-        gameExpected.add("WebSocket messages: 1");
-        gameExpected.add("No pets. Go rescue some pets!");
-        gameExpected.add("No adoptions. Go get those pets adopted!");
-
-        log.debug("Verify current section contains default info in [The game] section");
-        WebElement title = driver.findElement(By.xpath("//div[@class='p-8']/h2"));
-        WebElement websocket = driver.findElement(By.xpath("//div[@class='p-8']/p[1]"));
-        WebElement pets = driver.findElement(By.xpath("//div[@class='p-8']/p[2]"));
-        WebElement adoptions = driver.findElement(By.xpath("//div[@class='p-8']/p[3]"));
-
         ArrayList<String> gameActual = new ArrayList<>();
-        gameActual.add(title.getText().trim());
-        waitInSeconds(5);
-        gameActual.add(websocket.getText().trim());
-        gameActual.add(pets.getText().trim());
-        gameActual.add(adoptions.getText().trim());
+        location = Helpers.getValue(location, String.class);
+
+        gameExpected.add("The game");
+
+        if (page.noPetsText.size() == 0) {
+            gameExpected.add("WebSocket messages: 11");
+            gameExpected.add("Pets in " + location + ": 5");
+        } else {
+            gameExpected.add("WebSocket messages: 1");
+            gameExpected.add("No pets. Go rescue some pets!");
+        }
+
+        gameExpected.add("No adoptions. Go get those pets adopted!");
+        log.debug("Verify current section contains proper info in [The game] section");
+
+        gameActual.add(page.gameTitle.getText().trim());
+        waitInSeconds(3);
+        gameActual.add(page.websocket.getText().trim());
+        gameActual.add(page.petsInInfo.getText().trim());
+        gameActual.add(page.adoptsInfo.getText().trim());
 
         assertEquals(gameExpected, gameActual);
+    }
+
+    @Given("Add random pet")
+    public void addRandomPet() {
+
+        Helpers.waitInSeconds(1);
+        String newPetName = page.petNameInput.getAttribute("value");
+        log.debug("Adding random pet: " + addQuotes(newPetName));
+        page.addPetBtn.click();
+        wait.until(ExpectedConditions.textToBePresentInElement(page.lastAddedPetRow, newPetName + "\nAVAILABLE"));
+    }
+
+    @Then("Verify default text disappears")
+    public void defaultTextDisappears() {
+        log.debug("Verify that default text" + addQuotes("No rows. Try reset filters") + " disappears");
+        assertThat(page.noPetsText.size(), equalTo(0));
+    }
+
+    @Given("Add random pets")
+    public void addRandomPets() {
+
+        int petsNum = 5;
+        for (int p = 0; p < petsNum; p++) {
+            addRandomPet();
+        }
+    }
+
+    @And("Check [Adopt Selected Pets] and [Deselect] buttons are disabled by default")
+    public void checkAdoptSelectedPetsAndDeselectButtonsAreDisabledByDefault() {
+
+        log.debug("Verify [Adopt Selected Pets] and [Deselect] buttons are disabled by default");
+        assertThat(page.adoptBtn.isEnabled(), equalTo(false));
+        assertThat(page.deselectBtn.isEnabled(), equalTo(false));
+    }
+
+    @And("Adopt a pet")
+    public void adoptAPet() {
+
+        String petToAdopt = page.lastAddedPetName.getText();
+        log.debug("Adopting pet: " + addQuotes(petToAdopt));
+        page.lastAddedPetRow.click();
+        page.adoptBtn.click();
+        log.debug("Checking pet status is changed to ONHOLD");
+        wait.until(ExpectedConditions.textToBePresentInElement(page.lastAddedPetRow, petToAdopt + "\nONHOLD"));
     }
 }
