@@ -67,7 +67,6 @@ public class UIStepDefinition {
     @Then("Verify presence of {string} in input text")
     public void verifyPresenceOfInInputText(String newLocation) {
         log.info("Verify presence of " + newLocation + " in input text");
-//        WebElement inputElement = driver.findElement(By.xpath("//input[@id='location-input']"));
         assertThat(page.locationInput.getAttribute("value"), Matchers.equalTo(newLocation));
         waitInSeconds(5);
     }
@@ -75,7 +74,6 @@ public class UIStepDefinition {
     @Then("Verify presence of {string} in pets")
     public void verifyPresenceOfInPets(String newLocation) {
         log.info("Verify presence of " + newLocation + " in pets");
-//        WebElement petsLocationEl = driver.findElement(By.xpath("//div[@id='root']/div/div[3]/div[1]//h2"));
         assertThat(page.petsTitle.getText(), Matchers.equalTo("Pets in " + newLocation));
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@id='root']/div/div[3]/div[1]//h2")));
     }
@@ -83,15 +81,11 @@ public class UIStepDefinition {
     @Then("Verify presence of {string} in adoptions")
     public void verifyPresenceOfInAdoptions(String newLocation) {
         log.info("Verify presence of " + newLocation + " in adoptions");
-//        WebElement adoptElement = driver.findElement(By.xpath("//div[@id='root']/div/div[3]/div[2]/h2"));
         assertThat(page.adoptsTitle.getText(), Matchers.equalTo("Adoptions in " + newLocation));
     }
     @Then("Verify section [The game]")
     public void verifySections() {
         log.info("Verify if sections contains default info in [The game] section ");
-//        WebElement petsInfo = driver.findElement(By.xpath("//div[@class='p-8']/p[2]"));
-//        WebElement adoptInfo = driver.findElement(By.xpath("//div[@class='p-8']/p[3]"));
-
         assertThat(page.petsInInfo.getText().trim(), Matchers.equalTo("No pets. Go rescue some pets!"));
         assertThat(page.adoptsInfo.getText().trim(), Matchers.equalTo("No adoptions. Go get those pets adopted!"));
     }

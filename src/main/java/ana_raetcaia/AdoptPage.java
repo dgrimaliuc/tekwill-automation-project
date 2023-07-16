@@ -8,12 +8,16 @@ import org.openqa.selenium.support.PageFactory;
 public class AdoptPage {
     @FindBy(xpath = "//input[@id='location-input']")
     public WebElement locationInput;
+
     @FindBy(xpath = "//button[normalize-space(text())='Change location']")
     public WebElement changeLocationBtn;
+
     @FindBy(xpath = "//button[normalize-space(text())='Open in new Tab']")
     public WebElement openNewTabBtn;
+
     @FindBy(xpath = "//div[@class='p-8']/p[2]")
     public WebElement petsInInfo;
+
     @FindBy(xpath = "//div[@class='p-8']/p[3]")
     public WebElement adoptsInfo;
 
