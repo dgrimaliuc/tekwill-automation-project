@@ -1,14 +1,10 @@
 Feature: Location text check
 
   Background: Open Page
-    Given Adopt Page with custom location is open
+    Given Adopt Page with random location is open
 
-  Scenario Outline: Verify location text
-    When "<my_location>" text is present in [Text Input], [Pets in ..] and [Adoptions in ..]
-
-    Examples:
-      | my_location |
-      | Boston      |
+  Scenario: Verify location text
+    When Random location is present in [Text Input], [Pets in ..] and [Adoptions in ..]
 
 
   Scenario Outline: Verify [The Game] section text
