@@ -73,6 +73,13 @@ public class task5LL {
         assertThat(myPageLL.firstAddedPet.getText(), Matchers.equalTo(randomNameLL + "\nAVAILABLE"));
     }
 
+    @Then("Default text disappears when a pet is added")
+    public void defaultTextDisappearsWhenAPetIsAdded() {
+        log.debug(String.format("The following text disappears: \n" + addQuotes(ConstantsLL.VALIDATION_NO_ROWS)));
+
+        assertThat(myPageLL.noRowsText.size(), equalTo(0));
+
+    }
     @Then("The text {string} disappears when a pet is added")
     public void theTextDisappearsWhenAPetIsAdded(String arg0) {
         log.debug(String.format("The following text disappears: \n" + addQuotes(arg0)));
@@ -91,17 +98,16 @@ public class task5LL {
 
     }
 
+    @When("several pets are added: {int}")
+    public void severalPetsAreAdded(int petsToRescue) {
+            for(int i = 0; i < petsToRescue; i++) {
+                enterARandomPetNameAndClickAddRescueButton();
+            }
+            String randomLocation = (String) context.get("randomLocation");
 
-    @When("several pets are added")
-    public void severalPetsAreAdded() {
-        int petsToRescue = 3;
-        for(int i = 0; i < petsToRescue; i++) {
-            enterARandomPetNameAndClickAddRescueButton();
-        }
-        String randomLocation = (String) context.get("randomLocation");
-
-        assertThat(myPageLL.secondRowOfGameSection.getText().trim(), Matchers.equalTo("Pets in " + randomLocation + ": " + petsToRescue));
+            assertThat(myPageLL.secondRowOfGameSection.getText().trim(), Matchers.equalTo("Pets in " + randomLocation + ": " + petsToRescue));
     }
+
 
 
     @When("A pet is selected and [Adopt selected pets] button is clicked")
@@ -116,6 +122,7 @@ public class task5LL {
         assertThat(myPageLL.firstAddedPet.getText(), Matchers.equalTo(randomNameLL + "\nONHOLD"));
 
     }
+
 
 
 }
