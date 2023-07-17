@@ -97,29 +97,22 @@ public class UIStepDefinition {
         assertEquals(gameExpected, gameActual);
     }
 
-    @Given("Add random pet")
-    public void addRandomPet() {
+    @Given("^Add \"(\\d+)\" random pets$")
+    public void addRandomPets(int petsNum) {
 
         Helpers.waitInSeconds(1);
-        String newPetName = page.petNameInput.getAttribute("value");
-        log.debug("Adding random pet: " + addQuotes(newPetName));
-        page.addPetBtn.click();
-        wait.until(ExpectedConditions.textToBePresentInElement(page.lastAddedPetRow, newPetName + "\nAVAILABLE"));
+        for (int p = 0; p < petsNum; p++) {
+            String newPetName = page.petNameInput.getAttribute("value");
+            log.debug("Adding random pet: " + addQuotes(newPetName));
+            page.addPetBtn.click();
+            wait.until(ExpectedConditions.textToBePresentInElement(page.lastAddedPetRow, newPetName + "\nAVAILABLE"));
+        }
     }
 
     @Then("Verify default text disappears")
     public void defaultTextDisappears() {
         log.debug("Verify that default text" + addQuotes("No rows. Try reset filters") + " disappears");
         assertThat(page.noPetsText.size(), equalTo(0));
-    }
-
-    @Given("Add random pets")
-    public void addRandomPets() {
-
-        int petsNum = 5;
-        for (int p = 0; p < petsNum; p++) {
-            addRandomPet();
-        }
     }
 
     @And("Check [Adopt Selected Pets] and [Deselect] buttons are disabled by default")
@@ -130,14 +123,16 @@ public class UIStepDefinition {
         assertThat(page.deselectBtn.isEnabled(), equalTo(false));
     }
 
-    @And("Adopt a pet")
-    public void adoptAPet() {
+    @And("^Adopt \"(\\d+)\" pets$")
+    public void adoptPets(int petsNum) {
 
-        String petToAdopt = page.lastAddedPetName.getText();
-        log.debug("Adopting pet: " + addQuotes(petToAdopt));
-        page.lastAddedPetRow.click();
-        page.adoptBtn.click();
-        log.debug("Checking pet status is changed to ONHOLD");
-        wait.until(ExpectedConditions.textToBePresentInElement(page.lastAddedPetRow, petToAdopt + "\nONHOLD"));
+        for (int p = 0; p < petsNum; p++) {
+            String petToAdopt = page.lastAddedPetName.getText();
+            log.debug("Adopting pet: " + addQuotes(petToAdopt));
+            page.lastAddedPetRow.click();
+            page.adoptBtn.click();
+            log.debug("Checking pet status is changed to ONHOLD");
+            wait.until(ExpectedConditions.textToBePresentInElement(page.lastAddedPetRow, petToAdopt + "\nONHOLD"));
+        }
     }
 }

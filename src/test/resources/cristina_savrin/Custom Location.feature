@@ -8,11 +8,11 @@ Feature: Custom Location Check
     And Verify [The game] section for random location "{0}"
 
   Scenario: Add a pet
-    Given Add random pet
+    Given Add "1" random pets
     Then Verify default text disappears
 
   Scenario: Add several pets
-    Given Add random pets
+    Given Add "5" random pets
     Then Verify [The game] section for random location "{0}"
     And Check [Adopt Selected Pets] and [Deselect] buttons are disabled by default
-    And Adopt a pet
+    And Adopt "1" pets
