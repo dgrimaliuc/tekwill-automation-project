@@ -33,7 +33,7 @@ public class UIJunitTests {
 
     @BeforeEach
     public void before() {
-        var pathToChrome = "src/main/resources/chromedriver_mac";
+        var pathToChrome = "src/main/resources/chromedriver.exe";
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         driver = new ChromeDriver();
         driver.manage().window().maximize();
