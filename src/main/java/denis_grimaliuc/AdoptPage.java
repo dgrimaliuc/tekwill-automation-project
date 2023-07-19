@@ -11,7 +11,7 @@ import java.util.List;
 
 public class AdoptPage {
 
-    public static final By FIRST_ROW_IN_TABLE = By.xpath("//table/tbody/tr[1]");
+    public static final By FIRST_ROW_IN_TABLE = By.xpath("//table/tbody/tr[1]/td[1]");
     private final WebDriver driver;
     private final WebDriverWait wait;
     @FindBy(xpath = "//input[@id='location-input']")

@@ -5,6 +5,7 @@ import helpers.Helpers;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -50,14 +51,14 @@ public class BaseActions {
 
     public void verifyPetAdded(String petName) {
         assertThat(page.pets.size(), equalTo(1));
-        wait.until(ExpectedConditions.textToBe(FIRST_ROW_IN_TABLE, petName + "\nAVAILABLE"));
+        wait.until(ExpectedConditions.textToBe(FIRST_ROW_IN_TABLE, petName));
     }
 
 
     public void addAPetToCurrentLocation(String petName) {
         log.info("Add a new pet: " + addQuotes(petName));
-        page.petNameInput.clear();
-        page.petNameInput.sendKeys(petName);
+        String clearShortcut = Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE;
+        page.petNameInput.sendKeys(clearShortcut + petName);
         page.addPetBtn.click();
         verifyPetAdded(petName);
     }

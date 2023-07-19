@@ -61,6 +61,13 @@ public class UIJunitTests {
     }
 
     @Test
+    @DisplayName("Verify Pet can have empty name test")
+    public void emptyNameTest() {
+        String randomPetName = "";
+        actions.addAPetToCurrentLocation(randomPetName);
+    }
+
+    @Test
     @DisplayName("Added pet in different location is not reflected in current one test")
     public void test1() {
         actions.openRandomLocation();
