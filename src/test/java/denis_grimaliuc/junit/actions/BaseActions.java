@@ -44,11 +44,22 @@ public class BaseActions {
 
     public String addAPetToCurrentLocation() {
         String newPetName = page.petNameInput.getAttribute("value");
-        log.info("Add a new pet: " + addQuotes(newPetName));
-        page.addPetBtn.click();
-        assertThat(page.pets.size(), equalTo(1));
-        wait.until(ExpectedConditions.textToBe(FIRST_ROW_IN_TABLE, newPetName + "\nAVAILABLE"));
+        addAPetToCurrentLocation(newPetName);
         return newPetName;
+    }
+
+    public void verifyPetAdded(String petName) {
+        assertThat(page.pets.size(), equalTo(1));
+        wait.until(ExpectedConditions.textToBe(FIRST_ROW_IN_TABLE, petName + "\nAVAILABLE"));
+    }
+
+
+    public void addAPetToCurrentLocation(String petName) {
+        log.info("Add a new pet: " + addQuotes(petName));
+        page.petNameInput.clear();
+        page.petNameInput.sendKeys(petName);
+        page.addPetBtn.click();
+        verifyPetAdded(petName);
     }
 
 }

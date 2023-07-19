@@ -4,6 +4,7 @@ import denis_grimaliuc.AdoptPage;
 import denis_grimaliuc.UIStepDefinition;
 import denis_grimaliuc.junit.actions.BaseActions;
 import helpers.Helpers;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,6 +45,7 @@ public class UIJunitTests {
         stepResults = new ArrayList<>();
         page = new AdoptPage(driver, wait);
         //        Runtime.getRuntime().addShutdownHook(new Thread(() -> driver.quit()));
+        actions.openRandomLocation();
     }
 
     @AfterEach
@@ -52,9 +54,15 @@ public class UIJunitTests {
     }
 
     @Test
+    @DisplayName("Verify Pet can have Long name test")
+    public void longNameTest() {
+        String randomPetName = RandomStringUtils.random(100, true, true);
+        actions.addAPetToCurrentLocation(randomPetName);
+    }
+
+    @Test
     @DisplayName("Added pet in different location is not reflected in current one test")
     public void test1() {
-        actions.openRandomLocation();
         actions.openRandomLocation();
         actions.addAPetToCurrentLocation();
 
@@ -67,7 +75,6 @@ public class UIJunitTests {
     @Test
     @DisplayName("Window can be opened in new tab test")
     public void test2() {
-        actions.openRandomLocation();
         page.openNewTabBtn.click();
         actions.verifyNewTabOpened();
     }
