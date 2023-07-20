@@ -1,5 +1,6 @@
 package denis_grimaliuc;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,6 +11,9 @@ import java.util.List;
 
 public class AdoptPage {
 
+    public static final By FIRST_ROW_IN_TABLE = By.xpath("//table/tbody/tr[1]/td[1]");
+    private final WebDriver driver;
+    private final WebDriverWait wait;
     @FindBy(xpath = "//input[@id='location-input']")
     public WebElement locationInput;
 
@@ -39,10 +43,6 @@ public class AdoptPage {
 
     @FindBy(xpath = "//table/tbody/tr")
     public List<WebElement> pets;
-
-
-    private WebDriver driver;
-    private WebDriverWait wait;
 
     public AdoptPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
