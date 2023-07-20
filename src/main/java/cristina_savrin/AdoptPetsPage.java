@@ -1,5 +1,6 @@
 package cristina_savrin;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,6 +11,8 @@ import java.util.List;
 
 public class AdoptPetsPage {
 
+    public static final By FIRST_ROW_IN_TABLE = By.xpath("//table/tbody/tr[1]/td[1]");
+    public static final By SECOND_ROW_IN_TABLE = By.xpath("//table/tbody/tr[2]/td[1]");
     @FindBy(xpath = "//input[@id='location-input']")
     public WebElement locationInput;
 
@@ -40,6 +43,8 @@ public class AdoptPetsPage {
     @FindBy(xpath = "//table/tbody/tr[1]")
     public WebElement lastAddedPetRow;
 
+    @FindBy(xpath = "//table/tbody/tr")
+    public List<WebElement> pets;
     @FindBy(xpath = "//table/tbody/tr[1]//td[1]/div/div/div")
     public WebElement lastAddedPetName;
 
