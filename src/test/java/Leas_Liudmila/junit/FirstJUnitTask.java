@@ -25,22 +25,6 @@ public class FirstJUnitTask {
         );
     }
 
-    private static Stream<List<String>> myList1() {
-        List<String> fruitsFirst = new LinkedList<>();
-        fruitsFirst.add("Apple");
-        fruitsFirst.add("Banana");
-        fruitsFirst.add("Orange");
-        return Stream.of(fruitsFirst);
-    }
-
-    List<String> fruits = new LinkedList<>();
-
-    public void initializeList() {
-
-        fruits.add("Apple");
-        fruits.add("Banana");
-        fruits.add("Orange");
-    }
 
     @ParameterizedTest
     @MethodSource("myText")
@@ -70,17 +54,14 @@ public class FirstJUnitTask {
         Assertions.assertEquals(1, myNumber % 2, "Assert \"" + myNumber + "\" is odd.");
     }
 
-    @ParameterizedTest
-    @MethodSource("myList1")
-    @DisplayName("The fifth test")
-    void lisSizeValidation(LinkedList<String> fruits) {
-        Assertions.assertEquals(3, fruits.size(), "Assert that the length of the array \"" + fruits + "\" is 3");
-    }
 
     @Test
-    @DisplayName("The fifth test: second solution")
+    @DisplayName("The fifth test")
     void lisSizeValidation() {
-        initializeList();
+        List<String> fruits = new LinkedList<>();
+        fruits.add("Apple");
+        fruits.add("Banana");
+        fruits.add("Orange");
         Assertions.assertEquals(3, fruits.size(), "Assert that the length of the array \"" + fruits + "\" is 3");
     }
 
