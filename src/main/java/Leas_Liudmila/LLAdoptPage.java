@@ -40,6 +40,9 @@ public class LLAdoptPage {
     @FindBy(xpath = "//table/tbody/tr[1]")
     public WebElement firstAddedPet;
 
+    @FindBy(xpath = "//table/tbody/tr[2]")
+    public WebElement secondAddedPet;
+
     @FindBy(xpath = "//table/tbody/tr")
     public WebElement addedPets;
 
@@ -56,18 +59,15 @@ public class LLAdoptPage {
     public List<WebElement> adoptSelPetsBtnInactive;
 
 
-
-
     private WebDriver driver;
 
     private WebDriverWait wait;
 
-    public LLAdoptPage (WebDriver driver, WebDriverWait wait){
+    public LLAdoptPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
         PageFactory.initElements(driver, this);
     }
-
 
 
 }
