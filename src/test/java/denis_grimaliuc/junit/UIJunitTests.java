@@ -47,13 +47,14 @@ public class UIJunitTests {
         wait = new WebDriverWait(driver, 5);
         stepResults = new ArrayList<>();
         page = new AdoptPage(driver, wait);
+
         Runtime.getRuntime().addShutdownHook(new Thread(() -> driver.quit()));
+        //        Runtime.getRuntime().addShutdownHook(new Thread(() -> driver.quit()));
         actions.openRandomLocation();
     }
 
     @AfterEach
     public void after() {
-//        driver.quit();
     }
 
     @Test
@@ -124,6 +125,7 @@ public class UIJunitTests {
         actions.verifyAdoptIsCreated(1);
 
     }
+
 
     @Test
     @DisplayName("Added pet in different location is not reflected in current one test")

@@ -15,6 +15,7 @@ public class AdoptPage {
     public static final By EMPTY_PET_TABLE_MESSAGE = By.xpath("//div[normalize-space(text())='No rows. Try reset filters']");
     public static final By ADOPT_ROWS = By.xpath("//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']");
     public static final By ROWS = By.xpath("//table/tbody/tr");
+
     private final WebDriver driver;
     private final WebDriverWait wait;
     @FindBy(xpath = "//input[@id='location-input']")
