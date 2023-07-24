@@ -25,7 +25,7 @@ public class BaseActions {
     public BaseActions(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, 5);
-        page = new AdoptPage(driver, wait);
+        page = new AdoptPage(driver);
     }
 
     public void verifyNewTabOpened() {

@@ -43,8 +43,7 @@ public class UIStepDefinition {
         driver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 5);
         stepResults = new ArrayList<>();
-        page = new AdoptPage(driver, wait);
-        // TODO test Runtime.getRuntime().addShutdownHook(new Thread(() -> driver.quit()));
+        page = new AdoptPage(driver);
     }
 
     @After

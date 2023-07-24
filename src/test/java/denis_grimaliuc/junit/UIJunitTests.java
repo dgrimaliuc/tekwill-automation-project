@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -43,14 +44,14 @@ public class UIJunitTests {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
-        actions = new BaseActions(driver);
         wait = new WebDriverWait(driver, 5);
-        stepResults = new ArrayList<>();
-        page = new AdoptPage(driver, wait);
-
         Runtime.getRuntime().addShutdownHook(new Thread(() -> driver.quit()));
-        //        Runtime.getRuntime().addShutdownHook(new Thread(() -> driver.quit()));
+
+        stepResults = new ArrayList<>();
+        actions = new BaseActions(driver);
         actions.openRandomLocation();
+        page = new AdoptPage(driver);
+        actions.setPage(page);
     }
 
     @AfterEach
@@ -123,9 +124,56 @@ public class UIJunitTests {
         actions.addAPetToCurrentLocation(3);
         actions.adoptPets(petsToAdopt);
         actions.verifyAdoptIsCreated(1);
+        System.out.println();
 
     }
 
+    @Test
+    @DisplayName("When a pet is added it's status is AVAILABLE")
+    public void testAddedPet() {
+        String petName = "SomePetName";
+        actions.addAPetToCurrentLocation(petName);
+        WebElement pet = page.pets.get(0);
+        String status = page.getStatusOfPet(pet);
+        assertThat(status, Matchers.is("AVAILABLE"));
+
+    }
+
+    @Test
+    @DisplayName("When a pet is adopted it's status is ONHOLD")
+    public void testAdoptedPetStatus() {
+        String petName = "SomePetName";
+        actions.addAPetToCurrentLocation(petName);
+        WebElement pet = page.pets.get(0);
+        actions.adoptPets(1);
+        actions.verifyAdoptIsCreated(1);
+        String status = page.getStatusOfPet(pet);
+        assertThat(status, Matchers.is("ONHOLD"));
+
+    }
+
+
+    @Test
+    @DisplayName("When a pet is adopted it's name should be inside Adopt Group")
+    public void testAdoptedPetNameInGroup() {
+        String petName = "SomePetName";
+        actions.addAPetToCurrentLocation(petName);
+        actions.adoptPets(1);
+        actions.verifyAdoptIsCreated(1);
+        actions.verifyPetNameIsPresentInGroup(petName, 1);
+    }
+
+    @Test
+    @DisplayName("When a group is approved the status of it should be APPROVED")
+    public void testAdoptionStatus() {
+        driver.get("https://petstore-kafka.swagger.io/?location=NCF0WNtOLd");
+        actions.addAPetToCurrentLocation(3);
+        actions.adoptPets(3);
+        actions.verifyAdoptIsCreated(1);
+        actions.approveGroupByIndex(1);
+        actions.verifyStatusOfGroup("APPROVED", 1);
+
+    }
 
     @Test
     @DisplayName("Added pet in different location is not reflected in current one test")
