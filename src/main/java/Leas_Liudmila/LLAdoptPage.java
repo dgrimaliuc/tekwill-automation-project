@@ -44,7 +44,7 @@ public class LLAdoptPage {
     public WebElement secondAddedPet;
 
     @FindBy(xpath = "//table/tbody/tr")
-    public WebElement addedPets;
+    public List<WebElement> addedPets;
 
     @FindBy(xpath = "//tbody/tr[not(@class)]/td")
     public List<WebElement> noRowsText;

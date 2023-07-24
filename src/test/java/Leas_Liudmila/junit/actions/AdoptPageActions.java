@@ -24,7 +24,7 @@ public class AdoptPageActions {
         myPageLL = new LLAdoptPage(driver, wait);
     }
 
-    public String pageWRandomLocation() {
+    public String openRandomLocation() {
         String randomLocationLL = RandomStringUtils.random(10, true, true);
         log.debug("Open Custom locations: " + addQuotes(randomLocationLL));
         driver.get("https://petstore-kafka.swagger.io/?location=" + randomLocationLL);
@@ -33,7 +33,7 @@ public class AdoptPageActions {
     }
 
 
-    public void addPetName(String newPetName) {
+    public void addPetWithName(String newPetName) {
         log.info("Add a new pet: " + addQuotes(newPetName));
         myPageLL.nameInput.clear();
         myPageLL.nameInput.sendKeys(newPetName);
@@ -46,10 +46,11 @@ public class AdoptPageActions {
     }
 
     public void duplicatedNameCheck(String duplicatedName) {
+        log.info("Duplicated pet names with the following name can be added: " + addQuotes(duplicatedName));
         wait.until(ExpectedConditions.textToBePresentInElement(myPageLL.firstAddedPet, duplicatedName));
-        assertThat(myPageLL.firstAddedPet.getText(), Matchers.equalTo(duplicatedName + "\nAVAILABLE"));
+        assertThat(myPageLL.addedPets.get(0).getText(), Matchers.equalTo(duplicatedName + "\nAVAILABLE"));
         wait.until(ExpectedConditions.textToBePresentInElement(myPageLL.secondAddedPet, duplicatedName));
-        assertThat(myPageLL.secondAddedPet.getText(), Matchers.equalTo(duplicatedName + "\nAVAILABLE"));
+        assertThat(myPageLL.addedPets.get(1).getText(), Matchers.equalTo(duplicatedName + "\nAVAILABLE"));
     }
 
 }

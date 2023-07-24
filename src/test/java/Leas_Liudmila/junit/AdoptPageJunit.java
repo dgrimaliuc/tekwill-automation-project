@@ -21,7 +21,7 @@ import static helpers.Helpers.stepResults;
 3. Punctuation symbols containing pet name test
 Also create a separate test
  4. duplicate name of pet (a pet with already existing name should be added without problems ) */
-public class AdoptPageJunit2 {
+public class AdoptPageJunit {
     WebDriver driver = null;
     AdoptPageActions myActions = null;
     WebDriverWait wait = null;
@@ -40,7 +40,7 @@ public class AdoptPageJunit2 {
         wait = new WebDriverWait(driver, 5);
         stepResults = new ArrayList<>();
         myPageLL = new LLAdoptPage(driver, wait);
-        myActions.pageWRandomLocation();
+        myActions.openRandomLocation();
     }
 
     @AfterEach
@@ -52,7 +52,7 @@ public class AdoptPageJunit2 {
     @DisplayName("1 symbol pet name test")
     public void oneSymbolName() {
         String newPetName = RandomStringUtils.random(1, true, true);
-        myActions.addPetName(newPetName);
+        myActions.addPetWithName(newPetName);
         myActions.addedPetCheck(newPetName);
     }
 
@@ -60,7 +60,7 @@ public class AdoptPageJunit2 {
     @DisplayName("Space containing pet name test")
     public void nameWithSpace() {
         String newPetName = RandomStringUtils.random(5, true, true);
-        myActions.addPetName(newPetName + " " + newPetName);
+        myActions.addPetWithName(newPetName + " " + newPetName);
         myActions.addedPetCheck(newPetName + " " + newPetName);
     }
 
@@ -69,7 +69,7 @@ public class AdoptPageJunit2 {
     public void nameWithSpecSymbols() {
         String characters = "~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
         String newPetName = RandomStringUtils.random(15, characters);
-        myActions.addPetName(newPetName);
+        myActions.addPetWithName(newPetName);
         myActions.addedPetCheck(newPetName);
     }
 
@@ -77,8 +77,8 @@ public class AdoptPageJunit2 {
     @DisplayName("duplicate name of pet")
     public void duplicatedName() {
         String newPetName = "Charlie";
-        myActions.addPetName(newPetName);
-        myActions.addPetName(newPetName);
+        myActions.addPetWithName(newPetName);
+        myActions.addPetWithName(newPetName);
         myActions.duplicatedNameCheck(newPetName);
     }
 
