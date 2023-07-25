@@ -2,6 +2,7 @@ package Leas_Liudmila.junit;
 
 import Leas_Liudmila.LLAdoptPage;
 import Leas_Liudmila.junit.actions.AdoptPageActions;
+import helpers.Helpers;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,7 @@ public class CheckPetStatus {
         myActions = new AdoptPageActions(driver);
         wait = new WebDriverWait(driver, 5);
         stepResults = new ArrayList<>();
-        myPageLL = new LLAdoptPage(driver, wait);
+        myPageLL = new LLAdoptPage(driver);
         myActions.openRandomLocation();
     }
 
@@ -46,20 +47,37 @@ public class CheckPetStatus {
     @Test
     @DisplayName("When a pet is added it's status is AVAILABLE")
     public void availableStatus() {
-        String newPetName = RandomStringUtils.random(10, true, true);
-        String status = "AVAILABLE";
-        myActions.addPetWithName(newPetName);
-        myActions.checkPetStatus(newPetName, status);
+        ArrayList<String> generatedPetNames = new ArrayList<>();
+        int petsToAdopt = 2;
+        String requiredStatus = "AVAILABLE";
+
+        for (int i = 0; i < petsToAdopt; i++) {
+            String newPetName = RandomStringUtils.random(10, true, true);
+            generatedPetNames.add(newPetName);
+            myActions.addPetWithName(newPetName);
+        }
+
+        Helpers.waitInSeconds(1);
+        myActions.checkPetStatus(petsToAdopt, requiredStatus);
     }
+
 
     @Test
-    @DisplayName("When a pet is added it's status is AVAILABLE")
-    public void onHoldStatus() {
-        String newPetName = RandomStringUtils.random(10, true, true);
-        String status = "ONHOLD";
-        myActions.addPetWithName(newPetName);
-        myActions.adoptPet(newPetName);
-        myActions.checkPetStatus(newPetName, status);
-    }
+    @DisplayName("When a pet is adopted it's status is ONHOLD")
+    public void testAdoptedPetStatus() {
+        ArrayList<String> generatedPetNames = new ArrayList<>();
+        int petsToAdopt = 2;
+        String requiredStatus = "ONHOLD";
 
+        for (int i = 0; i < petsToAdopt; i++) {
+            String newPetName = RandomStringUtils.random(10, true, true);
+            generatedPetNames.add(newPetName);
+            myActions.addPetWithName(newPetName);
+        }
+
+        Helpers.waitInSeconds(1);
+        myActions.adoptAllPet();
+        myActions.checkPetStatus(petsToAdopt, requiredStatus);
+
+    }
 }

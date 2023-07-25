@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -40,7 +39,7 @@ public class AdoptPageJunit {
         myActions = new AdoptPageActions(driver);
         wait = new WebDriverWait(driver, 5);
         stepResults = new ArrayList<>();
-        myPageLL = new LLAdoptPage(driver, wait);
+        myPageLL = new LLAdoptPage(driver);
         myActions.openRandomLocation();
     }
 
@@ -81,18 +80,6 @@ public class AdoptPageJunit {
         myActions.addPetWithName(newPetName);
         myActions.addPetWithName(newPetName);
         myActions.duplicatedNameCheck(newPetName);
-    }
-
-    @Test
-    @DisplayName("Verify that AdoptionsIn group contains Title, status, petNames, approve and deny buttons")
-    public void checkFields(){
-        String newPetName = RandomStringUtils.random(1, true, true);
-        myActions.addPetWithName(newPetName);
-        myActions.adoptPet(newPetName);
-        WebElement pet = myPageLL.pets.get(0);
-
-
-
     }
 
 }

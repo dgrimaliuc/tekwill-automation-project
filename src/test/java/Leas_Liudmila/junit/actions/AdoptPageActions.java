@@ -6,6 +6,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -21,7 +22,7 @@ public class AdoptPageActions {
     public AdoptPageActions(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, 5);
-        myPageLL = new LLAdoptPage(driver, wait);
+        myPageLL = new LLAdoptPage(driver);
     }
 
     public String openRandomLocation() {
@@ -36,6 +37,7 @@ public class AdoptPageActions {
     public void addPetWithName(String newPetName) {
         log.info("Add a new pet: " + addQuotes(newPetName));
         myPageLL.nameInput.clear();
+        Helpers.waitInSeconds(1);
         myPageLL.nameInput.sendKeys(newPetName);
         myPageLL.buttonAddRescue.click();
     }
@@ -53,15 +55,28 @@ public class AdoptPageActions {
         assertThat(myPageLL.addedPets.get(1).getText(), Matchers.equalTo(duplicatedName + "\nAVAILABLE"));
     }
 
-    public void checkPetStatus(String petName, String status) {
-        log.info(petName + " status is: " + status);
-        wait.until(ExpectedConditions.textToBePresentInElement(myPageLL.firstAddedPet, petName));
-        assertThat(myPageLL.petStatus.getText(), Matchers.equalTo(status));
-    }
 
     public void adoptPet(String petName) {
         log.info(petName + " is adopted");
         myPageLL.pets.get(0).click();
+        myPageLL.adoptSelPetsBtnActive.click();
+        Helpers.waitInSeconds(1);
+
+    }
+
+    public void checkPetStatus(int petsToAdopt, String requiredStatus) {
+        for (int i = 0; i < petsToAdopt; i++) {
+            WebElement pet = myPageLL.petsIn.pets.get(i);
+            String status = myPageLL.getStatusOfPet(pet);
+            assertThat(status, Matchers.is(requiredStatus));
+            log.info("Pet Name and status: " + pet.getText());
+        }
+    }
+
+    public void adoptAllPet() {
+        for (WebElement pet : myPageLL.pets) {
+            pet.click();
+        }
         myPageLL.adoptSelPetsBtnActive.click();
         Helpers.waitInSeconds(1);
 
