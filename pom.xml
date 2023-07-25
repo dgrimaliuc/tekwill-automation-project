@@ -13,7 +13,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <cucumber.version>7.11.1</cucumber.version>
-        <parallelCount>10</parallelCount>
+        <parallelCount>5</parallelCount>
     </properties>
 
     <build>
