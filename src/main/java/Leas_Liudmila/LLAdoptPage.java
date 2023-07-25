@@ -64,6 +64,9 @@ public class LLAdoptPage {
     @FindBy(xpath = "//button[@disabled and .//text() [contains (., 'Adopt selected pets')]]")
     public List<WebElement> adoptSelPetsBtnInactive;
 
+    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']")
+    public WebElement adoptionsIn;
+
 
     private WebDriver driver;
 
