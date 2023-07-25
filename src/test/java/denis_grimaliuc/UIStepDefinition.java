@@ -43,8 +43,7 @@ public class UIStepDefinition {
         driver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 5);
         stepResults = new ArrayList<>();
-        page = new AdoptPage(driver, wait);
-        // TODO test Runtime.getRuntime().addShutdownHook(new Thread(() -> driver.quit()));
+        page = new AdoptPage(driver);
     }
 
     @After
@@ -116,7 +115,7 @@ public class UIStepDefinition {
     public void verifyPetsInSectionTitle(String arg0) {
         arg0 = Helpers.getValue(arg0, String.class);
         log.debug("Verify custom location in Pets In section: " + addQuotes(arg0));
-        assertThat(page.petsTitle.getText(), Matchers.equalTo("Pets in " + arg0));
+        assertThat(page.petsIn.sectionTitle.getText(), Matchers.equalTo("Pets in " + arg0));
     }
 
     @Then("Verify Adopt in section title {string}")
@@ -152,9 +151,9 @@ public class UIStepDefinition {
     @Then("Add a pet in current location")
     public void addAPetInCurrentLocation() {
         Helpers.waitInSeconds(1);
-        String newPetName = page.petNameInput.getAttribute("value");
-        page.addPetBtn.click();
-        assertThat(page.pets.size(), equalTo(1));
+        String newPetName = page.petsIn.petNameInput.getAttribute("value");
+        page.petsIn.addPetBtn.click();
+        assertThat(page.petsIn.pets.size(), equalTo(1));
         wait.until(ExpectedConditions.textToBe(By.xpath("//table/tbody/tr[1]"), newPetName + "\nAVAILABLE"));
     }
 
@@ -162,7 +161,7 @@ public class UIStepDefinition {
     public void verifyPetIsNotAddedInPreviousLocation() {
         driver.navigate().back();
         Helpers.waitInSeconds(1);
-        assertThat(page.pets.size(), equalTo(1));
+        assertThat(page.petsIn.pets.size(), equalTo(1));
         wait.until(ExpectedConditions.textToBe(By.xpath("//table/tbody/tr[1]"), "No rows. Try reset filters"));
     }
 }

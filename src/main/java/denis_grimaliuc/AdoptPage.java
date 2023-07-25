@@ -1,13 +1,14 @@
 package denis_grimaliuc;
 
+import denis_grimaliuc.components.Adoption;
+import denis_grimaliuc.components.Adoptions;
+import denis_grimaliuc.components.PetsSection;
+import helpers.customElements.Components;
+import helpers.customElements.factories.CustomPageFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.List;
 
 public class AdoptPage {
 
@@ -16,8 +17,12 @@ public class AdoptPage {
     public static final By ADOPT_ROWS = By.xpath("//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']");
     public static final By ROWS = By.xpath("//table/tbody/tr");
 
-    private final WebDriver driver;
-    private final WebDriverWait wait;
+    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']")
+    public Components<Adoption> adoptions;
+
+    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']")
+    public Adoptions adopts;
+
     @FindBy(xpath = "//input[@id='location-input']")
     public WebElement locationInput;
 
@@ -39,36 +44,15 @@ public class AdoptPage {
     @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]/h2")
     public WebElement adoptsTitle;
 
-    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[1]//h2")
-    public WebElement petsTitle;
+    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[1]")
+    public PetsSection petsIn;
 
-    @FindBy(xpath = "//button[text()=' Add Rescue']")
-    public WebElement addPetBtn;
 
-    @FindBy(xpath = "//button[text()=' Adopt selected pets']")
-    public WebElement adoptButton;
-
-    @FindBy(xpath = "//div[@id='root']/div/div[3]//input[@type='text']")
-    public WebElement petNameInput;
-
-    @FindBy(xpath = "//table/tbody/tr[.//div[not(contains(text(),'No rows. Try reset filters'))]]")
-    public List<WebElement> pets;
-
-    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']")
-    public List<WebElement> adopts;
-
-    public AdoptPage(WebDriver driver, WebDriverWait wait) {
-        this.driver = driver;
-        this.wait = wait;
-        PageFactory.initElements(driver, this);
+    public AdoptPage(WebDriver driver) {
+        CustomPageFactory.initElements(driver, this, null);
     }
 
-    public boolean isDefaultStateMessageDisplayed() {
-        return driver.findElements(EMPTY_PET_TABLE_MESSAGE).size() > 0;
+    public String getStatusOfPet(WebElement pet) {
+        return pet.findElement(By.xpath("//td[2]")).getText();
     }
-
-    public void waitForPageToLoad() {
-        // TODO to implement
-    }
-
 }
