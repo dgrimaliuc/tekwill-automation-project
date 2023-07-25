@@ -145,23 +145,6 @@ public class UIStepDefinition {
         String currentTabId = driver.getWindowHandle();
         assertThat(currentTabId, equalTo(tabs[0]));
     }
-
-//    @Then("Add a pet in current location")
-//    public void addAPetInCurrentLocation() {
-//        Helpers.waitInSeconds(1);
-//        String newPetName = page.petNameInput.getAttribute("value");
-//        page.addPetBtn.click();
-//        assertThat(page.pets.size(), equalTo(1));
-//        wait.until(ExpectedConditions.textToBe(By.xpath("//table/tbody/tr[1]"), newPetName + "\nAVAILABLE"));
-//    }
-//
-//    @And("Verify pet is not added in previous location")
-//    public void verifyPetIsNotAddedInPreviousLocation() {
-//        driver.navigate().back();
-//        Helpers.waitInSeconds(1);
-//        assertThat(page.pets.size(), equalTo(1));
-//        wait.until(ExpectedConditions.textToBe(By.xpath("//table/tbody/tr[1]"), "No rows. Try reset filters"));
-//    }
 }
 
 

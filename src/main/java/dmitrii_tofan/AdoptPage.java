@@ -26,7 +26,5 @@ public class AdoptPage {
     AdoptPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-
-
     }
 }
