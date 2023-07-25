@@ -10,8 +10,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
-
 public class AdoptPage {
 
     public static final By FIRST_ROW_IN_TABLE = By.xpath("//table/tbody/tr[1]/td[1]");
@@ -46,23 +44,8 @@ public class AdoptPage {
     @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]/h2")
     public WebElement adoptsTitle;
 
-    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[1]//h2")
-    public WebElement petsTitle;
-
-    @FindBy(xpath = "//button[text()=' Adopt selected pets']")
-    public WebElement adoptButton;
-
-    @FindBy(xpath = "//div[@id='root']/div/div[3]//input[@type='text']")
-    public WebElement petNameInput;
-
     @FindBy(xpath = "//div[@id='root']/div/div[3]/div[1]")
     public PetsSection petsIn;
-
-    @FindBy(xpath = "//button[text()=' Add Rescue']")
-    public WebElement addPetBtn;
-
-    @FindBy(xpath = "//table/tbody/tr[.//div[not(contains(text(),'No rows. Try reset filters'))]]")
-    public List<WebElement> pets;
 
 
     public AdoptPage(WebDriver driver) {

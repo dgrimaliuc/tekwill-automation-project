@@ -83,7 +83,7 @@ public class BaseActions {
     }
 
     public String addAPetToCurrentLocation() {
-        String newPetName = page.petNameInput.getAttribute("value");
+        String newPetName = page.petsIn.petNameInput.getAttribute("value");
         addAPetToCurrentLocation(newPetName);
         return newPetName;
     }
@@ -97,11 +97,11 @@ public class BaseActions {
     }
 
     public void adoptPets(int petNum) {
-        assertThat(page.pets.size(), Matchers.greaterThanOrEqualTo(petNum));
+        assertThat(page.petsIn.pets.size(), Matchers.greaterThanOrEqualTo(petNum));
         for (int i = 0; i < petNum; i++) {
-            page.pets.get(i).click();
+            page.petsIn.pets.get(i).click();
         }
-        page.adoptButton.click();
+        page.petsIn.adoptButton.click();
     }
 
     public void verifyAdoptIsCreated(int adoptCount) {
@@ -126,10 +126,10 @@ public class BaseActions {
 
     public void addAPetToCurrentLocation(String petName) {
         log.info("Add a new pet: " + addQuotes(petName));
-        int petsCountBeforeAdding = page.pets.size();
+        int petsCountBeforeAdding = page.petsIn.pets.size();
         String clearShortcut = Keys.chord(Keys.COMMAND, "a") + Keys.BACK_SPACE;
-        page.petNameInput.sendKeys(clearShortcut + petName);
-        page.addPetBtn.click();
+        page.petsIn.petNameInput.sendKeys(clearShortcut + petName);
+        page.petsIn.addPetBtn.click();
         verifyPetAdded(petName, petsCountBeforeAdding);
     }
 

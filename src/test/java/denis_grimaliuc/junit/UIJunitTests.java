@@ -93,9 +93,9 @@ public class UIJunitTests {
         String petName = "Pet Name";
         actions.addAPetToCurrentLocation(petName);
         actions.addAPetToCurrentLocation(petName);
-        assertThat(page.pets.size(), Matchers.equalTo(2));
-        assertThat(page.pets.get(0).getText(), Matchers.containsString(petName));
-        assertThat(page.pets.get(1).getText(), Matchers.containsString(petName));
+        assertThat(page.petsIn.pets.size(), Matchers.equalTo(2));
+        assertThat(page.petsIn.pets.get(0).getText(), Matchers.containsString(petName));
+        assertThat(page.petsIn.pets.get(1).getText(), Matchers.containsString(petName));
 
     }
 
@@ -131,7 +131,7 @@ public class UIJunitTests {
     public void testAddedPet() {
         String petName = "SomePetName";
         actions.addAPetToCurrentLocation(petName);
-        WebElement pet = page.pets.get(0);
+        WebElement pet = page.petsIn.pets.get(0);
         String status = page.getStatusOfPet(pet);
         assertThat(status, Matchers.is("AVAILABLE"));
 
@@ -144,7 +144,7 @@ public class UIJunitTests {
         actions.addAPetToCurrentLocation(petName);
         actions.adoptPets(1);
         actions.verifyAdoptIsCreated(1);
-        WebElement pet = page.pets.get(0);
+        WebElement pet = page.petsIn.pets.get(0);
         String status = page.getStatusOfPet(pet);
         assertThat(status, Matchers.is("ONHOLD"));
 
@@ -180,7 +180,7 @@ public class UIJunitTests {
 
         driver.navigate().back();
         Helpers.waitInSeconds(1);
-        assertThat(page.pets.size(), equalTo(0));
+        assertThat(page.petsIn.pets.size(), equalTo(0));
         wait.until(ExpectedConditions.textToBe(FIRST_ROW_IN_TABLE, "No rows. Try reset filters"));
     }
 

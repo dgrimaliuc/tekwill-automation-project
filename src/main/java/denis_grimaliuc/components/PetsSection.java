@@ -11,9 +11,12 @@ public class PetsSection extends Component {
     @FindBy(xpath = "//button[text()=' Adopt selected pets']")
     public WebElement adoptButton;
 
+    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[1]//h2")
+    public WebElement sectionTitle;
+
     @FindBy(xpath = "//div[@id='root']/div/div[3]//input[@type='text']")
     public WebElement petNameInput;
-
+    
     @FindBy(xpath = "//button[text()=' Add Rescue']")
     public WebElement addPetBtn;
 
