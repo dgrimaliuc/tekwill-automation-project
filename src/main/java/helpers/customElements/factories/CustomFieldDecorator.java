@@ -29,10 +29,8 @@ public class CustomFieldDecorator implements FieldDecorator {
         if (!this.isDecoratable(field)) {
             return null;
         } else {
-            CustomElementLocator locator = this.factory.createLocator(field);
-            if (locator == null) {
-                return null;
-            } else if (WebElement.class.isAssignableFrom(field.getType())) {
+            CustomElementLocator locator = getLocator(field);
+            if (WebElement.class.isAssignableFrom(field.getType())) {
                 return this.proxyForLocator(loader, locator);
             } else if (Components.class.isAssignableFrom(field.getType())) {
                 return this.proxyForComponentsLocator(loader, field);
@@ -43,7 +41,14 @@ public class CustomFieldDecorator implements FieldDecorator {
             } else
                 return null;
         }
+    }
 
+    private CustomElementLocator getLocator(Field field) {
+        if (this.factory.getParentElement() == null) {
+            return this.factory.createLocator(field);
+        } else {
+            return this.factory.createComponentsLocator(field);
+        }
     }
 
     protected boolean isDecoratable(Field field) {

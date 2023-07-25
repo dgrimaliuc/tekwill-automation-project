@@ -6,11 +6,8 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class Adoption extends Component {
+public class Adoptions extends Component {
 
     @FindBy(css = "div.text-gray-600")
     public List<WebElement> petNames;
-
-    @FindBy(xpath = ".//button[text()=' Approve ']")
-    public WebElement approve;
 }

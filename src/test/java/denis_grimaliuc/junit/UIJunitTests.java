@@ -43,16 +43,17 @@ public class UIJunitTests {
         driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 5);
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> driver.quit()));
+        //        Runtime.getRuntime().addShutdownHook(new Thread(() -> driver.quit()));
 
         page = new AdoptPage(driver);
         actions = new BaseActions(driver, page);
-        actions.openCustomLocation("Chisinau");
-        //        actions.openRandomLocation();
+        //        actions.openCustomLocation("Chisinau");
+        actions.openRandomLocation();
     }
 
     @AfterEach
     public void after() {
+        driver.quit();
     }
 
     @Test
@@ -141,9 +142,9 @@ public class UIJunitTests {
     public void testAdoptedPetStatus() {
         String petName = "SomePetName";
         actions.addAPetToCurrentLocation(petName);
-        WebElement pet = page.pets.get(0);
         actions.adoptPets(1);
         actions.verifyAdoptIsCreated(1);
+        WebElement pet = page.pets.get(0);
         String status = page.getStatusOfPet(pet);
         assertThat(status, Matchers.is("ONHOLD"));
 

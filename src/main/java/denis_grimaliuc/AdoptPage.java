@@ -1,7 +1,8 @@
 package denis_grimaliuc;
 
 import denis_grimaliuc.components.Adoption;
-import denis_grimaliuc.components.PetsInSection;
+import denis_grimaliuc.components.Adoptions;
+import denis_grimaliuc.components.PetsSection;
 import helpers.customElements.Components;
 import helpers.customElements.factories.CustomPageFactory;
 import org.openqa.selenium.By;
@@ -17,6 +18,12 @@ public class AdoptPage {
     public static final By EMPTY_PET_TABLE_MESSAGE = By.xpath("//div[normalize-space(text())='No rows. Try reset filters']");
     public static final By ADOPT_ROWS = By.xpath("//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']");
     public static final By ROWS = By.xpath("//table/tbody/tr");
+
+    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']")
+    public Components<Adoption> adoptions;
+
+    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']")
+    public Adoptions adopts;
 
     @FindBy(xpath = "//input[@id='location-input']")
     public WebElement locationInput;
@@ -49,16 +56,13 @@ public class AdoptPage {
     public WebElement petNameInput;
 
     @FindBy(xpath = "//div[@id='root']/div/div[3]/div[1]")
-    public PetsInSection petsIn;
+    public PetsSection petsIn;
 
     @FindBy(xpath = "//button[text()=' Add Rescue']")
     public WebElement addPetBtn;
 
     @FindBy(xpath = "//table/tbody/tr[.//div[not(contains(text(),'No rows. Try reset filters'))]]")
     public List<WebElement> pets;
-
-    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']")
-    public Components<Adoption> adoptions;
 
 
     public AdoptPage(WebDriver driver) {
