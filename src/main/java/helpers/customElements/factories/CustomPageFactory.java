@@ -6,9 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.time.temporal.UnsupportedTemporalTypeException;
 
 /**
@@ -16,9 +14,6 @@ import java.time.temporal.UnsupportedTemporalTypeException;
  * If a Component found it tries to create its object and to initialize its webElements
  */
 public class CustomPageFactory {
-    public static void main(String[] args) {
-        System.out.println();
-    }
 
     public static void initElements(WebDriver driver, Object page, By parent) {
         try {
@@ -29,24 +24,11 @@ public class CustomPageFactory {
                 String type = element.getType().getName();
                 element.setAccessible(true);
                 if (element.isAnnotationPresent(FindBy.class)) {
-                    var initPath = getInitPath(element);
-
                     switch (type) {
-                        case "helpers.customElements.Components":
-                        case "org.openqa.selenium.WebElement":
                         case "java.util.List":
+                        case "org.openqa.selenium.WebElement":
+                        case "helpers.customElements.Components":
                             setProxyLocator(driver, element, page, parent);
-
-
-//                            if (element.isAnnotationPresent(ComponentType.class)) {
-//                                Class<?> componentClass = element.getAnnotation(ComponentType.class).value();
-//                                waitIfPresent(driver, initPath);
-//                                List<Object> list = driver.findElements(initPath).stream()
-//                                        .map(parent -> createComponentInstance(componentClass, driver, parent))
-//                                        .collect(Collectors.toList());
-//                                element.set(page, new Components<Adoption>(list));
-//                            } else
-//                                throw new NoSuchElementException("ComponentType annotation is absent for a Components element");
                             break;
                         default:
                             if (Component.class.isAssignableFrom(element.getType())) {
@@ -62,15 +44,33 @@ public class CustomPageFactory {
         }
     }
 
-    public static void initElements(WebDriver driver, Object page, WebElement parent) {
-
-    }
-
-    private static Object createComponentInstance(Class<?> componentClass, WebDriver driver, WebElement parent) {
+    public static void initComponent(WebDriver driver, Object page, WebElement parent) {
         try {
-            Constructor<?> constructor = componentClass.getDeclaredConstructor(WebDriver.class, WebElement.class);
-            return constructor.newInstance(driver, parent);
-        } catch (InvocationTargetException | IllegalAccessException | InstantiationException | NoSuchMethodException e) {
+            Class<?> clazz = page.getClass();
+            Field[] elements = clazz.getFields();
+            // Set every Component field for Components<?>
+            for (Field element : elements) {
+                String type = element.getType().getName();
+                element.setAccessible(true);
+                if (element.isAnnotationPresent(FindBy.class)) {
+                    if (Component.class.isAssignableFrom(element.getType())) {
+                        setProxyLocator(driver, element, page, parent);
+                    } else {
+                        switch (type) {
+                            case "java.util.List":
+                            case "org.openqa.selenium.WebElement":
+                            case "helpers.customElements.Components":
+                                setProxyLocator(driver, element, page, parent);
+                                break;
+                            default:
+                                if (element.get(page) == null)
+                                    throw new UnsupportedTemporalTypeException("Unsupported type of variable: " + element.getName() + " : " + type);
+                                break;
+                        }
+                    }
+                }
+            }
+        } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
@@ -84,6 +84,13 @@ public class CustomPageFactory {
     }
 
     private static void setProxyLocator(WebDriver driver, Field field, Object page, By parent) throws IllegalAccessException {
+        var factory = new CustomElementLocatorFactory(driver, parent);
+        var decorator = new CustomFieldDecorator(factory);
+        Object value = decorator.decorate(page.getClass().getClassLoader(), field);
+        field.set(page, value);
+    }
+
+    private static void setProxyLocator(WebDriver driver, Field field, Object page, WebElement parent) throws IllegalAccessException {
         var factory = new CustomElementLocatorFactory(driver, parent);
         var decorator = new CustomFieldDecorator(factory);
         Object value = decorator.decorate(page.getClass().getClassLoader(), field);

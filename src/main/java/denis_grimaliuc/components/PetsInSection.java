@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class PetsInComponent extends Component {
+public class PetsInSection extends Component {
 
     @FindBy(xpath = "//button[text()=' Adopt selected pets']")
     public WebElement adoptButton;

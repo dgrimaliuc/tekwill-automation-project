@@ -7,23 +7,22 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CustomLocatingElementListHandler implements InvocationHandler {
     private final CustomElementLocator locator;
     private final WebDriver driver;
-    private final Class<?> componentClass;
+    private final Class<?> componentType;
 
     public CustomLocatingElementListHandler(WebDriver driver, CustomElementLocator locator, Class<?> componentClass) {
         this.driver = driver;
         this.locator = locator;
-        this.componentClass = componentClass;
+        this.componentType = componentClass;
     }
 
     public Object invoke(Object object, Method method, Object[] objects) throws Throwable {
-        List elements = this.locator.findElements().stream().map();
-        Object component = componentClass.getConstructor().newInstance();
-        CustomPageFactory.initElements(driver, component, );
-
+        List<?> elements = this.locator.findElements().stream()
+                .map(this::createComponentInstance).collect(Collectors.toList());
         try {
             return method.invoke(elements, objects);
         } catch (InvocationTargetException var6) {
@@ -32,12 +31,13 @@ public class CustomLocatingElementListHandler implements InvocationHandler {
     }
 
     public Object createComponentInstance(WebElement parent) {
-        Object component = null;
         try {
-            component = componentClass.getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
+            Object component = componentType.getConstructor().newInstance();
+            CustomPageFactory.initComponent(driver, component, parent);
+            return component;
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+            throw new RuntimeException(e);
         }
-        CustomPageFactory.initElements(driver, component, parent);
     }
 }

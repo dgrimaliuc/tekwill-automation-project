@@ -19,11 +19,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static denis_grimaliuc.AdoptPage.FIRST_ROW_IN_TABLE;
-import static helpers.Helpers.stepResults;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -37,7 +35,7 @@ public class UIJunitTests {
 
     @BeforeEach
     public void before() {
-        var pathToChrome = "src/main/resources/chromedriver.exe";
+        var pathToChrome = "src/main/resources/chromedriver_mac";
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -47,11 +45,10 @@ public class UIJunitTests {
         wait = new WebDriverWait(driver, 5);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> driver.quit()));
 
-        stepResults = new ArrayList<>();
-        actions = new BaseActions(driver);
-        actions.openRandomLocation();
         page = new AdoptPage(driver);
-        actions.setPage(page);
+        actions = new BaseActions(driver, page);
+        actions.openCustomLocation("Chisinau");
+        //        actions.openRandomLocation();
     }
 
     @AfterEach
@@ -166,7 +163,6 @@ public class UIJunitTests {
     @Test
     @DisplayName("When a group is approved the status of it should be APPROVED")
     public void testAdoptionStatus() {
-        driver.get("https://petstore-kafka.swagger.io/?location=NCF0WNtOLd");
         actions.addAPetToCurrentLocation(3);
         actions.adoptPets(3);
         actions.verifyAdoptIsCreated(1);
@@ -183,7 +179,7 @@ public class UIJunitTests {
 
         driver.navigate().back();
         Helpers.waitInSeconds(1);
-        assertThat(page.pets.size(), equalTo(1));
+        assertThat(page.pets.size(), equalTo(0));
         wait.until(ExpectedConditions.textToBe(FIRST_ROW_IN_TABLE, "No rows. Try reset filters"));
     }
 

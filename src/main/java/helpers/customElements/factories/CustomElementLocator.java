@@ -14,16 +14,22 @@ public class CustomElementLocator implements ElementLocator {
 
     private final SearchContext searchContext;
     private final By parent;
+    private final WebElement parentElement;
     private final By by;
 
 
     public CustomElementLocator(SearchContext searchContext, Field field, By parent) {
-        this(searchContext, new Annotations(field), parent);
+        this(searchContext, new Annotations(field), null, parent);
     }
 
-    public CustomElementLocator(SearchContext searchContext, AbstractAnnotations annotations, By parent) {
+    public CustomElementLocator(SearchContext searchContext, Field field, WebElement parentElement) {
+        this(searchContext, new Annotations(field), parentElement, null);
+    }
+
+    public CustomElementLocator(SearchContext searchContext, AbstractAnnotations annotations, WebElement parentElement, By parent) {
         this.searchContext = searchContext;
         this.by = annotations.buildBy();
+        this.parentElement = parentElement;
         this.parent = parent;
     }
 
@@ -34,6 +40,10 @@ public class CustomElementLocator implements ElementLocator {
             WebElement parentEl = this.searchContext.findElement(parent);
             return parentEl.findElement(this.by);
         }
+    }
+
+    public List<WebElement> findComponents() {
+        return parentElement.findElements(this.by);
     }
 
     public List<WebElement> findElements() {

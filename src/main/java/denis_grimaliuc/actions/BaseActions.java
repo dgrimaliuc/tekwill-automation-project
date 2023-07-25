@@ -11,7 +11,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-import static denis_grimaliuc.AdoptPage.*;
+import static denis_grimaliuc.AdoptPage.ADOPT_ROWS;
+import static denis_grimaliuc.AdoptPage.FIRST_ROW_IN_TABLE;
+import static denis_grimaliuc.AdoptPage.ROWS;
 import static helpers.Helpers.addQuotes;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -20,16 +22,13 @@ public class BaseActions {
 
     static Logger log = Logger.getLogger(BaseActions.class);
     private final WebDriver driver;
-    private AdoptPage page;
     private final WebDriverWait wait;
+    private final AdoptPage page;
 
-    public BaseActions(WebDriver driver) {
+    public BaseActions(WebDriver driver, AdoptPage page) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, 5);
-    }
-
-    public void setPage(AdoptPage page) {
         this.page = page;
+        wait = new WebDriverWait(driver, 5);
     }
 
     public static Object executeScript(WebDriver driver, String script, Object object) {
@@ -53,13 +52,18 @@ public class BaseActions {
 
     public String openRandomLocation() {
         String randomLocation = RandomStringUtils.random(10, true, true);
-        log.info("Open Custom locations: " + addQuotes(randomLocation));
-        driver.get("https://petstore-kafka.swagger.io/?location=" + randomLocation);
+        return openCustomLocation(randomLocation);
+    }
+
+    public String openCustomLocation(String location) {
+        log.info("Open Custom locations: " + addQuotes(location));
+        driver.get("https://petstore-kafka.swagger.io/?location=" + location);
         Helpers.waitInSeconds(1);
-        return randomLocation;
+        return location;
     }
 
     public void verifyPetAdded(String petName, int petsCountBeforeAdding) {
+        driver.navigate().refresh();
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(ROWS, petsCountBeforeAdding));
         wait.until(ExpectedConditions.textToBe(FIRST_ROW_IN_TABLE, petName));
     }
@@ -102,6 +106,7 @@ public class BaseActions {
 
     public void verifyAdoptIsCreated(int adoptCount) {
         log.info("Verify Current section contains: " + adoptCount + " adoptions");
+        driver.navigate().refresh();
         wait.until(ExpectedConditions.numberOfElementsToBe(ADOPT_ROWS, adoptCount));
     }
 
@@ -122,7 +127,7 @@ public class BaseActions {
     public void addAPetToCurrentLocation(String petName) {
         log.info("Add a new pet: " + addQuotes(petName));
         int petsCountBeforeAdding = page.pets.size();
-        String clearShortcut = Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE;
+        String clearShortcut = Keys.chord(Keys.COMMAND, "a") + Keys.BACK_SPACE;
         page.petNameInput.sendKeys(clearShortcut + petName);
         page.addPetBtn.click();
         verifyPetAdded(petName, petsCountBeforeAdding);
