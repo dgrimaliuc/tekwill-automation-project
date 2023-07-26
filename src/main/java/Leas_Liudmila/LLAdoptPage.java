@@ -1,5 +1,6 @@
 package Leas_Liudmila;
 
+import Leas_Liudmila.components.AdoptionsInSection;
 import Leas_Liudmila.components.PetsInSection;
 import helpers.customElements.factories.CustomPageFactory;
 import org.openqa.selenium.By;
@@ -64,6 +65,9 @@ public class LLAdoptPage {
 
     @FindBy(xpath = "//div[@id='root']/div/div[3]/div[1]")
     public PetsInSection petsIn;
+
+    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]")
+    public AdoptionsInSection adoptionsIn;
 
     public String getStatusOfPet(WebElement pet) {
         return pet.findElement(By.xpath("//td[2]")).getText();

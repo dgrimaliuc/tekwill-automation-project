@@ -5,13 +5,19 @@ import helpers.Helpers;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
+
 import static helpers.Helpers.addQuotes;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertTrue;
 
 public class AdoptPageActions {
     static Logger log = Logger.getLogger(AdoptPageActions.class);
@@ -36,9 +42,10 @@ public class AdoptPageActions {
 
     public void addPetWithName(String newPetName) {
         log.info("Add a new pet: " + addQuotes(newPetName));
-        myPageLL.nameInput.clear();
-        Helpers.waitInSeconds(1);
-        myPageLL.nameInput.sendKeys(newPetName);
+        //myPageLL.nameInput.clear();
+        String clearShortcut = Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE;
+        // Helpers.waitInSeconds(1);
+        myPageLL.nameInput.sendKeys(clearShortcut + newPetName);
         myPageLL.buttonAddRescue.click();
     }
 
@@ -80,6 +87,28 @@ public class AdoptPageActions {
         myPageLL.adoptSelPetsBtnActive.click();
         Helpers.waitInSeconds(1);
 
+    }
+
+    public void checkElementsInAdoptions(ArrayList<String> petName) {
+        String title = "Adoption:";
+        String defaultStatus = "AVAILABLE";
+        String approveBtn = "APPROVE";
+        String denyBtn = "DENY";
+
+        log.info("Adoptions In section contains title: " + addQuotes(title));
+        assertThat(myPageLL.adoptionsIn.title.get(0).getText(), containsString(title));
+        log.info("Adoptions In section contains default Status: " + addQuotes(defaultStatus));
+        assertThat(myPageLL.adoptionsIn.status.get(0).getText(), equalTo(defaultStatus));
+        log.info("Adoptions In section contains Approve button: " + addQuotes(approveBtn));
+        assertThat(myPageLL.adoptionsIn.approveBtn.get(0).getText(), equalTo(approveBtn));
+        log.info("Adoptions In section contains Deny button: " + addQuotes(denyBtn));
+        assertThat(myPageLL.adoptionsIn.denyBtn.get(0).getText(), equalTo(denyBtn));
+
+        for (int i = 0; i < petName.size(); i++) {
+            log.info("Adoptions In section contains the Pet Name: " + addQuotes(petName.get(i)));
+            String adoptedPetName = myPageLL.adoptionsIn.petName.get(i).getText();
+            assertTrue(petName.stream().anyMatch(petTitle -> petTitle.equals(adoptedPetName)));
+        }
     }
 
 
