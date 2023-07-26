@@ -107,7 +107,7 @@ public class UIJunitTests {
     public void addAPetAndVerifyTheGameSection() {
         int sumOfPets = 5;
         actions.addAPetToCurrentLocation(sumOfPets);
-        String validationText = page.theGamePetsInInfo.getText();
+        String validationText = page.theGame.petsInInfo.getText();
         log.info("Verify '" + validationText + "' matches pattern: \"Pets\\\\sin\\\\s\\\\w+:\\\\s\"");
         assertThat(validationText, Matchers.matchesPattern("Pets\\sin\\s\\w+:\\s" + sumOfPets));
     }
@@ -123,6 +123,16 @@ public class UIJunitTests {
         actions.adoptPets(petsToAdopt);
         actions.verifyAdoptIsCreated(1);
         System.out.println();
+
+    }
+
+    @Test
+    @DisplayName("Verify Pet Names in adoption")
+    public void verifyPetNamesInAdoption() {
+        String petName = "SomePetName";
+        actions.addAPetToCurrentLocation(petName);
+        actions.adoptPets(1);
+        actions.verifyPetInGroup(petName, 1);
 
     }
 
@@ -167,7 +177,7 @@ public class UIJunitTests {
         actions.addAPetToCurrentLocation(3);
         actions.adoptPets(3);
         actions.verifyAdoptIsCreated(1);
-        actions.approveGroupByIndex(1);
+        actions.approveGroupByIndex(0);
         actions.verifyStatusOfGroup("APPROVED", 1);
 
     }

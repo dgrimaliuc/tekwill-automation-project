@@ -13,4 +13,13 @@ public class Adoption extends Component {
 
     @FindBy(xpath = ".//button[text()=' Approve ']")
     public WebElement approve;
+
+    @FindBy(xpath = ".//button[text()=' Deny ']")
+    public WebElement deny;
+
+    @FindBy(xpath = ".//h2/span")
+    public WebElement title;
+
+    @FindBy(xpath = "./span")
+    public WebElement status;
 }

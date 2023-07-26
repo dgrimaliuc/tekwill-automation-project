@@ -3,6 +3,7 @@ package denis_grimaliuc;
 import denis_grimaliuc.components.Adoption;
 import denis_grimaliuc.components.Adoptions;
 import denis_grimaliuc.components.PetsSection;
+import denis_grimaliuc.components.TheGameSection;
 import helpers.customElements.Components;
 import helpers.customElements.factories.CustomPageFactory;
 import org.openqa.selenium.By;
@@ -29,17 +30,12 @@ public class AdoptPage {
     @FindBy(xpath = "//button[normalize-space(text())='Change location']")
     public WebElement changeLocationBtn;
 
+    @FindBy(xpath = "//div[@class='p-8']")
+    public TheGameSection theGame;
+
     @FindBy(xpath = "//button[normalize-space(text())='Open in new Tab']")
     public WebElement openNewTabBtn;
 
-    @FindBy(xpath = "//div[@class='p-8']/p[2]")
-    public WebElement petsInInfo;
-
-    @FindBy(xpath = "//div[@id='root']/div/div[2]/p[2]")
-    public WebElement theGamePetsInInfo;
-
-    @FindBy(xpath = "//div[@class='p-8']/p[3]")
-    public WebElement adoptsInfo;
 
     @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]/h2")
     public WebElement adoptsTitle;
