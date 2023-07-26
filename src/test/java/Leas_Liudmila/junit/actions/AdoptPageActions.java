@@ -96,17 +96,17 @@ public class AdoptPageActions {
         String denyBtn = "DENY";
 
         log.info("Adoptions In section contains title: " + addQuotes(title));
-        assertThat(myPageLL.adoptionsIn.title.get(0).getText(), containsString(title));
+        assertThat(myPageLL.adoptionsInSections.get(0).title.getText(), containsString(title));
         log.info("Adoptions In section contains default Status: " + addQuotes(defaultStatus));
-        assertThat(myPageLL.adoptionsIn.status.get(0).getText(), equalTo(defaultStatus));
+        assertThat(myPageLL.adoptionsInSections.get(0).status.getText(), equalTo(defaultStatus));
         log.info("Adoptions In section contains Approve button: " + addQuotes(approveBtn));
-        assertThat(myPageLL.adoptionsIn.approveBtn.get(0).getText(), equalTo(approveBtn));
+        assertThat(myPageLL.adoptionsInSections.get(0).approveBtn.getText(), equalTo(approveBtn));
         log.info("Adoptions In section contains Deny button: " + addQuotes(denyBtn));
-        assertThat(myPageLL.adoptionsIn.denyBtn.get(0).getText(), equalTo(denyBtn));
+        assertThat(myPageLL.adoptionsInSections.get(0).denyBtn.getText(), equalTo(denyBtn));
 
         for (int i = 0; i < petName.size(); i++) {
             log.info("Adoptions In section contains the Pet Name: " + addQuotes(petName.get(i)));
-            String adoptedPetName = myPageLL.adoptionsIn.petName.get(i).getText();
+            String adoptedPetName = myPageLL.adoptionsInSections.get(0).petName.get(i).getText();
             assertTrue(petName.stream().anyMatch(petTitle -> petTitle.equals(adoptedPetName)));
         }
     }
