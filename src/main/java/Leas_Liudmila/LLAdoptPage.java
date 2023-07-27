@@ -1,10 +1,13 @@
 package Leas_Liudmila;
 
+import Leas_Liudmila.components.AdoptionsInSection;
+import Leas_Liudmila.components.PetsInSection;
+import helpers.customElements.Components;
+import helpers.customElements.factories.CustomPageFactory;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -17,7 +20,7 @@ public class LLAdoptPage {
     public WebElement petsInTitle;
 
     @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]/h2")
-    public WebElement adoptationsInTitle;
+    public WebElement adoptionsInTitle;
 
     @FindBy(xpath = "//*[@id=\"root\"]/div/div[2]/h2")
     public WebElement theGameSectionTitle;
@@ -46,6 +49,9 @@ public class LLAdoptPage {
     @FindBy(xpath = "//table/tbody/tr")
     public List<WebElement> addedPets;
 
+    @FindBy(xpath = "//table/tbody/tr[.//div[not(contains(text(),'No rows. Try reset filters'))]]")
+    public List<WebElement> pets;
+
     @FindBy(xpath = "//tbody/tr[not(@class)]/td")
     public List<WebElement> noRowsText;
 
@@ -58,15 +64,18 @@ public class LLAdoptPage {
     @FindBy(xpath = "//button[@disabled and .//text() [contains (., 'Adopt selected pets')]]")
     public List<WebElement> adoptSelPetsBtnInactive;
 
+    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[1]")
+    public PetsInSection petsIn;
 
-    private WebDriver driver;
+    @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']")
+    public Components<AdoptionsInSection> adoptionsInSections;
 
-    private WebDriverWait wait;
+    public String getStatusOfPet(WebElement pet) {
+        return pet.findElement(By.xpath("//td[2]")).getText();
+    }
 
-    public LLAdoptPage(WebDriver driver, WebDriverWait wait) {
-        this.driver = driver;
-        this.wait = wait;
-        PageFactory.initElements(driver, this);
+    public LLAdoptPage(WebDriver driver) {
+        CustomPageFactory.initElements(driver, this, null);
     }
 
 

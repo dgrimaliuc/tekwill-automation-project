@@ -40,7 +40,7 @@ public class TextCheck {
         driver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 5);
 
-        myPageLL = new LLAdoptPage(driver, wait);
+        myPageLL = new LLAdoptPage(driver);
 
     }
 
@@ -64,7 +64,7 @@ public class TextCheck {
 
         assertThat(myPageLL.myLocationInput.getAttribute("value"), Matchers.equalTo(randomLocation));
         assertThat(myPageLL.petsInTitle.getText(), Matchers.equalTo("Pets in " + randomLocation));
-        assertThat(myPageLL.adoptationsInTitle.getText(), Matchers.equalTo("Adoptions in " + randomLocation));
+        assertThat(myPageLL.adoptionsInTitle.getText(), Matchers.equalTo("Adoptions in " + randomLocation));
     }
 
     @When("Verify current section contains default info in [The game] section {string} , {string} , {string} , {string}")
