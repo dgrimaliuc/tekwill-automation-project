@@ -127,8 +127,8 @@ public class UIStepDefinition {
 
     @Then("Verify Default text in The game section")
     public void verifyDefaultTextInTheGameSection() {
-        assertThat(page.petsInInfo.getText().trim(), Matchers.equalTo("No pets. Go rescue some pets!"));
-        assertThat(page.adoptsInfo.getText().trim(), Matchers.equalTo("No adoptions. Go get those pets adopted!"));
+        assertThat(page.theGame.petsInInfo.getText().trim(), Matchers.equalTo("No pets. Go rescue some pets!"));
+        assertThat(page.theGame.adoptsInfo.getText().trim(), Matchers.equalTo("No adoptions. Go get those pets adopted!"));
     }
 
     @Given("Open a Random location")

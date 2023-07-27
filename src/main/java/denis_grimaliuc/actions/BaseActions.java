@@ -1,6 +1,7 @@
 package denis_grimaliuc.actions;
 
 import denis_grimaliuc.AdoptPage;
+import denis_grimaliuc.components.Adoption;
 import helpers.Helpers;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -17,6 +18,8 @@ import static denis_grimaliuc.AdoptPage.ROWS;
 import static helpers.Helpers.addQuotes;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 public class BaseActions {
 
@@ -34,15 +37,7 @@ public class BaseActions {
     public static Object executeScript(WebDriver driver, String script, Object object) {
         return ((JavascriptExecutor) driver).executeScript(script, object);
     }
-
-    public static void waitForSeconds(int seconds) {
-        try {
-            Thread.sleep(seconds * 1000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
+    
     public void verifyNewTabOpened() {
         Object[] tabs = driver.getWindowHandles().toArray();
         assertThat(tabs.length, Matchers.equalTo(2));
@@ -62,10 +57,17 @@ public class BaseActions {
         return location;
     }
 
-    public void verifyPetAdded(String petName, int petsCountBeforeAdding) {
+    public void verifyPetInGroup(String petName, int petCount) {
+        log.info("Verify pet with name: " + addQuotes(petName) + " is added to group");
         driver.navigate().refresh();
-        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(ROWS, petsCountBeforeAdding));
-        wait.until(ExpectedConditions.textToBe(FIRST_ROW_IN_TABLE, petName));
+        Adoption group = page.adoptions.get(0);
+        assertThat(group.petNames.size(), Matchers.is(petCount));
+        boolean isFound = false;
+        for (WebElement name : group.petNames) {
+            if (name.getText().equals(petName))
+                isFound = true;
+        }
+        assertTrue(isFound);
     }
 
 
@@ -97,6 +99,7 @@ public class BaseActions {
     }
 
     public void adoptPets(int petNum) {
+        assertNotEquals(petNum, 0);
         assertThat(page.petsIn.pets.size(), Matchers.greaterThanOrEqualTo(petNum));
         for (int i = 0; i < petNum; i++) {
             page.petsIn.pets.get(i).click();
@@ -106,22 +109,19 @@ public class BaseActions {
 
     public void verifyAdoptIsCreated(int adoptCount) {
         log.info("Verify Current section contains: " + adoptCount + " adoptions");
-        driver.navigate().refresh();
         wait.until(ExpectedConditions.numberOfElementsToBe(ADOPT_ROWS, adoptCount));
     }
 
     public void approveGroupByIndex(int indexOfGroup) {
         log.info("Approve group by index: " + indexOfGroup);
-        WebElement group = driver.findElement(By.xpath("//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']" + "[" + indexOfGroup + "]"));
-        WebElement approveBtn = group.findElement(By.xpath("//button[text()=' Approve ']"));
-        approveBtn.click();
+        Adoption group = page.adoptions.get(indexOfGroup);
+        group.approve.click();
     }
 
     public void verifyStatusOfGroup(String status, int indexOfGroup) {
         log.info("Verify status of group by index: " + indexOfGroup);
-        WebElement group = driver.findElement(By.xpath("//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']" + "[" + indexOfGroup + "]"));
-        WebElement statusOfGr = group.findElements(By.tagName("span")).get(1);
-        wait.until(ExpectedConditions.textToBePresentInElement(statusOfGr, status));
+        Adoption group = page.adoptions.get(0);
+        wait.until(ExpectedConditions.textToBePresentInElement(group.status, status));
     }
 
     public void addAPetToCurrentLocation(String petName) {
@@ -130,7 +130,14 @@ public class BaseActions {
         String clearShortcut = Keys.chord(Keys.COMMAND, "a") + Keys.BACK_SPACE;
         page.petsIn.petNameInput.sendKeys(clearShortcut + petName);
         page.petsIn.addPetBtn.click();
-        verifyPetAdded(petName, petsCountBeforeAdding);
+        verifyPetAddedInPetSection(petName, petsCountBeforeAdding);
     }
+
+    public void verifyPetAddedInPetSection(String petName, int petCountBefore) {
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(ROWS, petCountBefore));
+        wait.until(ExpectedConditions.textToBe(FIRST_ROW_IN_TABLE, petName));
+
+    }
+
 
 }
