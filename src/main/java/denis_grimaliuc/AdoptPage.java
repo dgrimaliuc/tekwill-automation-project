@@ -47,8 +47,5 @@ public class AdoptPage {
     public AdoptPage(WebDriver driver) {
         CustomPageFactory.initElements(driver, this, null);
     }
-
-    public String getStatusOfPet(WebElement pet) {
-        return pet.findElement(By.xpath("//td[2]")).getText();
-    }
+    
 }

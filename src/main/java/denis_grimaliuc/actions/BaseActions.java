@@ -2,24 +2,24 @@ package denis_grimaliuc.actions;
 
 import denis_grimaliuc.AdoptPage;
 import denis_grimaliuc.components.Adoption;
+import denis_grimaliuc.components.Pet;
+import denis_grimaliuc.data.enums.Colors;
 import helpers.Helpers;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-import static denis_grimaliuc.AdoptPage.ADOPT_ROWS;
-import static denis_grimaliuc.AdoptPage.FIRST_ROW_IN_TABLE;
-import static denis_grimaliuc.AdoptPage.ROWS;
+import static denis_grimaliuc.AdoptPage.*;
 import static helpers.Helpers.addQuotes;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class BaseActions {
 
@@ -37,7 +37,7 @@ public class BaseActions {
     public static Object executeScript(WebDriver driver, String script, Object object) {
         return ((JavascriptExecutor) driver).executeScript(script, object);
     }
-    
+
     public void verifyNewTabOpened() {
         Object[] tabs = driver.getWindowHandles().toArray();
         assertThat(tabs.length, Matchers.equalTo(2));
@@ -102,9 +102,18 @@ public class BaseActions {
         assertNotEquals(petNum, 0);
         assertThat(page.petsIn.pets.size(), Matchers.greaterThanOrEqualTo(petNum));
         for (int i = 0; i < petNum; i++) {
-            page.petsIn.pets.get(i).click();
+            page.petsIn.pets.get(i).name.click();
         }
         page.petsIn.adoptButton.click();
+    }
+
+    public void verifyAllPetsStatus(String expectedStatus) {
+        for (Pet pet : page.petsIn.pets) {
+            String actualStatus = pet.status.getText();
+            assertEquals(expectedStatus, actualStatus);
+
+        }
+
     }
 
     public void verifyAdoptIsCreated(int adoptCount) {
@@ -127,7 +136,7 @@ public class BaseActions {
     public void addAPetToCurrentLocation(String petName) {
         log.info("Add a new pet: " + addQuotes(petName));
         int petsCountBeforeAdding = page.petsIn.pets.size();
-        String clearShortcut = Keys.chord(Keys.COMMAND, "a") + Keys.BACK_SPACE;
+        String clearShortcut = Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE;
         page.petsIn.petNameInput.sendKeys(clearShortcut + petName);
         page.petsIn.addPetBtn.click();
         verifyPetAddedInPetSection(petName, petsCountBeforeAdding);
@@ -139,5 +148,12 @@ public class BaseActions {
 
     }
 
+    public void assertHoverState(WebElement button, Colors color) {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(button).perform();
+        String backColor = button.getCssValue("background-color");
+        log.info("Assert: " + addQuotes(backColor) + " is equals to " + addQuotes(color.color));
+        wait.until(ExpectedConditions.attributeContains(button, "background-color", color.color));
 
+    }
 }
