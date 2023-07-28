@@ -35,7 +35,7 @@ public class UIJunitTests {
 
     @BeforeEach
     public void before() {
-        var pathToChrome = "src/main/resources/chromedriver_mac";
+        var pathToChrome = "src/main/resources/chromedriver.exe";
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -94,8 +94,8 @@ public class UIJunitTests {
         actions.addAPetToCurrentLocation(petName);
         actions.addAPetToCurrentLocation(petName);
         assertThat(page.petsIn.pets.size(), Matchers.equalTo(2));
-        assertThat(page.petsIn.pets.get(0).getText(), Matchers.containsString(petName));
-        assertThat(page.petsIn.pets.get(1).getText(), Matchers.containsString(petName));
+        assertThat(page.petsIn.pets.get(0).name.getText(), Matchers.containsString(petName));
+        assertThat(page.petsIn.pets.get(1).name.getText(), Matchers.containsString(petName));
 
     }
 
@@ -122,8 +122,6 @@ public class UIJunitTests {
         actions.addAPetToCurrentLocation(3);
         actions.adoptPets(petsToAdopt);
         actions.verifyAdoptIsCreated(1);
-        System.out.println();
-
     }
 
     @Test
@@ -141,8 +139,8 @@ public class UIJunitTests {
     public void testAddedPet() {
         String petName = "SomePetName";
         actions.addAPetToCurrentLocation(petName);
-        WebElement pet = page.petsIn.pets.get(0);
-        String status = page.getStatusOfPet(pet);
+        WebElement pet = page.petsIn.pets.get(0).status;
+        String status = pet.getText();
         assertThat(status, Matchers.is("AVAILABLE"));
 
     }
@@ -154,9 +152,20 @@ public class UIJunitTests {
         actions.addAPetToCurrentLocation(petName);
         actions.adoptPets(1);
         actions.verifyAdoptIsCreated(1);
-        WebElement pet = page.petsIn.pets.get(0);
-        String status = page.getStatusOfPet(pet);
+        WebElement pet = page.petsIn.pets.get(0).status;
+        String status = pet.getText();
         assertThat(status, Matchers.is("ONHOLD"));
+
+    }
+
+    @Test
+    @DisplayName("Adopt multiple pets, verify the status of all adopted pet is changed to ONHOLD")
+    public void testAdoptionMultiplePets() {
+        int petsToAdopt = 5;
+        actions.addAPetToCurrentLocation(petsToAdopt);
+        actions.adoptPets(petsToAdopt);
+        actions.verifyAdoptIsCreated(1);
+        actions.verifyAllPetsStatus("ONHOLD");
 
     }
 
