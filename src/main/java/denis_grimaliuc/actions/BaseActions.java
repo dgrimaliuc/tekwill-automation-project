@@ -154,9 +154,6 @@ public class BaseActions {
         String backColor = button.getCssValue("background-color");
         log.info("Assert: " + addQuotes(backColor) + " is equals to " + addQuotes(color.color));
         wait.until(ExpectedConditions.attributeContains(button, "background-color", color.color));
-//        assertEquals(color.color, backColor);
 
     }
-
-
 }
