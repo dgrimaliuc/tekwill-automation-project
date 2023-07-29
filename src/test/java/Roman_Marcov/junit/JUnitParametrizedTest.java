@@ -52,6 +52,8 @@ public class JUnitParametrizedTest {
      * 1 symbol pet name test
      * Space containing pet name test
      * Punctuation symbols containing pet name test
+     * Also create a separate test
+     * duplicate name of pet (a pet with already existing name should be added without problems )
      */
     @ParameterizedTest(name = "Test name pet: \"{0}\"")
     @ValueSource(strings = {"k", "Pet and NamePet", "~`!@#$%^&*()-_=+.,"})
@@ -82,5 +84,15 @@ public class JUnitParametrizedTest {
         String newPetName = RandomStringUtils.random(10, characters);
         actions.addPetWithName(newPetName);
         actions.addedPetCheck(newPetName);
+    }
+
+    @Test
+    @DisplayName("Test two different pets can be added with the same Name")
+    public void testDuplicatePetName() {
+        String petName = "DJ";
+        actions.addPetWithName(petName);
+        actions.addPetWithName(petName);
+        actions.duplicatedNameCheck(petName);
+
     }
 }
