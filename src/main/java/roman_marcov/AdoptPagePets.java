@@ -21,9 +21,25 @@ public class AdoptPagePets {
 
     @FindBy(xpath = "//div[@class='p-8']/p[2]")
     public WebElement petsInInfo;
-    
+
     @FindBy(xpath = "//div[@class='p-8']/p[3]")
     public WebElement adoptsInfo;
+
+    @FindBy(xpath = "//div[@id='root']/div/div[3]//input[@type='text']")
+    public WebElement petNameInput;
+
+    @FindBy(xpath = "//table/tbody/tr[1]")
+    public WebElement firstAddedPet;
+
+    @FindBy(xpath = "//div[@id='root']/div/div[3]//input[@type='text']")
+    public WebElement nameInput;
+
+    @FindBy(xpath = "//button[text()=' Add Rescue']")
+    public WebElement buttonAddRescue;
+
+    @FindBy(xpath = "//table/tbody/tr[2]")
+    public WebElement secondAddedPet;
+
 
     public AdoptPagePets(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
