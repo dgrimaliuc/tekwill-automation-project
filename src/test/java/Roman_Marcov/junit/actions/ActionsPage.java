@@ -20,7 +20,7 @@ public class ActionsPage {
 
     public ActionsPage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, 3);
         pagePets = new AdoptPagePets(driver, wait);
     }
 
