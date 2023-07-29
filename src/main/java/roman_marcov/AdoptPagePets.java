@@ -6,6 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
+
 public class AdoptPagePets {
 
     private final WebDriver driver;
@@ -39,6 +41,9 @@ public class AdoptPagePets {
 
     @FindBy(xpath = "//table/tbody/tr[2]")
     public WebElement secondAddedPet;
+
+    @FindBy(xpath = "//table/tbody/tr[.//div[not(contains(text(),'No rows. Try reset filters'))]]")
+    public List<WebElement> pets;
 
 
     public AdoptPagePets(WebDriver driver, WebDriverWait wait) {
