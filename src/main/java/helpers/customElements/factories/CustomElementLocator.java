@@ -43,7 +43,7 @@ public class CustomElementLocator implements ElementLocator {
             return this.searchContext.findElement(this.by);
         }
     }
-    
+
     public List<WebElement> findElements() {
         if (this.parentElement != null) {
             return this.parentElement.findElements(this.by);
@@ -53,10 +53,6 @@ public class CustomElementLocator implements ElementLocator {
         } else {
             return this.searchContext.findElements(this.by);
         }
-    }
-
-    public By getLocator() {
-        return by;
     }
 
     public String toString() {

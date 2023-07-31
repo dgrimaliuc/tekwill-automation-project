@@ -6,6 +6,7 @@ import denis_grimaliuc.actions.BaseActions;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -27,7 +28,11 @@ public class TestNGClass {
     public void before() {
         var pathToChrome = "src/main/resources/chromedriver.exe";
         System.setProperty("webdriver.chrome.driver", pathToChrome);
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        // Set desired options
+        options.addArguments("--headless"); // Run Chrome in headless mode
+        // Create ChromeDriver with the specified options
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
@@ -41,6 +46,7 @@ public class TestNGClass {
 //        actions.openCustomLocation("Chisinau");
         actions.openRandomLocation();
     }
+
 
     @AfterMethod
     public void after() {

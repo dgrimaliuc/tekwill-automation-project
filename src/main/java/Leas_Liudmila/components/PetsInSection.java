@@ -12,4 +12,7 @@ public class PetsInSection extends Component {
     public List<WebElement> pets;
 
 
+    public PetsInSection(WebElement parent) {
+        super(parent);
+    }
 }

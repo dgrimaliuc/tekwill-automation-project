@@ -32,11 +32,11 @@ public class CustomLocatingElementListHandler implements InvocationHandler {
 
     public Object createComponentInstance(WebElement parent) {
         try {
-            Object component = componentType.getConstructor().newInstance();
+            Object component = componentType.getConstructor(WebElement.class).newInstance(parent);
             CustomPageFactory.initComponent(driver, component, parent);
             return component;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+                NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

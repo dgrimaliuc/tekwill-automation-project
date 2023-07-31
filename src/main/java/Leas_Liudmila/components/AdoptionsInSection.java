@@ -22,5 +22,7 @@ public class AdoptionsInSection extends Component {
     @FindBy(xpath = "//button[text()=' Deny ']")
     public WebElement denyBtn;
 
-
+    public AdoptionsInSection(WebElement parent) {
+        super(parent);
+    }
 }

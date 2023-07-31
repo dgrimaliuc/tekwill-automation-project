@@ -13,6 +13,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static denis_grimaliuc.AdoptPage.*;
@@ -107,13 +108,24 @@ public class BaseActions {
         page.petsIn.adoptButton.click();
     }
 
-    public void verifyAllPetsStatus(String expectedStatus) {
+    public void verifyPetsStatus(String expectedStatus) {
         for (Pet pet : page.petsIn.pets) {
             String actualStatus = pet.status.getText();
             assertEquals(expectedStatus, actualStatus);
 
         }
 
+    }
+
+    public void verifyPetsStatus(String petName, String expectedStatus) {
+        List<Pet> foundPets = new ArrayList<>();
+        for (Pet pet : page.petsIn.pets) {
+            if (pet.name.getText().equals(petName) && pet.status.getText().equals(expectedStatus)) {
+                foundPets.add(pet);
+            }
+
+        }
+        assertThat(foundPets.size(), Matchers.greaterThanOrEqualTo(0));
     }
 
     public void verifyAdoptIsCreated(int adoptCount) {
@@ -131,6 +143,12 @@ public class BaseActions {
         log.info("Verify status of group by index: " + indexOfGroup);
         Adoption group = page.adoptions.get(0);
         wait.until(ExpectedConditions.textToBePresentInElement(group.status, status));
+    }
+
+    public void addAPetsToCurrentLocation(List<String> petNames) {
+        for (String petName : petNames) {
+            addAPetToCurrentLocation(petName);
+        }
     }
 
     public void addAPetToCurrentLocation(String petName) {
