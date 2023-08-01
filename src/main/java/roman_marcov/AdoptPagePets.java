@@ -30,8 +30,14 @@ public class AdoptPagePets {
     @FindBy(xpath = "//div[@id='root']/div/div[3]//input[@type='text']")
     public WebElement petNameInput;
 
+    @FindBy(xpath = "//table/tbody/tr")
+    public List<WebElement> addedPets;
+
     @FindBy(xpath = "//table/tbody/tr[1]")
     public WebElement firstAddedPet;
+
+    @FindBy(xpath = "//table/tbody/tr[2]")
+    public WebElement secondAddedPet;
 
     @FindBy(xpath = "//div[@id='root']/div/div[3]//input[@type='text']")
     public WebElement nameInput;
@@ -39,8 +45,6 @@ public class AdoptPagePets {
     @FindBy(xpath = "//button[text()=' Add Rescue']")
     public WebElement buttonAddRescue;
 
-    @FindBy(xpath = "//table/tbody/tr[2]")
-    public WebElement secondAddedPet;
 
     @FindBy(xpath = "//table/tbody/tr[.//div[not(contains(text(),'No rows. Try reset filters'))]]")
     public List<WebElement> pets;

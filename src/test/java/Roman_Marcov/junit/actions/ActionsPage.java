@@ -50,4 +50,11 @@ public class ActionsPage {
         assertThat(pagePets.firstAddedPet.getText(), Matchers.equalTo(PetName + "\nAVAILABLE"));
     }
 
+    public void duplicatedNameCheck(String duplicatedName) {
+        log.info("Duplicated pet names with the following name can be added: " + addQuotes(duplicatedName));
+        wait.until(ExpectedConditions.textToBePresentInElement(pagePets.firstAddedPet, duplicatedName));
+        assertThat(pagePets.addedPets.get(0).getText(), Matchers.equalTo(duplicatedName + "\nAVAILABLE"));
+        wait.until(ExpectedConditions.textToBePresentInElement(pagePets.secondAddedPet, duplicatedName));
+        assertThat(pagePets.addedPets.get(1).getText(), Matchers.equalTo(duplicatedName + "\nAVAILABLE"));
+    }
 }

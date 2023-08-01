@@ -2,6 +2,7 @@ package Roman_Marcov.junit;
 
 import Roman_Marcov.junit.actions.ActionsPage;
 import org.apache.commons.lang.RandomStringUtils;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import static helpers.Helpers.stepResults;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class JUnitParametrizedTest {
     WebDriver driver = null;
@@ -89,10 +91,11 @@ public class JUnitParametrizedTest {
     @Test
     @DisplayName("Test two different pets can be added with the same Name")
     public void testDuplicatePetName() {
-        String petName = "DJ";
-        actions.addPetWithName(petName);
-        actions.addPetWithName(petName);
-        actions.duplicatedNameCheck(petName);
-
+        String petName = "Pet Name";
+        actions.addAPetToCurrentLocation(petName);
+        actions.addAPetToCurrentLocation(petName);
+        assertThat(page.pets.size(), Matchers.equalTo(2));
+        assertThat(page.pets.get(0).getText(), Matchers.containsString(petName));
+        assertThat(page.pets.get(1).getText(), Matchers.containsString(petName));
     }
 }
