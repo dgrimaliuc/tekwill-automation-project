@@ -4,6 +4,7 @@ import denis_grimaliuc.AdoptPage;
 import denis_grimaliuc.components.Adoption;
 import denis_grimaliuc.components.Pet;
 import denis_grimaliuc.data.enums.Colors;
+import denis_grimaliuc.data.enums.Status;
 import helpers.Helpers;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -16,11 +17,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.ArrayList;
 import java.util.List;
 
-import static denis_grimaliuc.AdoptPage.*;
+import static denis_grimaliuc.AdoptPage.ADOPT_ROWS;
+import static denis_grimaliuc.AdoptPage.FIRST_ROW_IN_TABLE;
+import static denis_grimaliuc.AdoptPage.ROWS;
 import static helpers.Helpers.addQuotes;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 public class BaseActions {
 
@@ -108,10 +113,10 @@ public class BaseActions {
         page.petsIn.adoptButton.click();
     }
 
-    public void verifyPetsStatus(String expectedStatus) {
+    public void verifyPetsStatus(Status expectedStatus) {
         for (Pet pet : page.petsIn.pets) {
             String actualStatus = pet.status.getText();
-            assertEquals(expectedStatus, actualStatus);
+            assertEquals(expectedStatus.toString(), actualStatus);
 
         }
 
@@ -128,7 +133,7 @@ public class BaseActions {
         assertThat(foundPets.size(), Matchers.greaterThanOrEqualTo(0));
     }
 
-    public void verifyAdoptIsCreated(int adoptCount) {
+    public void verifyAdoptsCount(int adoptCount) {
         log.info("Verify Current section contains: " + adoptCount + " adoptions");
         wait.until(ExpectedConditions.numberOfElementsToBe(ADOPT_ROWS, adoptCount));
     }
@@ -154,7 +159,7 @@ public class BaseActions {
     public void addAPetToCurrentLocation(String petName) {
         log.info("Add a new pet: " + addQuotes(petName));
         int petsCountBeforeAdding = page.petsIn.pets.size();
-        String clearShortcut = Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE;
+        String clearShortcut = Keys.chord(Keys.COMMAND, "a") + Keys.BACK_SPACE;
         page.petsIn.petNameInput.sendKeys(clearShortcut + petName);
         page.petsIn.addPetBtn.click();
         verifyPetAddedInPetSection(petName, petsCountBeforeAdding);
@@ -167,11 +172,19 @@ public class BaseActions {
     }
 
     public void assertHoverState(WebElement button, Colors color) {
-        Actions actions = new Actions(driver);
-        actions.moveToElement(button).perform();
-        String backColor = button.getCssValue("background-color");
-        log.info("Assert: " + addQuotes(backColor) + " is equals to " + addQuotes(color.color));
-        wait.until(ExpectedConditions.attributeContains(button, "background-color", color.color));
-
+        hover(button);
+        verifyBackgroundColor(button, color);
     }
+
+    public void verifyBackgroundColor(WebElement element, Colors color) {
+        String backColor = element.getCssValue("background-color");
+        log.info("Assert: " + addQuotes(backColor) + " is equals to " + addQuotes(color.color));
+        wait.until(ExpectedConditions.attributeContains(element, "background-color", color.color));
+    }
+
+    public void hover(WebElement element) {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).perform();
+    }
+
 }
