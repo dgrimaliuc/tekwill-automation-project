@@ -43,7 +43,7 @@ public class task5LL {
         driver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 5);
 
-        myPageLL = new LLAdoptPage(driver, wait);
+        myPageLL = new LLAdoptPage(driver);
 
     }
 
