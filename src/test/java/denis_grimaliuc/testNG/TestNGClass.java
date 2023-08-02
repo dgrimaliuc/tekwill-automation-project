@@ -14,7 +14,10 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import static denis_grimaliuc.data.enums.Colors.*;
+import static denis_grimaliuc.data.enums.Colors.BLUE_BACK_COLOR;
+import static denis_grimaliuc.data.enums.Colors.GREEN_BACK_COLOR;
+import static denis_grimaliuc.data.enums.Colors.ORANGE_BACK_COLOR;
+import static denis_grimaliuc.data.enums.Colors.RED_BACK_COLOR;
 
 public class TestNGClass {
 
@@ -43,7 +46,7 @@ public class TestNGClass {
 
         page = new AdoptPage(driver);
         actions = new BaseActions(driver, page);
-//        actions.openCustomLocation("Chisinau");
+        //        actions.openCustomLocation("Chisinau");
         actions.openRandomLocation();
     }
 
@@ -88,7 +91,7 @@ public class TestNGClass {
         int petsToAdopt = 1;
         actions.addAPetToCurrentLocation(petsToAdopt);
         actions.adoptPets(petsToAdopt);
-        actions.verifyAdoptIsCreated(1);
+        actions.verifyAdoptsCount(1);
         actions.assertHoverState(page.adoptions.get(0).approve, GREEN_BACK_COLOR);
     }
 
@@ -97,7 +100,7 @@ public class TestNGClass {
         int petsToAdopt = 1;
         actions.addAPetToCurrentLocation(petsToAdopt);
         actions.adoptPets(petsToAdopt);
-        actions.verifyAdoptIsCreated(1);
+        actions.verifyAdoptsCount(1);
         actions.assertHoverState(page.adoptions.get(0).deny, RED_BACK_COLOR);
     }
 }

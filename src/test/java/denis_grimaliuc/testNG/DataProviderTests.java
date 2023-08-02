@@ -2,7 +2,6 @@ package denis_grimaliuc.testNG;
 
 import denis_grimaliuc.AdoptPage;
 import denis_grimaliuc.actions.BaseActions;
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -17,11 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static helpers.Helpers.getExcelData;
 import static helpers.Helpers.stepResults;
 
 public class DataProviderTests {
 
     List<String> petNames = new ArrayList<>(List.of(new String[]{"Loki", "Milo", "Dylan", "Olli"}));
+    WebDriver driver = null;
+    WebDriverWait wait = null;
+    Logger log = Logger.getLogger(DataProviderTests.class);
+    AdoptPage page = null;
+    BaseActions actions = null;
 
     @Test
     public void softAssertionTest() {
@@ -34,15 +39,9 @@ public class DataProviderTests {
         softAssertion.assertAll();
     }
 
-    WebDriver driver = null;
-    WebDriverWait wait = null;
-    Logger log = Logger.getLogger(DataProviderTests.class);
-    AdoptPage page = null;
-    BaseActions actions = null;
-
     @BeforeMethod
     public void before() {
-        var pathToChrome = "src/main/resources/chromedriver.exe";
+        var pathToChrome = "src/main/resources/chromedriver_mac";
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -65,12 +64,7 @@ public class DataProviderTests {
     // 1.	Location input test empty, space containing, start/end with space, long location tests
     @DataProvider(name = "testDataNumbers")
     public Object[][] provideTestData() {
-        return new Object[][]{
-                {"Chisinau"},
-                {"123123 asdasd"},
-                {"!$%^%^%$%^%"},
-                {RandomStringUtils.random(100, true, true)}
-        };
+        return getExcelData("src/main/resources/dataProviders/Locations.xlsx", "Locations");
     }
 
     @Test(dataProvider = "testDataNumbers")
@@ -85,45 +79,33 @@ public class DataProviderTests {
         soft.assertEquals(adoptionTitle, "Adoptions in " + location);
         soft.assertEquals(locationInput, location);
         soft.assertAll();
-
     }
 
 
     // 2.	Create pets using parameters like: location, petnames
     @DataProvider(name = "locationPetNames")
     public Object[][] provideTestData2() {
-        return new Object[][]{
-                {"Chisinau", petNames},
-                {"Belt", petNames},
-                {"Falesti", petNames},
-        };
+        return getExcelData("src/main/resources/dataProviders/PetsInCustomLocations.xlsx", "Pets");
     }
 
     @Test(dataProvider = "locationPetNames")
-    public void testPetNameInCustomLocations(String location, List<String> petNames) {
+    public void testPetNameInCustomLocations(String location, String petNames) {
+        String[] pets = petNames.split(" ");
         actions.openCustomLocation(location);
-        actions.addAPetsToCurrentLocation(petNames);
+        actions.addAPetsToCurrentLocation(List.of(pets));
 
     }
 
-    //3.	Create adoptions using parameters: location, petnames
-    @DataProvider(name = "locationAdopts")
-    public Object[][] provideTestData3() {
-        return new Object[][]{
-                {"Chisinau", petNames},
-//                {"Belt", petNames},
-//                {"Falesti", petNames},
-        };
-    }
 
-    @Test(dataProvider = "locationAdopts")
-    public void testAdoptsInCustomLocations(String location, List<String> petNames) {
+    @Test(dataProvider = "locationPetNames")
+    public void testAdoptsInCustomLocations(String location, String petNames) {
+        String[] pets = petNames.split(" ");
         actions.openCustomLocation(location);
-        actions.addAPetsToCurrentLocation(petNames);
+        actions.addAPetsToCurrentLocation(List.of(pets));
         int adoptionCount = page.adoptions.size();
-        actions.adoptPets(petNames.size());
-        actions.verifyAdoptIsCreated(adoptionCount + 1);
-        for (String petName : petNames) {
+        actions.adoptPets(pets.length);
+        actions.verifyAdoptsCount(adoptionCount + 1);
+        for (String petName : pets) {
             actions.verifyPetsStatus(petName, "ONHOLD");
         }
 

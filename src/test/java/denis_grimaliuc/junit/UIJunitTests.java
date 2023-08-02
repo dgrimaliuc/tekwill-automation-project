@@ -22,6 +22,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.concurrent.TimeUnit;
 
 import static denis_grimaliuc.AdoptPage.FIRST_ROW_IN_TABLE;
+import static denis_grimaliuc.data.enums.Status.ONHOLD;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -35,7 +36,7 @@ public class UIJunitTests {
 
     @BeforeEach
     public void before() {
-        var pathToChrome = "src/main/resources/chromedriver.exe";
+        var pathToChrome = "src/main/resources/chromedriver_mac";
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -121,7 +122,7 @@ public class UIJunitTests {
         int petsToAdopt = 2;
         actions.addAPetToCurrentLocation(3);
         actions.adoptPets(petsToAdopt);
-        actions.verifyAdoptIsCreated(1);
+        actions.verifyAdoptsCount(1);
     }
 
     @Test
@@ -151,7 +152,7 @@ public class UIJunitTests {
         String petName = "SomePetName";
         actions.addAPetToCurrentLocation(petName);
         actions.adoptPets(1);
-        actions.verifyAdoptIsCreated(1);
+        actions.verifyAdoptsCount(1);
         WebElement pet = page.petsIn.pets.get(0).status;
         String status = pet.getText();
         assertThat(status, Matchers.is("ONHOLD"));
@@ -164,8 +165,8 @@ public class UIJunitTests {
         int petsToAdopt = 5;
         actions.addAPetToCurrentLocation(petsToAdopt);
         actions.adoptPets(petsToAdopt);
-        actions.verifyAdoptIsCreated(1);
-        actions.verifyPetsStatus("ONHOLD");
+        actions.verifyAdoptsCount(1);
+        actions.verifyPetsStatus(ONHOLD);
 
     }
 
@@ -176,7 +177,7 @@ public class UIJunitTests {
         String petName = "SomePetName";
         actions.addAPetToCurrentLocation(petName);
         actions.adoptPets(1);
-        actions.verifyAdoptIsCreated(1);
+        actions.verifyAdoptsCount(1);
         actions.verifyPetNameIsPresentInGroup(petName, 1);
     }
 
@@ -185,7 +186,7 @@ public class UIJunitTests {
     public void testAdoptionStatus() {
         actions.addAPetToCurrentLocation(3);
         actions.adoptPets(3);
-        actions.verifyAdoptIsCreated(1);
+        actions.verifyAdoptsCount(1);
         actions.approveGroupByIndex(0);
         actions.verifyStatusOfGroup("APPROVED", 1);
 

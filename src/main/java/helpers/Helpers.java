@@ -10,8 +10,13 @@ import net.masterthought.cucumber.reducers.ReducingMethod;
 import org.apache.log4j.Logger;
 import org.apache.log4j.WriterAppender;
 import org.apache.log4j.spi.LoggingEvent;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -67,6 +72,31 @@ public class Helpers {
             reportBuilder.generateReports();
         } else
             System.out.println("Json file was not found");
+    }
+
+
+    public static String[][] getExcelData(String fileName, String sheetName) {
+
+        String[][] data;
+        try {
+            FileInputStream fis = new FileInputStream(fileName);
+            XSSFWorkbook wb = new XSSFWorkbook(fis);
+            XSSFSheet sh = wb.getSheet(sheetName);
+            XSSFRow row = sh.getRow(0);
+            int noOfRows = sh.getPhysicalNumberOfRows(); // May not work if you create an empty cell
+            int noOfCols = row.getLastCellNum();
+            DataFormatter formatter = new DataFormatter();
+            data = new String[noOfRows - 1][noOfCols];
+            for (int rowNum = 1; rowNum < noOfRows; rowNum++) {
+                for (int cellNum = 0; cellNum < noOfCols; cellNum++) {
+                    row = sh.getRow(rowNum);
+                    data[rowNum - 1][cellNum] = formatter.formatCellValue(row.getCell(cellNum));
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return data;
     }
 
     public static String addQuotes(String value) {
