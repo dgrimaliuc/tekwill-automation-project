@@ -59,6 +59,7 @@ public class PetsJUnitTests {
         actions.addAPetToCurrentLocation(randomPetName);
         actions.addAPetToCurrentLocation(randomPetName);
         waitInSeconds(1);
-        Assertions.assertEquals(driver.findElement(FIRST_ROW_IN_TABLE).getText(), driver.findElement(SECOND_ROW_IN_TABLE).getText());
+        Assertions.assertEquals(randomPetName, driver.findElement(FIRST_ROW_IN_TABLE).getText());
+        Assertions.assertEquals(randomPetName, driver.findElement(SECOND_ROW_IN_TABLE).getText());
     }
 }
