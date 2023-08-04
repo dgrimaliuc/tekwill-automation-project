@@ -96,6 +96,15 @@ public class DataProviderTests {
 
     }
 
+    //3.	Create adoptions using parameters: location, petnames
+    @DataProvider(name = "locationAdopts")
+    public Object[][] provideTestData3() {
+        return new Object[][]{
+                {"Chisinau", petNames},
+                {"Belt", petNames},
+                {"Falesti", petNames},
+        };
+    }
 
     @Test(dataProvider = "locationPetNames")
     public void testAdoptsInCustomLocations(String location, String petNames) {

@@ -1,0 +1,11 @@
+driver: "chrome"
+
+timeouts:
+  explicit: 10
+  implicit: 5
+
+capabilities:
+  pageLoadStrategy: "normal"
+
+args:
+  - --start-maximized

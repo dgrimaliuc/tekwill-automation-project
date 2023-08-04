@@ -14,6 +14,8 @@
         <maven.compiler.target>11</maven.compiler.target>
         <cucumber.version>7.11.1</cucumber.version>
         <parallelCount>5</parallelCount>
+        <chrome.config>src/main/resources/chromeSettings/chrome.yaml</chrome.config>
+        <current_os>UNDEFINED</current_os>
     </properties>
 
     <build>
@@ -23,6 +25,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
+                    <!--                    <systemPropertiesFile>resources/properties/credentials_${environment}.properties</systemPropertiesFile>-->
                     <systemPropertyVariables>
                         <junit.jupiter.execution.parallel.enabled>true</junit.jupiter.execution.parallel.enabled>
                         <junit.jupiter.execution.parallel.config.strategy>fixed
@@ -35,6 +38,10 @@
                         </junit.jupiter.execution.parallel.mode.default>
                         <junit.jupiter.execution.parallel.mode.classes.default>concurrent
                         </junit.jupiter.execution.parallel.mode.classes.default>
+
+                        <config>${chrome.config}</config>
+                        <current_os>${current_os}</current_os>
+
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
@@ -155,8 +162,35 @@
             <version>2.11.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.21</version>
+        </dependency>
 
     </dependencies>
 
+
+    <profiles>
+        <profile>
+            <id>mac</id>
+            <properties>
+                <current_os>mac</current_os>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>windows</id>
+            <properties>
+                <current_os>windows</current_os>
+            </properties>
+        </profile>
+        <profile>
+            <id>headless</id>
+            <properties>
+                <chrome.config>src/main/resources/chromeSettings/headless.yaml</chrome.config>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

@@ -1,61 +1,26 @@
 package denis_grimaliuc.junit;
 
-import denis_grimaliuc.AdoptPage;
-import denis_grimaliuc.UIStepDefinition;
-import denis_grimaliuc.actions.BaseActions;
+import denis_grimaliuc.BaseTest;
 import helpers.Helpers;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.concurrent.TimeUnit;
 
 import static denis_grimaliuc.AdoptPage.FIRST_ROW_IN_TABLE;
 import static denis_grimaliuc.data.enums.Status.ONHOLD;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-public class UIJunitTests {
+public class UIJunitTests extends BaseTest {
 
-    WebDriver driver = null;
-    BaseActions actions = null;
-    WebDriverWait wait = null;
-    Logger log = Logger.getLogger(UIStepDefinition.class);
-    AdoptPage page = null;
+    Logger log = Logger.getLogger(UIJunitTests.class);
 
-    @BeforeEach
-    public void before() {
-        var pathToChrome = "src/main/resources/chromedriver_mac";
-        System.setProperty("webdriver.chrome.driver", pathToChrome);
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 5);
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> driver.quit()));
-
-        page = new AdoptPage(driver);
-        actions = new BaseActions(driver, page);
-        //        actions.openCustomLocation("Chisinau");
-        actions.openRandomLocation();
-    }
-
-    @AfterEach
-    public void after() {
-        driver.quit();
-    }
 
     @Test
     @DisplayName("Verify Pet can have Long name test")

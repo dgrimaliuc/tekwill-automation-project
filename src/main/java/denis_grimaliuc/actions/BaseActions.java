@@ -16,16 +16,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-import static denis_grimaliuc.AdoptPage.ADOPT_ROWS;
-import static denis_grimaliuc.AdoptPage.FIRST_ROW_IN_TABLE;
-import static denis_grimaliuc.AdoptPage.ROWS;
+import static denis_grimaliuc.AdoptPage.*;
+import static denis_grimaliuc.data.enums.OS.*;
 import static helpers.Helpers.addQuotes;
+import static helpers.PropertiesReader.getProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class BaseActions {
 
@@ -58,7 +57,7 @@ public class BaseActions {
 
     public String openCustomLocation(String location) {
         log.info("Open Custom locations: " + addQuotes(location));
-        driver.get("https://petstore-kafka.swagger.io/?location=" + location);
+        driver.get(getProperty("base_url") + "?location=" + location);
         Helpers.waitInSeconds(1);
         return location;
     }
@@ -156,11 +155,24 @@ public class BaseActions {
         }
     }
 
+    public String clearShortcut() {
+        Keys key;
+        if (WINDOWS.isCurrentOs()) {
+            key = Keys.CONTROL;
+        } else if (MAC.isCurrentOs()) {
+            key = Keys.COMMAND;
+        } else {
+            throw new NoSuchElementException("Unsupported OS type: " + addQuotes(getCurrentOS()));
+        }
+
+        return Keys.chord(key, "a") + Keys.BACK_SPACE;
+    }
+
+
     public void addAPetToCurrentLocation(String petName) {
         log.info("Add a new pet: " + addQuotes(petName));
         int petsCountBeforeAdding = page.petsIn.pets.size();
-        String clearShortcut = Keys.chord(Keys.COMMAND, "a") + Keys.BACK_SPACE;
-        page.petsIn.petNameInput.sendKeys(clearShortcut + petName);
+        page.petsIn.petNameInput.sendKeys(clearShortcut() + petName);
         page.petsIn.addPetBtn.click();
         verifyPetAddedInPetSection(petName, petsCountBeforeAdding);
     }
