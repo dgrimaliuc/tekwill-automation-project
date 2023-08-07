@@ -72,12 +72,12 @@ public class TextCheck {
         log.debug(String.format("Verify that info is displayed: \n" + addQuotes(info1) + "\n" + addQuotes(info2) +
                 "\n" + addQuotes(info3) + "\n" + addQuotes(info4)));
 
-        wait.until(ExpectedConditions.textToBePresentInElement(myPageLL.firstRowOfGameSection, info2));
+        wait.until(ExpectedConditions.textToBePresentInElement(myPageLL.theGame.webSocketMsg, info2));
 
-        assertThat(myPageLL.theGameSectionTitle.getText(), Matchers.equalTo(info1));
-        assertThat(myPageLL.firstRowOfGameSection.getText(), Matchers.equalTo(info2));
-        assertThat(myPageLL.secondRowOfGameSection.getText(), Matchers.equalTo(info3));
-        assertThat(myPageLL.thirdRowOfGameSection.getText(), Matchers.equalTo(info4));
+        assertThat(myPageLL.theGame.title.getText(), Matchers.equalTo(info1));
+        assertThat(myPageLL.theGame.webSocketMsg.getText(), Matchers.equalTo(info2));
+        assertThat(myPageLL.theGame.petsInInfo.getText(), Matchers.equalTo(info3));
+        assertThat(myPageLL.theGame.adoptionsInInfo.getText(), Matchers.equalTo(info4));
     }
 
 
