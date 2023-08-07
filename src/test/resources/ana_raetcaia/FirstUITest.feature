@@ -8,7 +8,7 @@ Feature: First UI Test
     Then Verify presence of "<new_location>" in input text
     Then Verify presence of "<new_location>" in pets
     Then Verify presence of "<new_location>" in adoptions
-    Then Verify section [The game]
+    Then Verify if [The game] section contains default info
     Examples:
       |new_location|
       |Orhei       |

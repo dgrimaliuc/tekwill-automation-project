@@ -34,14 +34,7 @@ public class UIStepDefinition {
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-
-        try {
-            Thread.sleep(5 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         wait = new WebDriverWait(driver, 5);
-
         page = new AdoptPage(driver);
     }
 
@@ -83,7 +76,7 @@ public class UIStepDefinition {
         log.info("Verify presence of " + newLocation + " in adoptions");
         assertThat(page.adoptsTitle.getText(), Matchers.equalTo("Adoptions in " + newLocation));
     }
-    @Then("Verify section [The game]")
+    @Then("Verify if [The game] section contains default info")
     public void verifySections() {
         log.info("Verify if sections contains default info in [The game] section ");
         assertThat(page.petsInInfo.getText().trim(), Matchers.equalTo("No pets. Go rescue some pets!"));
