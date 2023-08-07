@@ -5,6 +5,8 @@ import helpers.Helpers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 public class AdoptionInTest extends BaseActionsTest {
 
     @Test
@@ -12,10 +14,10 @@ public class AdoptionInTest extends BaseActionsTest {
     public void checkElementsArePresent() {
         int petsToAdopt = 3;
 
-        myActions.addPetWithRandomName(petsToAdopt);
+        ArrayList<String> petNames =  myActions.addPetWithRandomName(petsToAdopt);
         Helpers.waitInSeconds(1);
         myActions.adoptAllPet();
-        myActions.checkElementsInAdoptions();
+        myActions.checkElementsInAdoptions(petNames);
 
     }
 

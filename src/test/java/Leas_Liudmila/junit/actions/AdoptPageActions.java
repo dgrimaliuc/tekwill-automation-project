@@ -33,8 +33,6 @@ public class AdoptPageActions {
         myPageLL = new LLAdoptPage(driver);
     }
 
-    ArrayList<String> generatedPetNames = new ArrayList<>();
-
 
     public String openRandomLocation() {
         String randomLocationLL = RandomStringUtils.random(10, true, true);
@@ -45,8 +43,8 @@ public class AdoptPageActions {
     }
 
 
-    public void addPetWithRandomName(int petsToAdd) {
-
+    public ArrayList<String> addPetWithRandomName(int petsToAdd) {
+        ArrayList<String> generatedPetNames = new ArrayList<>();
         for (int i = 0; i < petsToAdd; i++) {
             String newPetName = RandomStringUtils.random(10, true, true);
             generatedPetNames.add(newPetName);
@@ -55,6 +53,7 @@ public class AdoptPageActions {
             myPageLL.nameInput.sendKeys(clearShortcut + newPetName);
             myPageLL.buttonAddRescue.click();
         }
+        return generatedPetNames;
 
     }
 
@@ -105,7 +104,7 @@ public class AdoptPageActions {
 
     }
 
-    public void checkElementsInAdoptions() {
+    public void checkElementsInAdoptions(ArrayList<String> generatedPetNames) {
         String title = "Adoption:";
         String defaultStatus = "AVAILABLE";
         String approveBtn = "APPROVE";
