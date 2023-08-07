@@ -25,9 +25,6 @@ public class PetsInSection extends Component {
     @FindBy(xpath = ".//tr/td/div/div/div")
     public List<WebElement> petsName;
 
-    @FindBy(xpath = "//button[text()=' Adopt selected pets']")
-    public WebElement adoptSelPetsBtnActive;
-
 
     public PetsInSection(WebElement parent) {
         super(parent);

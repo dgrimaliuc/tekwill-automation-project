@@ -56,19 +56,6 @@ public class AdoptPageActions {
         return location;
     }
 
-    public void addPetWithRandomName(int petsToAdd) {
-
-        for (int i = 0; i < petsToAdd; i++) {
-            String newPetName = RandomStringUtils.random(10, true, true);
-            generatedPetNames.add(newPetName);
-            log.info("Add a new pet: " + addQuotes(newPetName));
-            String clearShortcut = Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE;
-            myPageLL.nameInput.sendKeys(clearShortcut + newPetName);
-            myPageLL.buttonAddRescue.click();
-        }
-
-    }
-
     public ArrayList<String> addPetWithRandomName(int petsToAdd) {
         ArrayList<String> generatedPetNames = new ArrayList<>();
         for (int i = 0; i < petsToAdd; i++) {
