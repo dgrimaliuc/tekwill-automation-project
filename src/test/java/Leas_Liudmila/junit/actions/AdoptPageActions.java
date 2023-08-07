@@ -1,6 +1,7 @@
 package Leas_Liudmila.junit.actions;
 
 import Leas_Liudmila.LLAdoptPage;
+import Leas_Liudmila.data.enums.Colors;
 import Leas_Liudmila.components.AdoptionsInSection;
 import Leas_Liudmila.data.enums.Status;
 import helpers.Helpers;
@@ -10,6 +11,7 @@ import org.hamcrest.Matchers;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -36,8 +38,9 @@ public class AdoptPageActions {
         myPageLL = new LLAdoptPage(driver);
     }
 
-    ArrayList<String> generatedPetNames = new ArrayList<>();
+
     ArrayList<String> adoptedPetNames = new ArrayList<>();
+
 
     public String openRandomLocation() {
         String randomLocationLL = RandomStringUtils.random(10, true, true);
@@ -66,9 +69,22 @@ public class AdoptPageActions {
 
     }
 
+    public ArrayList<String> addPetWithRandomName(int petsToAdd) {
+        ArrayList<String> generatedPetNames = new ArrayList<>();
+        for (int i = 0; i < petsToAdd; i++) {
+            String newPetName = RandomStringUtils.random(10, true, true);
+            generatedPetNames.add(newPetName);
+            log.info("Add a new pet: " + addQuotes(newPetName));
+            String clearShortcut = Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE;
+            myPageLL.nameInput.sendKeys(clearShortcut + newPetName);
+            myPageLL.buttonAddRescue.click();
+        }
+        return generatedPetNames;
+
+    }
+
     public void addPetWithName(String newPetName) {
         log.info("Add a new pet: " + addQuotes(newPetName));
-        //myPageLL.nameInput.clear();
         String clearShortcut = Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE;
         //Helpers.waitInSeconds(1);
         myPageLL.nameInput.sendKeys(clearShortcut + newPetName);
@@ -153,7 +169,7 @@ public class AdoptPageActions {
         }
     }
 
-    public void checkElementsInAdoptions(ArrayList<String> petName) {
+    public void checkElementsInAdoptions(ArrayList<String> generatedPetNames) {
         String title = "Adoption:";
         String defaultStatus = "AVAILABLE";
         String approveBtn = "APPROVE";
@@ -168,11 +184,21 @@ public class AdoptPageActions {
         log.info("Adoptions In section contains Deny button: " + addQuotes(denyBtn));
         assertThat(myPageLL.adoptionsInSections.get(0).denyBtn.getText(), equalTo(denyBtn));
 
-        for (int i = 0; i < petName.size(); i++) {
-            log.info("Adoptions In section contains the Pet Name: " + addQuotes(petName.get(i)));
+        for (int i = 0; i < generatedPetNames.size(); i++) {
+            log.info("Adoptions In section contains the Pet Name: " + addQuotes(generatedPetNames.get(i)));
             String adoptedPetName = myPageLL.adoptionsInSections.get(0).petName.get(i).getText();
-            assertTrue(petName.stream().anyMatch(petTitle -> petTitle.equals(adoptedPetName)));
+            assertTrue(generatedPetNames.stream().anyMatch(petTitle -> petTitle.equals(adoptedPetName)));
         }
+    }
+
+    public void assertHoverState(WebElement button, Colors color) {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(button).perform();
+        String backgroundColor = button.getCssValue("background-color");
+        log.info("Background color " + addQuotes(backgroundColor) + " is equal to " + addQuotes(color.color));
+        wait.until(ExpectedConditions.attributeContains(button, "background-color", color.color));
+
+
     }
 
     public void approveAdoptionGroup(int indexOfGroup) {
