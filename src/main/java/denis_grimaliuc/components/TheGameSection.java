@@ -11,4 +11,8 @@ public class TheGameSection extends Component {
 
     @FindBy(xpath = "./p[3]")
     public WebElement adoptsInfo;
+
+    public TheGameSection(WebElement parent) {
+        super(parent);
+    }
 }

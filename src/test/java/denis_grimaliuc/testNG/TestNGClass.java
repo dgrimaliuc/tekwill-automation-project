@@ -1,52 +1,11 @@
 package denis_grimaliuc.testNG;
 
-import denis_grimaliuc.AdoptPage;
-import denis_grimaliuc.UIStepDefinition;
-import denis_grimaliuc.actions.BaseActions;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import denis_grimaliuc.BaseTest;
 import org.testng.annotations.Test;
-
-import java.util.concurrent.TimeUnit;
 
 import static denis_grimaliuc.data.enums.Colors.*;
 
-public class TestNGClass {
-
-    WebDriver driver = null;
-    BaseActions actions = null;
-    WebDriverWait wait = null;
-    Logger log = Logger.getLogger(UIStepDefinition.class);
-    AdoptPage page = null;
-
-    @BeforeMethod
-    public void before() {
-        var pathToChrome = "src/main/resources/chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver", pathToChrome);
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 5);
-
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> driver.quit()));
-
-        page = new AdoptPage(driver);
-        actions = new BaseActions(driver, page);
-//        actions.openCustomLocation("Chisinau");
-        actions.openRandomLocation();
-    }
-
-    @AfterMethod
-    public void after() {
-        driver.quit();
-    }
-
+public class TestNGClass extends BaseTest {
 
     @Test(testName = "Hover [Change Location] button test")
     public void changeLocationButtonTest() {
@@ -82,7 +41,7 @@ public class TestNGClass {
         int petsToAdopt = 1;
         actions.addAPetToCurrentLocation(petsToAdopt);
         actions.adoptPets(petsToAdopt);
-        actions.verifyAdoptIsCreated(1);
+        actions.verifyAdoptsCount(1);
         actions.assertHoverState(page.adoptions.get(0).approve, GREEN_BACK_COLOR);
     }
 
@@ -91,7 +50,7 @@ public class TestNGClass {
         int petsToAdopt = 1;
         actions.addAPetToCurrentLocation(petsToAdopt);
         actions.adoptPets(petsToAdopt);
-        actions.verifyAdoptIsCreated(1);
+        actions.verifyAdoptsCount(1);
         actions.assertHoverState(page.adoptions.get(0).deny, RED_BACK_COLOR);
     }
 }

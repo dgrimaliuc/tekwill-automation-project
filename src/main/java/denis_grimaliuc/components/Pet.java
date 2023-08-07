@@ -12,4 +12,7 @@ public class Pet extends Component {
     @FindBy(xpath = ".//td[1]")
     public WebElement name;
 
+    public Pet(WebElement parent) {
+        super(parent);
+    }
 }

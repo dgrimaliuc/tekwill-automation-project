@@ -2,6 +2,7 @@ package Leas_Liudmila;
 
 import Leas_Liudmila.components.AdoptionsInSection;
 import Leas_Liudmila.components.PetsInSection;
+import Leas_Liudmila.components.TheGameSection;
 import helpers.customElements.Components;
 import helpers.customElements.factories.CustomPageFactory;
 import org.openqa.selenium.By;
@@ -21,18 +22,6 @@ public class LLAdoptPage {
 
     @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]/h2")
     public WebElement adoptionsInTitle;
-
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div[2]/h2")
-    public WebElement theGameSectionTitle;
-
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div[2]/p[1]")
-    public WebElement firstRowOfGameSection;
-
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div[2]/p[2]")
-    public WebElement secondRowOfGameSection;
-
-    @FindBy(xpath = "//*[@id=\"root\"]/div/div[2]/p[3]")
-    public WebElement thirdRowOfGameSection;
 
     @FindBy(xpath = "//div[@id='root']/div/div[3]//input[@type='text']")
     public WebElement nameInput;
@@ -55,9 +44,6 @@ public class LLAdoptPage {
     @FindBy(xpath = "//tbody/tr[not(@class)]/td")
     public List<WebElement> noRowsText;
 
-    @FindBy(xpath = "//button[text()=' Adopt selected pets']")
-    public WebElement adoptSelPetsBtnActive;
-
     @FindBy(xpath = "//button[@disabled and contains (text(), 'Deselect')]")
     public List<WebElement> deselectBtnInactive;
 
@@ -69,6 +55,9 @@ public class LLAdoptPage {
 
     @FindBy(xpath = "//div[@id='root']/div/div[3]/div[2]//div[@class='mt-2 border-gray-400 border p-4 rounded-md']")
     public Components<AdoptionsInSection> adoptionsInSections;
+
+    @FindBy(xpath = "//div[@class='p-8']")
+    public TheGameSection theGame;
 
     public String getStatusOfPet(WebElement pet) {
         return pet.findElement(By.xpath("//td[2]")).getText();

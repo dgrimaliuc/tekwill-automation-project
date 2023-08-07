@@ -25,4 +25,7 @@ public class PetsSection extends Component {
     @FindBy(xpath = "//table/tbody/tr[.//div[not(contains(text(),'No rows. Try reset filters'))]]")
     public Components<Pet> pets;
 
+    public PetsSection(WebElement parent) {
+        super(parent);
+    }
 }
