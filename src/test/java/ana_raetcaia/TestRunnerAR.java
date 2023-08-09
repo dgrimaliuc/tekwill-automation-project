@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 //        tags = "@Smoke",
         plugin = {"pretty", "html:target/cucumber.html", "json:target/cucumber-html-reports/cucumber.json"}
 )
-class TestRunnerAR {
+
+public class TestRunnerAR {
 
 }
