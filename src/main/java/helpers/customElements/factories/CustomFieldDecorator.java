@@ -30,14 +30,14 @@ public class CustomFieldDecorator implements FieldDecorator {
             return null;
         } else {
             CustomElementLocator locator = getLocator(field);
-            if (WebElement.class.isAssignableFrom(field.getType())) {
+            if (Component.class.isAssignableFrom(field.getType())) {
+                return this.singleComponentObject(field, loader, locator);
+            } else if (WebElement.class.isAssignableFrom(field.getType())) {
                 return this.proxyForLocator(loader, locator);
             } else if (Components.class.isAssignableFrom(field.getType())) {
-                return this.proxyForComponentsLocator(loader, field);
+                return this.proxyForComponentsLocator(field, loader, locator);
             } else if (List.class.isAssignableFrom(field.getType())) {
                 return this.proxyForListLocator(loader, locator);
-            } else if (Component.class.isAssignableFrom(field.getType())) {
-                return this.singleComponentObject(field);
             } else
                 return null;
         }
@@ -77,8 +77,7 @@ public class CustomFieldDecorator implements FieldDecorator {
 
     protected WebElement proxyForLocator(ClassLoader loader, CustomElementLocator locator) {
         InvocationHandler handler = new LocatingElementHandler(locator);
-        WebElement proxy = (WebElement) Proxy.newProxyInstance(loader, new Class[]{WebElement.class, WrapsElement.class, Locatable.class}, handler);
-        return proxy;
+        return (WebElement) Proxy.newProxyInstance(loader, new Class[]{WebElement.class, WrapsElement.class, Locatable.class}, handler);
     }
 
     protected List<WebElement> proxyForListLocator(ClassLoader loader, CustomElementLocator locator) {
@@ -86,25 +85,25 @@ public class CustomFieldDecorator implements FieldDecorator {
         return (List<WebElement>) Proxy.newProxyInstance(loader, new Class[]{List.class}, handler);
     }
 
-    protected Object singleComponentObject(Field field) {
+    protected Object singleComponentObject(Field field, ClassLoader loader, CustomElementLocator locator) {
         try {
+            WebElement parentElement = this.proxyForLocator(loader, locator);
             By parent = this.factory.getParent();
-            Object component = field.getType().getDeclaredConstructor().newInstance();
+            Object component = field.getType().getDeclaredConstructor(WebElement.class).newInstance(parentElement);
             WebDriver driver = this.factory.getDriver();
             CustomPageFactory.initElements(driver, component, parent);
             return component;
 
         } catch (InstantiationException | InvocationTargetException | NoSuchMethodException |
-                 IllegalAccessException e) {
+                IllegalAccessException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    protected Components<?> proxyForComponentsLocator(ClassLoader loader, Field field) {
-        CustomElementLocator componentLocator = this.factory.createLocator(field);
+    protected Components<?> proxyForComponentsLocator(Field field, ClassLoader loader, CustomElementLocator locator) {
         Class<?> componentType = ((Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0]);
-        InvocationHandler handler = new CustomLocatingElementListHandler(this.factory.getDriver(), componentLocator, componentType);
+        InvocationHandler handler = new CustomLocatingElementListHandler(this.factory.getDriver(), locator, componentType);
         List<?> proxy = (List) Proxy.newProxyInstance(loader, new Class[]{List.class}, handler);
         return new Components<>(proxy);
     }

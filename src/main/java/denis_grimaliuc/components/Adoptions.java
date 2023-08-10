@@ -10,4 +10,8 @@ public class Adoptions extends Component {
 
     @FindBy(css = "div.text-gray-600")
     public List<WebElement> petNames;
+
+    public Adoptions(WebElement parent) {
+        super(parent);
+    }
 }

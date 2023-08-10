@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.ArrayList;
 
 import static helpers.Helpers.*;
+import static helpers.PropertiesReader.getProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -52,7 +53,7 @@ public class UIStepDefinition {
 
         String randomLocation = RandomStringUtils.random(10, true, true);
         log.debug("Open random location: " + addQuotes(randomLocation));
-        driver.get("https://petstore-kafka.swagger.io/?location=" + randomLocation);
+        driver.get(getProperty("base_url") + "?location=" + randomLocation);
         wait.until(ExpectedConditions.textToBePresentInElement(page.petsTitle, "Pets in " + randomLocation));
         stepResults.add(randomLocation);
     }

@@ -18,7 +18,7 @@ public class AdoptPageJunit extends BaseActionsTest {
     public void oneSymbolName() {
         String newPetName = RandomStringUtils.random(1, true, true);
         myActions.addPetWithName(newPetName);
-        myActions.addedPetCheck(newPetName);
+        myActions.addedPetCheck(newPetName, 0);
     }
 
     @Test
@@ -26,7 +26,7 @@ public class AdoptPageJunit extends BaseActionsTest {
     public void nameWithSpace() {
         String newPetName = RandomStringUtils.random(5, true, true);
         myActions.addPetWithName(newPetName + " " + newPetName);
-        myActions.addedPetCheck(newPetName + " " + newPetName);
+        myActions.addedPetCheck(newPetName + " " + newPetName, 0);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class AdoptPageJunit extends BaseActionsTest {
         String characters = "~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
         String newPetName = RandomStringUtils.random(15, characters);
         myActions.addPetWithName(newPetName);
-        myActions.addedPetCheck(newPetName);
+        myActions.addedPetCheck(newPetName, 0);
     }
 
     @Test

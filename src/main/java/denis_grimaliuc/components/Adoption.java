@@ -22,4 +22,8 @@ public class Adoption extends Component {
 
     @FindBy(xpath = "./span")
     public WebElement status;
+
+    public Adoption(WebElement parent) {
+        super(parent);
+    }
 }

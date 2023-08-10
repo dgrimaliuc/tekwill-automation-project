@@ -1,6 +1,9 @@
 package Leas_Liudmila.junit.actions;
 
 import Leas_Liudmila.LLAdoptPage;
+import Leas_Liudmila.data.enums.Colors;
+import Leas_Liudmila.components.AdoptionsInSection;
+import Leas_Liudmila.data.enums.Status;
 import helpers.Helpers;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -8,15 +11,19 @@ import org.hamcrest.Matchers;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static helpers.Helpers.addQuotes;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class AdoptPageActions {
@@ -31,6 +38,10 @@ public class AdoptPageActions {
         myPageLL = new LLAdoptPage(driver);
     }
 
+
+    ArrayList<String> adoptedPetNames = new ArrayList<>();
+
+
     public String openRandomLocation() {
         String randomLocationLL = RandomStringUtils.random(10, true, true);
         log.debug("Open Custom locations: " + addQuotes(randomLocationLL));
@@ -38,20 +49,54 @@ public class AdoptPageActions {
         Helpers.waitInSeconds(1);
         return randomLocationLL;
     }
+    public String openCustomLocation(String location) {
+        log.debug("Open Custom locations: " + addQuotes(location));
+        driver.get("https://petstore-kafka.swagger.io/?location=" + location);
+        Helpers.waitInSeconds(1);
+        return location;
+    }
 
+    public ArrayList<String> addPetWithRandomName(int petsToAdd) {
+        ArrayList<String> generatedPetNames = new ArrayList<>();
+        for (int i = 0; i < petsToAdd; i++) {
+            String newPetName = RandomStringUtils.random(10, true, true);
+            generatedPetNames.add(newPetName);
+            log.info("Add a new pet: " + addQuotes(newPetName));
+            String clearShortcut = Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE;
+            myPageLL.nameInput.sendKeys(clearShortcut + newPetName);
+            myPageLL.buttonAddRescue.click();
+        }
+        return generatedPetNames;
+
+    }
 
     public void addPetWithName(String newPetName) {
         log.info("Add a new pet: " + addQuotes(newPetName));
-        //myPageLL.nameInput.clear();
         String clearShortcut = Keys.chord(Keys.CONTROL, "a") + Keys.BACK_SPACE;
-        // Helpers.waitInSeconds(1);
+        //Helpers.waitInSeconds(1);
         myPageLL.nameInput.sendKeys(clearShortcut + newPetName);
         myPageLL.buttonAddRescue.click();
+        Helpers.waitInSeconds(1);
     }
 
-    public void addedPetCheck(String petName) {
-        wait.until(ExpectedConditions.textToBePresentInElement(myPageLL.firstAddedPet, petName));
-        assertThat(myPageLL.firstAddedPet.getText(), Matchers.equalTo(petName + "\nAVAILABLE"));
+    public void addListOfPets(List<String> pets){
+        for (String pet: pets) {
+            addPetWithName(pet);
+        }
+    }
+
+    public void addedPetCheck(String petName, int index) {
+       wait.until(ExpectedConditions.textToBePresentInElement(myPageLL.petsIn.petsName.get(index), petName));
+        assertThat(myPageLL.petsIn.pets.get(index).getText(), Matchers.equalTo(petName + "\nAVAILABLE"));
+    }
+
+    public void addedPetCheck(List <String> petNames) {
+            for (int i = 0; i < petNames.size(); i++) {
+                log.info("Pets In section contains the Pet Name: " + addQuotes(petNames.get(i)));
+                String petName = petNames.get(i);
+                boolean doesExists = myPageLL.petsIn.petsName.stream().anyMatch(petIn -> petIn.getText().equals(petName));
+                assertTrue(doesExists);
+            }
     }
 
     public void duplicatedNameCheck(String duplicatedName) {
@@ -66,7 +111,7 @@ public class AdoptPageActions {
     public void adoptPet(String petName) {
         log.info(petName + " is adopted");
         myPageLL.pets.get(0).click();
-        myPageLL.adoptSelPetsBtnActive.click();
+        myPageLL.petsIn.adoptSelPetsBtnActive.click();
         Helpers.waitInSeconds(1);
 
     }
@@ -84,12 +129,34 @@ public class AdoptPageActions {
         for (WebElement pet : myPageLL.pets) {
             pet.click();
         }
-        myPageLL.adoptSelPetsBtnActive.click();
+        myPageLL.petsIn.adoptSelPetsBtnActive.click();
         Helpers.waitInSeconds(1);
+
 
     }
 
-    public void checkElementsInAdoptions(ArrayList<String> petName) {
+
+    public void adoptGroupsOfPets(int sectionsToCreate, int petsPerSection) {
+
+        for (int i = 0; i < sectionsToCreate; i++) {
+            List<WebElement> prefiltered = myPageLL.petsIn.pets.stream()
+                    .filter(petInCursor -> petInCursor.getText().contains("AVAILABLE"))
+                    .collect(Collectors.toList());
+
+            if (prefiltered.size() > 0) {
+                prefiltered.stream()
+                        .limit(petsPerSection)
+                        .forEach(petInCursor -> petInCursor.click());
+                myPageLL.petsIn.adoptSelPetsBtnActive.click();
+
+                Helpers.waitInSeconds(1);
+            } else {
+                break;
+            }
+        }
+    }
+
+    public void checkElementsInAdoptions(ArrayList<String> generatedPetNames) {
         String title = "Adoption:";
         String defaultStatus = "AVAILABLE";
         String approveBtn = "APPROVE";
@@ -104,12 +171,78 @@ public class AdoptPageActions {
         log.info("Adoptions In section contains Deny button: " + addQuotes(denyBtn));
         assertThat(myPageLL.adoptionsInSections.get(0).denyBtn.getText(), equalTo(denyBtn));
 
-        for (int i = 0; i < petName.size(); i++) {
-            log.info("Adoptions In section contains the Pet Name: " + addQuotes(petName.get(i)));
+        for (int i = 0; i < generatedPetNames.size(); i++) {
+            log.info("Adoptions In section contains the Pet Name: " + addQuotes(generatedPetNames.get(i)));
             String adoptedPetName = myPageLL.adoptionsInSections.get(0).petName.get(i).getText();
-            assertTrue(petName.stream().anyMatch(petTitle -> petTitle.equals(adoptedPetName)));
+            assertTrue(generatedPetNames.stream().anyMatch(petTitle -> petTitle.equals(adoptedPetName)));
         }
     }
 
+    public void assertHoverState(WebElement button, Colors color) {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(button).perform();
+        String backgroundColor = button.getCssValue("background-color");
+        log.info("Background color " + addQuotes(backgroundColor) + " is equal to " + addQuotes(color.color));
+        wait.until(ExpectedConditions.attributeContains(button, "background-color", color.color));
 
+
+    }
+
+    public void approveAdoptionGroup(int indexOfGroup) {
+        log.info("Adoptions in section approved" );
+        myPageLL.adoptionsInSections.get(indexOfGroup).approveBtn.click();
+    }
+
+    public void checkStatusOfAdoptGroup(Status expectedStatus, int indexOfGroup) {
+        log.info("Adoptions In section contains Status: " + addQuotes(String.valueOf(expectedStatus)));
+        assertThat(myPageLL.adoptionsInSections.get(indexOfGroup).status.getText(), equalTo(String.valueOf(expectedStatus)));
+    }
+
+    public void checkPetStatusForName(Status expectedStatus, int indexOfGroup) {
+
+        for (int i = 0; i < myPageLL.adoptionsInSections.get(indexOfGroup).petName.size(); i++) {
+            String adoptedPetName = myPageLL.adoptionsInSections.get(indexOfGroup).petName.get(i).getText();
+            adoptedPetNames.add(adoptedPetName);
+        }
+
+        for (String name : adoptedPetNames) {
+            log.info("Pet status: " + addQuotes(name) + addQuotes(String.valueOf(expectedStatus)));
+            String petToSearch = myPageLL.petsIn.pets
+                    .stream()
+                    .filter(pet -> pet.getText().contains(name))
+                    .findFirst()
+                    .get().getText();
+            assertThat(petToSearch, equalTo(name + "\n" + expectedStatus));
+        }
+    }
+
+    public void adoptsDisappeared(int indexOfGroup) {
+        String groupName = myPageLL.adoptionsInSections.get(indexOfGroup).title.getText();
+        driver.navigate().refresh();
+
+        for (AdoptionsInSection group : myPageLL.adoptionsInSections) {
+            assertNotEquals(groupName, group.title.getText());
+        }
+        log.info(addQuotes(groupName) + " disappeared");
+
+        for (String name : adoptedPetNames) {
+            log.info("Pet " + addQuotes(name) + " disappeared");
+            List<WebElement> petToSearch = myPageLL.petsIn.pets
+                    .stream()
+                    .filter(pet -> pet.getText().contains(name))
+                    .collect(Collectors.toList());
+
+            assertThat(0,equalTo(petToSearch.size()));
+        }
+    }
+
+    public void theGameSectionAftAdopt(int petsToAdd, int sectionsToCreate, int petsToAdopt, String generatedLocation){
+
+        int leftPets = petsToAdd - petsToAdopt;
+        assertThat(myPageLL.theGame.petsInInfo.getText(), Matchers.equalTo("Pets in " + generatedLocation + ": " + leftPets));
+        log.info("Pets in " + generatedLocation + ": " + leftPets);
+        assertThat(myPageLL.theGame.adoptionsInInfo.getText(), Matchers.equalTo("Adoptions in " + generatedLocation + ": " + (sectionsToCreate - 1)));
+        log.info("Adoptions in " + generatedLocation + ": " + (sectionsToCreate - 1));
+
+    }
 }

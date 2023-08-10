@@ -16,11 +16,13 @@ public class AdoptionsInSection extends Component {
     @FindBy(css = "div.text-gray-600")
     public List<WebElement> petName;
 
-    @FindBy(xpath = "//button[text()=' Approve ']")
+    @FindBy(xpath = ".//button[text()=' Approve ']")
     public WebElement approveBtn;
 
-    @FindBy(xpath = "//button[text()=' Deny ']")
+    @FindBy(xpath = ".//button[text()=' Deny ']")
     public WebElement denyBtn;
 
-
+    public AdoptionsInSection(WebElement parent) {
+        super(parent);
+    }
 }

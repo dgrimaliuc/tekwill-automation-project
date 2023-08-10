@@ -105,7 +105,7 @@ public class task5LL {
             }
             String randomLocation = (String) context.get("randomLocation");
 
-            assertThat(myPageLL.secondRowOfGameSection.getText().trim(), Matchers.equalTo("Pets in " + randomLocation + ": " + petsToRescue));
+            assertThat(myPageLL.theGame.petsInInfo.getText().trim(), Matchers.equalTo("Pets in " + randomLocation + ": " + petsToRescue));
     }
 
 
@@ -116,7 +116,7 @@ public class task5LL {
         String randomNameLL = (String) context.get("randomNameLL");
 
         myPageLL.firstAddedPet.click();
-        myPageLL.adoptSelPetsBtnActive.click();
+        myPageLL.petsIn.adoptSelPetsBtnActive.click();
         driver.navigate().refresh();
         wait.until(ExpectedConditions.textToBePresentInElement(myPageLL.firstAddedPet, randomNameLL));
         assertThat(myPageLL.firstAddedPet.getText(), Matchers.equalTo(randomNameLL + "\nONHOLD"));
