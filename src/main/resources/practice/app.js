@@ -77,6 +77,7 @@ Vue.createApp({
     resetCount() {
       console.log('Reset all');
       this.consoleOut = '';
+      // To change its value to create a bug
       this.count = 0;
     },
     dblClickReset() {
