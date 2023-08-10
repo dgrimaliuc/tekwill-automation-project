@@ -4,15 +4,16 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static helpers.Helpers.addQuotes;
@@ -22,6 +23,11 @@ public class TextCheck {
     WebDriver driver = null;
     WebDriverWait wait = null;
     Logger log = Logger.getLogger(TextCheck.class);
+
+    LLAdoptPage myPageLL = null;
+
+    Map<String, Object> context = new HashMap<>();
+
 
     @Before
     public void before() {
@@ -34,6 +40,8 @@ public class TextCheck {
         driver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 5);
 
+        myPageLL = new LLAdoptPage(driver);
+
     }
 
     @After
@@ -41,40 +49,38 @@ public class TextCheck {
         driver.close();
     }
 
-    @Given("Adopt Page with custom location is open")
-    public void PageIsOpen() {
-        driver.get("https://petstore-kafka.swagger.io/?location=Boston");
+    @Given("Adopt Page with random location is open")
+    public void pageWRandomLocation() {
+        String randomLocationLL = RandomStringUtils.random(10, true, true);
+        log.debug("Open Custom locations: " + addQuotes(randomLocationLL));
+        driver.get("https://petstore-kafka.swagger.io/?location=" + randomLocationLL);
+        context.put("randomLocation", randomLocationLL);
     }
 
-    @When("{string} text is present in [Text Input], [Pets in ..] and [Adoptions in ..]")
-    public void textIsPresentInTextInputPetsInAndAdoptionsIn(String my_location) {
-        log.debug("Verify that my location is displayed: " + addQuotes(my_location));
-        WebElement text_input = driver.findElement(By.xpath("//input[@id='location-input']"));
-        WebElement petsIn = driver.findElement(By.xpath("//div[@id='root']/div/div[3]/div[1]//h2"));
-        WebElement adoptionIn = driver.findElement(By.xpath("//div[@id='root']/div/div[3]/div[2]/h2"));
+    @When("Random location is present in [Text Input], [Pets in ..] and [Adoptions in ..]")
+    public void randomLocationIsPresentInTextInputPetsInAndAdoptionsIn() {
+        String randomLocation = (String) context.get("randomLocation");
+        log.debug("Verify that my location is displayed: " + addQuotes(randomLocation));
 
-        assertThat(text_input.getAttribute("value"), Matchers.equalTo(my_location));
-        assertThat(petsIn.getText(), Matchers.equalTo("Pets in " + my_location));
-        assertThat(adoptionIn.getText(), Matchers.equalTo("Adoptions in " + my_location));
-
+        assertThat(myPageLL.myLocationInput.getAttribute("value"), Matchers.equalTo(randomLocation));
+        assertThat(myPageLL.petsInTitle.getText(), Matchers.equalTo("Pets in " + randomLocation));
+        assertThat(myPageLL.adoptionsInTitle.getText(), Matchers.equalTo("Adoptions in " + randomLocation));
     }
 
     @When("Verify current section contains default info in [The game] section {string} , {string} , {string} , {string}")
     public void verifyCurrentSectionContainsDefaultInfoInTheGameSection(String info1, String info2, String info3, String info4) {
         log.debug(String.format("Verify that info is displayed: \n" + addQuotes(info1) + "\n" + addQuotes(info2) +
                 "\n" + addQuotes(info3) + "\n" + addQuotes(info4)));
-        WebElement nameOfSection = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/h2"));
-        WebElement firstRow1 = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/p[1]"));
-        WebElement secondRow2 = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/p[2]"));
-        WebElement thirdRow3 = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[2]/p[3]"));
 
-        wait.until(ExpectedConditions.textToBePresentInElement(firstRow1, info2));
+        wait.until(ExpectedConditions.textToBePresentInElement(myPageLL.theGame.webSocketMsg, info2));
 
-        assertThat(nameOfSection.getText(), Matchers.equalTo(info1));
-        assertThat(firstRow1.getText(), Matchers.equalTo(info2));
-        assertThat(secondRow2.getText(), Matchers.equalTo(info3));
-        assertThat(thirdRow3.getText(), Matchers.equalTo(info4));
+        assertThat(myPageLL.theGame.title.getText(), Matchers.equalTo(info1));
+        assertThat(myPageLL.theGame.webSocketMsg.getText(), Matchers.equalTo(info2));
+        assertThat(myPageLL.theGame.petsInInfo.getText(), Matchers.equalTo(info3));
+        assertThat(myPageLL.theGame.adoptionsInInfo.getText(), Matchers.equalTo(info4));
     }
+
+
 }
 
 

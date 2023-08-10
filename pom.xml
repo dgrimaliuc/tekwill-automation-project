@@ -13,35 +13,50 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <cucumber.version>7.11.1</cucumber.version>
+        <parallelCount>5</parallelCount>
+        <chrome.config>src/main/resources/chromeSettings/chrome.yaml</chrome.config>
+        <current_os>UNDEFINED</current_os>
     </properties>
 
     <build>
         <plugins>
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-surefire-plugin</artifactId>-->
-            <!--                <version>3.0.0-M7</version>-->
-            <!--                <configuration>-->
-            <!--                    <includes>-->
-            <!--                        <include>**/TestRunner.java</include>-->
-            <!--                    </includes>-->
-            <!--                    <excludes>-->
-            <!--                        <exclude>**/BaseTest.java</exclude>-->
-            <!--                        <exclude>**/TestsUtil.java</exclude>-->
-            <!--                    </excludes>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <!--                    <systemPropertiesFile>resources/properties/credentials_${environment}.properties</systemPropertiesFile>-->
+                    <systemPropertyVariables>
+                        <junit.jupiter.execution.parallel.enabled>true</junit.jupiter.execution.parallel.enabled>
+                        <junit.jupiter.execution.parallel.config.strategy>fixed
+                        </junit.jupiter.execution.parallel.config.strategy>
+                        <junit.jupiter.execution.parallel.config.fixed.parallelism>${parallelCount}
+                        </junit.jupiter.execution.parallel.config.fixed.parallelism>
+                        <junit.jupiter.execution.parallel.config.fixed.max-pool-size>${parallelCount}
+                        </junit.jupiter.execution.parallel.config.fixed.max-pool-size>
+                        <junit.jupiter.execution.parallel.mode.default>concurrent
+                        </junit.jupiter.execution.parallel.mode.default>
+                        <junit.jupiter.execution.parallel.mode.classes.default>concurrent
+                        </junit.jupiter.execution.parallel.mode.classes.default>
 
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-compiler-plugin</artifactId>-->
-            <!--                <version>3.7.0</version>-->
-            <!--                <configuration>-->
-            <!--                    <source>11</source>-->
-            <!--                    <target>11</target>-->
-            <!--                    <encoding>UTF-8</encoding>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
+                        <config>${chrome.config}</config>
+                        <current_os>${current_os}</current_os>
+
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <fork>true</fork>
+                    <meminitial>512m</meminitial> <!-- Начальный размер памяти -->
+                    <maxmem>1548m</maxmem> <!-- Максимальный доступный объем памяти -->
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -91,6 +106,20 @@
             <scope>compile</scope>
         </dependency>
 
+        <!--        Junit deps-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -104,7 +133,64 @@
             <version>4.11.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.14.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.21.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--        Need to read exel files-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.21</version>
+        </dependency>
+
     </dependencies>
 
+
+    <profiles>
+        <profile>
+            <id>mac</id>
+            <properties>
+                <current_os>mac</current_os>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>windows</id>
+            <properties>
+                <current_os>windows</current_os>
+            </properties>
+        </profile>
+        <profile>
+            <id>headless</id>
+            <properties>
+                <chrome.config>src/main/resources/chromeSettings/headless.yaml</chrome.config>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
