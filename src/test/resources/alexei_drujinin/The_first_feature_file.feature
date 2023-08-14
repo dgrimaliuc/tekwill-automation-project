@@ -1,6 +1,6 @@
 Feature: 1 Task
 
-  @Run
+@Run
   Scenario: find average of three numbers
 
     Given I have three numbers "5", "4" and "6"
