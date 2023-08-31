@@ -71,7 +71,7 @@ public class Helpers {
             ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
             reportBuilder.generateReports();
         } else
-            System.out.println("Json file was not found");
+            System.out.println("Cucumber Json file was not found");
     }
 
 
