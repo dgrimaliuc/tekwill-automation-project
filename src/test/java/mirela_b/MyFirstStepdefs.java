@@ -24,16 +24,16 @@ public class MyFirstStepdefs {
         logger.info("Initialized numbers: " + a + " " + b + " " + c);
     }
 
-    @When("^find the average of three numbers$")
-    public void findAverage() {
-       avg = (a + b + c) / 3;
-       logger.info("The average is: " + avg);
+    @When("I find the average of three numbers")
+    public void iFindTheAverageOfThreeNumbers() {
+        avg = (a + b + c) / 3;
+        logger.info("The average is: " + avg);
     }
 
     @Then("^The average is \"([^\"]*)\"$")
     public void checkTheAverage(Integer expectedResult) {
         assertThat(avg, Matchers.equalTo(expectedResult));
-        logger.info("Check the average");
+        logger.info("Check the average : " + expectedResult);
     }
 }
 

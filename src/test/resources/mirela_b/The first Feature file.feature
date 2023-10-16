@@ -2,7 +2,7 @@ Feature: The first step in Cucumber
 
   Scenario: Average of three numbers
     Given I have three numbers "5", "4" and "6"
-    When find the average of three numbers
+    When I find the average of three numbers
     Then The average is "5"
 
 

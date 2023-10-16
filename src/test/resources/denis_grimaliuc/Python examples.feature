@@ -1,6 +1,5 @@
 Feature: Password Test
 
-
   Scenario: Adding two numbers
     Given I have two numbers "4" and "5"
     When Execute Python Script "{0[0]} + {0[1]}"
