@@ -5,6 +5,5 @@ public class RunnerBranchComparing {
         BranchComparing compareBranch = new BranchComparing();
         compareBranch.executeGitDiff("");
     }
-
 }
 

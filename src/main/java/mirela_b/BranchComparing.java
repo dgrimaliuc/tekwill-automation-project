@@ -16,7 +16,6 @@ public class BranchComparing {
         return commands;
     }
 
-
     public String branchValidation(String branch) {
         if (branch.isEmpty() || branch.isBlank()) {
             branch = executeGitBranch();
