@@ -48,14 +48,25 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.11.0</version>
                 <configuration>
+                    <encoding>UTF-8</encoding>
+
+
+<!--                            <groupId>org.apache.maven.plugins</groupId>-->
+<!--                            <artifactId>maven-resources-plugin</artifactId>-->
+<!--                            <version>3.11.0</version> &lt;!&ndash; Use the latest version &ndash;&gt;-->
+<!--                            <configuration>-->
+<!--                                <encoding>UTF-8</encoding>-->
+<!--                            </configuration>-->
+
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <fork>true</fork>
                     <meminitial>512m</meminitial> <!-- Начальный размер памяти -->
                     <maxmem>1548m</maxmem> <!-- Максимальный доступный объем памяти -->
                 </configuration>
+
             </plugin>
         </plugins>
     </build>
@@ -166,6 +177,13 @@
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.21</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.11.0</version>
         </dependency>
 
     </dependencies>
