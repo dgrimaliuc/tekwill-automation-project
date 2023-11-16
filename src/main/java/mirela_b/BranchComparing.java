@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.util.stream.Stream;
 
 public class BranchComparing {
-
     private String[] commands;
 
     public BranchComparing() {
