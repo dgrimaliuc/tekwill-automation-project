@@ -1,7 +1,7 @@
 package denis_grimaliuc.testNG;
 
-import denis_grimaliuc.AdoptPage;
 import denis_grimaliuc.actions.BaseActions;
+import denis_grimaliuc.pages.AdoptPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;

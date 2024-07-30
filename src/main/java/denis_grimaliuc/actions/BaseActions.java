@@ -1,10 +1,10 @@
 package denis_grimaliuc.actions;
 
-import denis_grimaliuc.AdoptPage;
 import denis_grimaliuc.components.Adoption;
 import denis_grimaliuc.components.Pet;
 import denis_grimaliuc.data.enums.Colors;
 import denis_grimaliuc.data.enums.Status;
+import denis_grimaliuc.pages.AdoptPage;
 import helpers.Helpers;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static denis_grimaliuc.AdoptPage.*;
 import static denis_grimaliuc.data.enums.OS.*;
+import static denis_grimaliuc.pages.AdoptPage.*;
 import static helpers.Helpers.addQuotes;
 import static helpers.PropertiesReader.getProperty;
 import static org.hamcrest.MatcherAssert.assertThat;

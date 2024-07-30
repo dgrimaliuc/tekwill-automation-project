@@ -1,6 +1,7 @@
 package denis_grimaliuc;
 
 import denis_grimaliuc.actions.BaseActions;
+import denis_grimaliuc.pages.AdoptPage;
 import helpers.YamlReader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

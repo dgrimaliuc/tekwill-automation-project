@@ -1,8 +1,8 @@
 package denis_grimaliuc.testNG;
 
-import denis_grimaliuc.AdoptPage;
 import denis_grimaliuc.actions.BaseActions;
 import denis_grimaliuc.components.Adoption;
+import denis_grimaliuc.pages.AdoptPage;
 import org.apache.log4j.Logger;
 import org.hamcrest.Matchers;
 import org.openqa.selenium.WebDriver;
@@ -17,10 +17,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static denis_grimaliuc.data.enums.Colors.GRAY_BACK_COLOR;
-import static denis_grimaliuc.data.enums.Status.ADOPTED;
-import static denis_grimaliuc.data.enums.Status.APPROVED;
-import static denis_grimaliuc.data.enums.Status.AVAILABLE;
-import static denis_grimaliuc.data.enums.Status.DENIED;
+import static denis_grimaliuc.data.enums.Status.*;
 import static helpers.Helpers.stepResults;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;

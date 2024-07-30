@@ -1,4 +1,4 @@
-package denis_grimaliuc;
+package denis_grimaliuc.pages;
 
 import denis_grimaliuc.components.Adoption;
 import denis_grimaliuc.components.Adoptions;
@@ -47,5 +47,5 @@ public class AdoptPage {
     public AdoptPage(WebDriver driver) {
         CustomPageFactory.initElements(driver, this, null);
     }
-    
+
 }

@@ -1,5 +1,6 @@
 package denis_grimaliuc;
 
+import denis_grimaliuc.pages.AdoptPage;
 import helpers.Helpers;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;

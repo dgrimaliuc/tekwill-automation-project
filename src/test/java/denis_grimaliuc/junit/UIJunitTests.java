@@ -12,8 +12,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import static denis_grimaliuc.AdoptPage.FIRST_ROW_IN_TABLE;
 import static denis_grimaliuc.data.enums.Status.ONHOLD;
+import static denis_grimaliuc.pages.AdoptPage.FIRST_ROW_IN_TABLE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
