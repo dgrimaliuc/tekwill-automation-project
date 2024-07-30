@@ -1,0 +1,26 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "pets": {
+        "type": "array"
+      },
+      "location": {
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "pets",
+      "status",
+      "id",
+      "location"
+    ]
+  }
+}
