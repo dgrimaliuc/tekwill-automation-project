@@ -10,16 +10,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
-import static denis_grimaliuc.api.endpoints.AdoptionsEndpoint.addAdoption;
-import static denis_grimaliuc.api.endpoints.AdoptionsEndpoint.getAdoptions;
-import static denis_grimaliuc.api.endpoints.AdoptionsEndpoint.updateStatus;
+import static denis_grimaliuc.api.endpoints.AdoptionsEndpoint.*;
 import static denis_grimaliuc.api.endpoints.PetsEndpoint.getPets;
 import static denis_grimaliuc.data.enums.Status.APPROVED;
 import static denis_grimaliuc.data.enums.Status.AVAILABLE;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.lessThan;
 
-public class AdoptionsEndpointTest {
+public class AdoptionsAPITestExample {
     Response response = null;
 
 

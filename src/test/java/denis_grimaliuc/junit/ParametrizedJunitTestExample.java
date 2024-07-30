@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.parallel.ExecutionMode.CONCURRENT;
 
 @Execution(CONCURRENT)
-public class JunitFirstTest {
+public class ParametrizedJunitTestExample {
 
     private static Stream<Arguments> testData() {
         return Stream.of(

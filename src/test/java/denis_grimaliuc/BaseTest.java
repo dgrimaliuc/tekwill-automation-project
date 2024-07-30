@@ -1,7 +1,6 @@
 package denis_grimaliuc;
 
 import denis_grimaliuc.actions.BaseActions;
-import denis_grimaliuc.pages.AdoptPage;
 import helpers.YamlReader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +18,7 @@ public class BaseTest {
     public WebDriver driver = null;
     public BaseActions actions = null;
     public WebDriverWait wait = null;
-    public AdoptPage page = null;
+//    public AdoptPage page = null;
 
     @BeforeMethod
     public void beforeTestNg() {
@@ -37,10 +36,10 @@ public class BaseTest {
         var provider = new ChromeDriverProvider(getProperty("config"));
         driver = provider.getDriver();
         wait = new WebDriverWait(driver, explicitTimeout);
-        page = new AdoptPage(driver);
-        actions = new BaseActions(driver, page);
-        //        actions.openCustomLocation("Chisinau");
-        actions.openRandomLocation();
+//        page = new AdoptPage(driver);
+//        actions = new BaseActions(driver, page);
+//        actions.openCustomLocation("Chisinau");
+//        actions.openRandomLocation();
 
     }
 

@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.parallel.ResourceAccessMode.READ;
 import static org.junit.jupiter.api.parallel.ResourceAccessMode.READ_WRITE;
 import static org.junit.jupiter.api.parallel.Resources.SYSTEM_PROPERTIES;
 
-class SharedResourcesDemo {
+class TestExample {
 
     private Properties backup;
 
@@ -20,7 +20,6 @@ class SharedResourcesDemo {
     void backup() {
         backup = new Properties();
         backup.putAll(System.getProperties());
-        System.out.println(Thread.currentThread().getId());
     }
 
     @AfterEach
