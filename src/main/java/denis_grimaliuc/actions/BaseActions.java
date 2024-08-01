@@ -1,50 +1,81 @@
 package denis_grimaliuc.actions;
 
 import org.apache.log4j.Logger;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.NoSuchElementException;
-
-import static denis_grimaliuc.data.enums.OS.*;
-import static helpers.Helpers.addQuotes;
+import static denis_grimaliuc.data.enums.OS.MAC;
 
 public class BaseActions {
 
     static Logger log = Logger.getLogger(BaseActions.class);
     private final WebDriver driver;
     private final WebDriverWait wait;
-//    private final AdoptPage page;
 
     public BaseActions(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, 10);
     }
 
-    public static Object executeScript(WebDriver driver, String script, Object object) {
+    public Object executeScript(String script, Object object) {
         return ((JavascriptExecutor) driver).executeScript(script, object);
     }
 
 
-    public String clearShortcut() {
-        Keys key;
-        if (WINDOWS.isCurrentOs()) {
-            key = Keys.CONTROL;
-        } else if (MAC.isCurrentOs()) {
-            key = Keys.COMMAND;
-        } else {
-            throw new NoSuchElementException("Unsupported OS type: " + addQuotes(getCurrentOS()));
+    public void shouldSee(WebElement element) {
+        log.trace("Checking if element is visible: " + element);
+        try {
+            wait.until(driver -> isInView(element));
+        } catch (Exception e) {
+            throw new TimeoutException("Element is not in viewport: " + element, e);
         }
+    }
 
-        return Keys.chord(key, "a") + Keys.BACK_SPACE;
+    public void shouldBeDisplayed(WebElement element) {
+        log.trace("Checking if element is displayed: " + element);
+        try {
+            wait.until(driver -> element.isDisplayed());
+        } catch (Exception e) {
+            throw new TimeoutException("Element is not displayed: " + element, e);
+        }
+    }
+
+    public boolean isInView(WebElement element) {
+        return (boolean) executeScript("""
+                if (!arguments[0].getBoundingClientRect) {
+                    return false
+                }
+                                
+                const rect = arguments[0].getBoundingClientRect()
+                                
+                const windowHeight = (window.innerHeight || document.documentElement.clientHeight)
+                const windowWidth = (window.innerWidth || document.documentElement.clientWidth)
+                                
+                const vertInView = (rect.top <= windowHeight) && ((rect.top + rect.height) > 0)
+                const horInView = (rect.left <= windowWidth) && ((rect.left + rect.width) > 0)
+                                
+                return (vertInView && horInView)
+                """, element);
+    }
+
+    public void scrollTo(WebElement element) {
+        log.trace("Scrolling to element: " + element);
+        executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
 
+    public void clear(WebElement element) {
+        log.trace("Clearing element: " + element);
+        Keys key = Keys.CONTROL;
+        if (MAC.isCurrentOs()) {
+            key = Keys.COMMAND;
+        }
+        element.sendKeys(Keys.chord(key, "a") + Keys.BACK_SPACE);
+    }
+
     public void hover(WebElement element) {
+        log.trace("Hovering over element: " + element);
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
     }
