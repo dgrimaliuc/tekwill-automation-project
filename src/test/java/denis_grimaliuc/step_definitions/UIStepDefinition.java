@@ -43,7 +43,9 @@ public class UIStepDefinition {
 
     @After
     public void after() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @Given("Adopt Page is Open")

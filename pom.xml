@@ -13,7 +13,7 @@
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
         <cucumber.version>7.11.1</cucumber.version>
-        <parallelCount>5</parallelCount>
+        <parallelCount>1</parallelCount>
         <chrome.config>src/main/resources/chromeSettings/chrome.yaml</chrome.config>
         <current_os>windows</current_os>
     </properties>
