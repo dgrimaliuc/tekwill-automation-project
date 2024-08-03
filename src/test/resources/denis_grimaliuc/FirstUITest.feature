@@ -1,14 +1,14 @@
 Feature: First UI Test
 
   Background: Open Page
-    Given Adopt Page is Open
+    Given Shopify Page is Open
 
-  Scenario Outline: Verify Location can be changed
-    When Change location to "<new_location>"
-    Then Verify location changed "<new_location>"
-    
+  Scenario Outline: Price under $25
+    When Select price under "<price>"
+    Then Verify price is under $25
+
     Examples:
-      | new_location |
-      | Belt         |
+      | price     |
+      | Under $25 |
 
 
