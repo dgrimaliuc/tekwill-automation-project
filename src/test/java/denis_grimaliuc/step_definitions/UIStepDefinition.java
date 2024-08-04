@@ -60,17 +60,17 @@ public class UIStepDefinition {
     }
 
     @Given("Shopify Page is Open")
-    public void shopifyPageIsOpen() {
+    public void shopify_page_is_open() {
         driver.get("https://shopify-eta-drab.vercel.app/");
     }
 
     @When("Select price under {string}")
-    public void selectPriceUnder(String value) {
+    public void select_price_under(String value) {
         driver.findElement(By.xpath("//input[@value='" + value + "']")).click();
     }
 
     @Then("Verify price is under ${int}")
-    public void verifyPriceIsUnder$(int expectedPrice) {
+    public void verify_price_is_under_$(Integer expectedPrice) {
         var els = driver.findElements(By.id("card-price"));
         for (var el : els) {
             actions.scrollTo(el);
