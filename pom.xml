@@ -163,7 +163,7 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>2.0</version>
+            <version>1.21</version>
         </dependency>
 
         <!--        Rest Assured dependencies -->
