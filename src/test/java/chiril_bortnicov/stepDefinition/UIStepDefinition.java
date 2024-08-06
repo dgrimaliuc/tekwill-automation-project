@@ -5,14 +5,17 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.hamcrest.Matchers.equalTo;
 
 public class UIStepDefinition {
@@ -53,6 +56,6 @@ public class UIStepDefinition {
     public void iCheckIfTheTitlePageIsNamedCorrectly() {
         String actual = driver.getTitle();
         String name = "Ecommerce Website Template";
-        assertThat(actual).isEqualTo(name);
+        assertThat(actual, Matchers.equalTo(name));
     }
 }
