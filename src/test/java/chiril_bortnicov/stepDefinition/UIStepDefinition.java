@@ -48,6 +48,6 @@ public class UIStepDefinition {
 
     @Given("I check if the title page is named correctly")
     public void iCheckIfTheTitlePageIsNamedCorrectly() {
-        driver.getTitle();
+        assert ("Ecommerce Website Template".equals(driver.getTitle()));
     }
 }
