@@ -78,4 +78,5 @@ public class UIStepDefinition {
             assertThat(actual, Matchers.lessThanOrEqualTo(expectedPrice));
         }
     }
+
 }
