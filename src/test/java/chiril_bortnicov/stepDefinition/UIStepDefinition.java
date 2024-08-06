@@ -12,6 +12,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
 public class UIStepDefinition {
 
     WebDriver driver = null;
@@ -48,6 +51,8 @@ public class UIStepDefinition {
 
     @Given("I check if the title page is named correctly")
     public void iCheckIfTheTitlePageIsNamedCorrectly() {
-        assert ("Ecommerce Website Template".equals(driver.getTitle()));
+        String actual = driver.getTitle();
+        String name = "Ecommerce Website Template";
+        assertThat(actual).isEqualTo(name);
     }
 }
