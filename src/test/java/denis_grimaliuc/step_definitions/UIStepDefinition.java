@@ -84,7 +84,6 @@ public class UIStepDefinition {
         }
     }
 
-
     @Then("Verify page title")
     public void verifyPageTitle() {
         String pageTitle = driver.getTitle();
