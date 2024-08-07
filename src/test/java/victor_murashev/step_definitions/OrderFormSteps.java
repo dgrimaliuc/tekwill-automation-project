@@ -17,9 +17,9 @@ import static org.junit.Assert.assertEquals;
 
 public class OrderFormSteps {
 
-    private WebDriver driver = WebDriverHooks.getDriver();
-    private WebDriverWait wait = WebDriverHooks.getWait();
-    private Logger log = Logger.getLogger(OrderFormSteps.class.getName());
+    private final WebDriver driver = WebDriverHooks.getDriver();
+    private final WebDriverWait wait = WebDriverHooks.getWait();
+    private final Logger log = Logger.getLogger(OrderFormSteps.class.getName());
 
     @Given("the user is on the {string}")
     public void theUserIsOnThe(String url) {
@@ -47,7 +47,6 @@ public class OrderFormSteps {
     @When("the user fills in the \"Name\" field with {string}")
     public void theUserFillsInTheNameFieldWith(String name) {
         WebElement nameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("name")));
-        nameField.clear();
         nameField.sendKeys(name);
 
         try {
@@ -60,8 +59,6 @@ public class OrderFormSteps {
     @When("the user fills in the \"Phone\" field with {string}")
     public void theUserFillsInThePhoneFieldWith(String phone) {
         WebElement phoneField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("phone")));
-        //phoneField.clear();
-        phoneField.sendKeys(Keys.chord(Keys.CONTROL + "a", Keys.DELETE));
         phoneField.sendKeys(phone);
 
         try {

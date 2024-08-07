@@ -39,7 +39,7 @@ public class WebDriverHooks {
     public void tearDown() {
         if (driver != null) {
             driver.quit();
-            driver = null; // Reset the driver to ensure fresh initialization
+            driver = null;
             log.info("Browser closed successfully.");
         }
     }
