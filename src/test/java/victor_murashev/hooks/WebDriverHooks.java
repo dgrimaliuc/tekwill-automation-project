@@ -16,10 +16,20 @@ public class WebDriverHooks {
     private static WebDriverWait wait;
     private final Logger log = Logger.getLogger(WebDriverHooks.class.getName());
 
+    // Static method to get the driver
+    public static WebDriver getDriver() {
+        return driver;
+    }
+
+    // Static method to get the wait
+    public static WebDriverWait getWait() {
+        return wait;
+    }
+
     @Before(order = 0)
     public void setUp() {
         if (driver == null) { // Initialize once
-            String pathToChrome = "src/main/resources/chromedriver.exe";
+            String pathToChrome = "src/main/resources/chromedriver_mac";
             System.setProperty("webdriver.chrome.driver", pathToChrome);
 
             ChromeOptions options = new ChromeOptions();
@@ -42,15 +52,5 @@ public class WebDriverHooks {
             driver = null;
             log.info("Browser closed successfully.");
         }
-    }
-
-    // Static method to get the driver
-    public static WebDriver getDriver() {
-        return driver;
-    }
-
-    // Static method to get the wait
-    public static WebDriverWait getWait() {
-        return wait;
     }
 }

@@ -6,9 +6,11 @@ import io.cucumber.java.en.When;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 public class SimpleStepDef {
@@ -30,14 +32,11 @@ public class SimpleStepDef {
 
     @Given("I have a string {string}")
     public void i_have_a_string(String string) {
-        javaString=string;
+        javaString = string;
         // Write code here that turns the phrase above into concrete actions
         //throw new io.cucumber.java.PendingException();
     }
-    @Then("I should see {string}")
-    public void i_should_see(String string) {
 
-    }
 
     @Then("the length should be {string}")
     public void theLengthShouldBe(String str1) {
@@ -46,24 +45,28 @@ public class SimpleStepDef {
 
     @When("I check the length of the string")
     public void i_check_the_length_of_the_string() {
-        actualLength=javaString.length();
+        actualLength = javaString.length();
     }
+
     @Given("I have the numbers {int} and {int}")
     public void i_have_the_numbers_and(Integer int1, Integer int2) {
-        number1=int1;
-        number2=int2;
+        number1 = int1;
+        number2 = int2;
         //throw new io.cucumber.java.PendingException();
     }
+
     @When("I add the numbers")
     public void i_add_the_numbers() {
-        result=number1+number2;
+        result = number1 + number2;
         //throw new io.cucumber.java.PendingException();
     }
+
     @Then("the result should be {int}")
     public void the_result_should_be(Integer int1) {
         assertEquals(result, int1);
         //throw new io.cucumber.java.PendingException();
     }
+
     @Given("I have the following paragraph:")
     public void i_have_the_following_paragraph(String docString) {
         paragraph = docString;
@@ -92,6 +95,7 @@ public class SimpleStepDef {
             map.put(pair.get("key"), pair.get("value"));
         }
     }
+
     @When("I check the size of the list")
     public void iCheckTheSizeOfTheList() {
     }
@@ -103,7 +107,8 @@ public class SimpleStepDef {
 
     @When("I retrieve the value for the key email")
     public void iRetrieveTheValueForTheKeyEmail(String key) {
-        retrievedValue = map.get(key);}
+        retrievedValue = map.get(key);
+    }
 
     @Then("the value should be john@example.com")
     public void theValueShouldBeJohnExampleCom(String expectedValue) {
@@ -117,9 +122,11 @@ public class SimpleStepDef {
             totalPrice += product.get("Price");
         }
     }
+
     @When("I calculate the total price")
     public void i_calculate_the_total_price() {
     }
+
     @Then("the total price should be {int}")
     public void the_total_price_should_be(Integer expectedTotalPrice) {
         assertEquals(expectedTotalPrice, totalPrice);
