@@ -168,5 +168,4 @@ public class SRSimpleStepDefinition {
         assertThat(month, equalTo(actualResult.getMonths()));
         assertThat(days, equalTo(actualResult.getDays()));
     }
-
 }
