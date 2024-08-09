@@ -24,12 +24,8 @@ public class OrderFormSteps {
     @Given("the user is on the {string}")
     public void theUserIsOnThe(String url) {
         driver.get(url);
+        WebDriverHooks.pauseExecution(500);
 
-        try {
-            Thread.sleep(1000); // 1-second pause
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @When("the user clicks the {string} button to open order")
@@ -37,11 +33,7 @@ public class OrderFormSteps {
         WebElement buyNowButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button/span[contains(text(),'" + buttonBuyNow + "')]")));
         buyNowButton.click();
 
-        try {
-            Thread.sleep(1000); // 1-second pause
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        WebDriverHooks.pauseExecution(500);
     }
 
     @When("the user fills in the \"Name\" field with {string}")
@@ -49,11 +41,7 @@ public class OrderFormSteps {
         WebElement nameField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("name")));
         nameField.sendKeys(name);
 
-        try {
-            Thread.sleep(1000); // 1-second pause
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        WebDriverHooks.pauseExecution(500);
     }
 
     @When("the user fills in the \"Phone\" field with {string}")
@@ -61,11 +49,7 @@ public class OrderFormSteps {
         WebElement phoneField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("phone")));
         phoneField.sendKeys(phone);
 
-        try {
-            Thread.sleep(1000); // 1-second pause
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        WebDriverHooks.pauseExecution(500);
     }
 
     @When("the user selects {string} and sets the quantity to {string}")
@@ -80,11 +64,7 @@ public class OrderFormSteps {
         quantityField.sendKeys(Keys.chord(Keys.CONTROL + "a", Keys.DELETE));
         quantityField.sendKeys(quantity);
 
-        try {
-            Thread.sleep(1000); // 1-second pause
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        WebDriverHooks.pauseExecution(500);
     }
 
     @When("the user clicks the {string} button to calculate order")
@@ -92,11 +72,7 @@ public class OrderFormSteps {
         WebElement calculateButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button/span[contains(text(),'" + buttonCalculate + "')]")));
         calculateButton.click();
 
-        try {
-            Thread.sleep(1000); // 1-second pause
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        WebDriverHooks.pauseExecution(500);
     }
 
     @Then("the displayed price should be: {string} Lei")
@@ -108,10 +84,6 @@ public class OrderFormSteps {
 
         assertEquals("Expected price does not match!", Integer.parseInt(totalAmount), Integer.parseInt(extractedPrice));
 
-        try {
-            Thread.sleep(1000); // 1-second pause
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        WebDriverHooks.pauseExecution(500);
     }
 }
