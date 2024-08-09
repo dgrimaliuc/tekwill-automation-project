@@ -17,7 +17,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import static denis_grimaliuc.actions.BaseActions.waitFor;
 import static denis_grimaliuc.ui.shopify.pages.Shopify.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -202,12 +201,8 @@ public class UIStepDefinition {
     //        driver.switchTo().alert()
     @When("Select sorting {string}")
     public void selectSorting(String sortingType) {
-        waitFor(2);
-        WebElement icon = driver.findElement(shopifyPage.sortingIcon);
-        waitFor(1);
-//        actions.clickWithJS(icon);
-//        new Actions(driver).moveToElement(icon, -5, 5).click().perform();
-//        icon.click();
+        WebElement sortButton = driver.findElement(shopifyPage.sortingButton);
+        sortButton.click();
         WebElement option = driver.findElement(getSortingOption(sortingType));
         option.click();
     }

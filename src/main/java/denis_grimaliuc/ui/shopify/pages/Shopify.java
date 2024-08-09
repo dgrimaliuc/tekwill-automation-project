@@ -33,7 +33,7 @@ public class Shopify {
 
     // Sorting dropdown
 //    public By sortingIcon = By.id("dropdownIcon");
-    public By sortingIcon = By.xpath("//div[i[@id='dropdownIcon']]");
+    public By sortingButton = By.id("dropdownButton");
     public By cardImages = By.id("card-image");
 
     public static By getColorByName(String color) {
