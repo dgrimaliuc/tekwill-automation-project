@@ -36,7 +36,7 @@ public class Shopify {
     public By nothingToShowMessage = By.xpath("//*[@id='card-container']");
 
 //Sort filter
-    public By pageFilter = By.xpath("//*[@id='dropdownIcon']");
+    public By pageFilter = By.xpath("//*[@id='dropdownButton']");
 
     public By getSortFilterOption(String option) {
         return By.xpath("//*[@id='dropdownList']/li[text()='" + option + "']");

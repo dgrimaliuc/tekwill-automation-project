@@ -242,7 +242,7 @@ public class SRUIStepDefinition {
 
     @When("Sorting is selected {string}")
     public void sortingIsSelected(String option) {
-        ((JavascriptExecutor)driver).executeScript("document.getElementById('dropdownList').style.display='block'");
+        driver.findElement(shopifyPage.pageFilter).click();
         wait.until(ExpectedConditions.elementToBeClickable(shopifyPage.getSortFilterOption(option))).click();
     }
 
