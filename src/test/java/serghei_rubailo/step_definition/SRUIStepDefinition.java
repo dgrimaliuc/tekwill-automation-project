@@ -353,4 +353,18 @@ public class SRUIStepDefinition {
         String cartTitle = driver.findElement(shopifyPage.cartEmptyCartTitle).getText();
         assertThat(cartTitle, equalTo(message));
     }
+
+    @When("Add the item to cart {int} times")
+    public void addTheItemToCartTimes(int n) {
+
+        for (int i = 0; i < n; i++) {
+            WebElement card = driver.findElement(shopifyPage.card);
+            card.findElement(shopifyPage.cardAddButton).click();
+        }
+    }
+
+    @When("User clicks on Remove button")
+    public void userClicksOnRemoveButton() {
+        driver.findElement(shopifyPage.cartItemRemoveButton).click();
+    }
 }

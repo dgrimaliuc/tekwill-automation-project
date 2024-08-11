@@ -63,6 +63,7 @@ public class Shopify {
     public By cartItemQuantity = By.className("item-quantity");
     public By cartTotalPrice = By.className("total-price");
     public By cartEmptyCartTitle = By.className("empty-cart-title");
+    public By cartItemRemoveButton = By.className("remove-item");
 
 
 }
