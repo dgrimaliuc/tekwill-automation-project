@@ -29,7 +29,7 @@ public class WebDriverHooks {
     @Before(order = 0)
     public void setUp() {
         if (driver == null) { // Initialize once
-            String pathToChrome = "src/main/resources/chromedriver_mac";
+            String pathToChrome = "src/main/resources/chromedriver.exe";
             System.setProperty("webdriver.chrome.driver", pathToChrome);
 
             ChromeOptions options = new ChromeOptions();
@@ -42,6 +42,15 @@ public class WebDriverHooks {
             wait = new WebDriverWait(driver, 10);
 
             log.info("Browser started successfully.");
+        }
+    }
+
+    public static void pauseExecution(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Restore the interrupted status
+            e.printStackTrace();
         }
     }
 
