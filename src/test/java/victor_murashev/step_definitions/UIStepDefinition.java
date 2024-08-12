@@ -416,6 +416,7 @@ public class UIStepDefinition {
         WebElement minusButton = driver.findElement(shopifyPage.minusButton);
         for (int i = 0; i < times; i++) {
             minusButton.click();
+            delay(1000);
         }
     }
 }
