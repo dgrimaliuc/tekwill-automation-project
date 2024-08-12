@@ -36,10 +36,34 @@ public class Shopify {
     public By nothingToShowMessage = By.xpath("//*[@id='card-container']");
 
 //Sort filter
-    public By pageFilter = By.xpath("//*[@id='dropdownIcon']");
+    public By pageFilter = By.xpath("//*[@id='dropdownButton']");
 
     public By getSortFilterOption(String option) {
         return By.xpath("//*[@id='dropdownList']/li[text()='" + option + "']");
     }
+
+//Card
+    public By card = By.className("card");
+    public By cardTitle = By.id("card-title");
+    public By cardImage = By.id("card-image");
+    public By cardAddButton = By.id("add_to_cart_button");
+
+//Cart
+    public By cartButton = By.className("cart-button");
+    public By cartItems = By.className("cart-card");
+
+//CartItem
+    public By cartItemTitle = By.tagName("h4");
+    public By cartItemPrice = By.xpath("//p[contains(text(), 'Price')]");
+    public By cartItemColor = By.xpath("//p[contains(text(), 'Color')]");
+    public By cartItemSize = By.xpath("//p[contains(text(), 'Size')]");
+    public By cartItemImage = By.className("cart-card-image");
+    public By cartItemPlusButton = By.className("plus-item");
+    public By cartItemMinusButton = By.className("minus-item");
+    public By cartItemQuantity = By.className("item-quantity");
+    public By cartTotalPrice = By.className("total-price");
+    public By cartEmptyCartTitle = By.className("empty-cart-title");
+    public By cartItemRemoveButton = By.className("remove-item");
+
 
 }
