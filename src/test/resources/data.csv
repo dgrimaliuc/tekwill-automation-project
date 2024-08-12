@@ -1,0 +1,6 @@
+Expected, Actual
+test,TEST
+test,test
+tEst,TEST
+TEST,TEST
+Java,JAVA

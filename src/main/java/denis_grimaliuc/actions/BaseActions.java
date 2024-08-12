@@ -18,10 +18,17 @@ public class BaseActions {
         wait = new WebDriverWait(driver, 10);
     }
 
+    public static void waitFor(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Object executeScript(String script, Object object) {
         return ((JavascriptExecutor) driver).executeScript(script, object);
     }
-
 
     public void shouldSee(WebElement element) {
         log.trace("Checking if element is visible: " + element);
@@ -30,6 +37,16 @@ public class BaseActions {
         } catch (Exception e) {
             throw new TimeoutException("Element is not in viewport: " + element, e);
         }
+    }
+
+    public void waitUntilPageToLoad() {
+        log.trace("Waiting for page to load");
+        wait.until(driver -> executeScript("return document.readyState", null).equals("complete"));
+    }
+
+    public void clickWithJS(WebElement element) {
+        log.trace("Clicking element with JS: " + element);
+        executeScript("arguments[0].click();", element);
     }
 
     public void shouldBeDisplayed(WebElement element) {
