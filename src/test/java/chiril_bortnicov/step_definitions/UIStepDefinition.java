@@ -82,7 +82,7 @@ public class UIStepDefinition {
             if (filter.equals("Under $25")) {
                 assertThat(actual, lessThanOrEqualTo(25));
             } else if (filter.equals("Over $100")) {
-
+                assertThat(actual, greaterThanOrEqualTo(100));
             }
         }
     }
