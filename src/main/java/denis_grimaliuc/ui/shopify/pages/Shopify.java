@@ -23,6 +23,9 @@ public class Shopify {
     public By emptyCardTitle = By.className("empty-cart-title");
     public By plusButton = By.className("plus-item");
     public By minusButton = By.className("minus-item");
+    public By removeButton = By.className("remove-item");
+    public By cartWrapper = By.className("cart-cards-wrapper");
+    public By orderButton = By.className("order-button");
     public By itemQuantity = By.className("item-quantity");
     public By itemPrice = By.xpath("//p[contains(text(),'Price')]");
     public By cartItems = By.className("cart-card");
