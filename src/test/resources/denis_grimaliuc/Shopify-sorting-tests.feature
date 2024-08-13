@@ -6,13 +6,14 @@ Feature: Sorting Tests
     Given Shopify Page is Open
 
   Scenario Outline: Ascending sorting test
-    When I sort items by price
+    When I sort items by price "<sorting>"
     When Select sorting "<sorting>"
     Then Verify sorting is "<sorting>"
 
     Examples:
-      | sorting   |
-      | Ascending |
+      | sorting    |
+      | Ascending  |
+      | Descending |
 
 
 
