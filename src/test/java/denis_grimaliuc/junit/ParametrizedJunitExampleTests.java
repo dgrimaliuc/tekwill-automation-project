@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 
 import java.time.Month;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -23,20 +23,20 @@ public class ParametrizedJunitExampleTests {
 
     private static Stream<Arguments> testData() {
         return Stream.of(
-                Arguments.of("Hello"),
-                Arguments.of("World"),
-                Arguments.of("")
+                Arguments.of("Hello", "Hello"),
+                Arguments.of("World", "World"),
+                Arguments.of("", "")
         );
     }
 
     private static List<String> testDataList() {
-        List<String> list = new LinkedList<>();
-        list.add("Apple");
-        list.add("Banana");
-        list.add("Orange");
-        list.add("Pineapple");
-        //   return Arrays.asList("Apple", "Banana", "Orange", "Pineapple");
-        return list;
+//        List<String> list = new LinkedList<>();
+//        list.add("Apple");
+//        list.add("Banana");
+//        list.add("Orange");
+//        list.add("Pineapple");
+        return Arrays.asList("Apple", "Banana", "Orange", "Pineapple");
+//        return list;
     }
 
     private static Stream<Arguments> numbers() {
@@ -48,7 +48,7 @@ public class ParametrizedJunitExampleTests {
     }
 
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "{0} == {1} ?")
     @MethodSource("numbers")
     @DisplayName("My First Test")
     public void firstTest(Integer actual, Integer expected) {
@@ -62,7 +62,7 @@ public class ParametrizedJunitExampleTests {
     }
 
     @ParameterizedTest
-    @MethodSource("testData")
+    @MethodSource("testDataList")
     @DisplayName("Is Blank Test")
     void isBlankTest(String input) {
         assertFalse(input.isBlank(), "Assert \"" + input + "\" is not Blank");
@@ -87,6 +87,12 @@ public class ParametrizedJunitExampleTests {
     @ValueSource(ints = {1, 3, 5, -3, 15, Integer.MAX_VALUE})
     void isGreaterThan0(Integer input) {
         assertTrue(input > 0, "Assert \"" + input + "\" is > 0");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Hello", "World", "Java", "JUnit", ""})
+    void isNotBlank(String input) {
+        assertFalse(input.isBlank(), "Assert \"" + input + "\" is not Blank");
     }
 
 

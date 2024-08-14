@@ -1,9 +1,6 @@
 package denis_grimaliuc.junit;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.parallel.ResourceLock;
 
 import java.util.Properties;
@@ -15,6 +12,16 @@ import static org.junit.jupiter.api.parallel.Resources.SYSTEM_PROPERTIES;
 class TestExample {
 
     private Properties backup;
+
+    @BeforeAll
+    static void initAll() {
+        System.out.println("Before all test methods");
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        System.out.println("After all test methods");
+    }
 
     @BeforeEach
     void backup() {
@@ -46,5 +53,30 @@ class TestExample {
         System.setProperty("my.prop", "banana");
         Assertions.assertEquals("banana", System.getProperty("my.prop"));
     }
+
+    @Test
+    @Tag("fast")
+    @DisplayName("System out println test 1")
+    public void test() {
+        System.out.println("Test");
+    }
+
+    @Test
+    @Tags({@Tag("fast"), @Tag("model")})
+    @DisplayName("System out println test 2")
+    public void test2() {
+        System.out.println("Test");
+    }
+
+    @BeforeEach
+    void init() {
+        System.out.println("Before each test method");
+    }
+
+    @AfterEach
+    void tearDown() {
+        System.out.println("After each test method");
+    }
+
 
 }

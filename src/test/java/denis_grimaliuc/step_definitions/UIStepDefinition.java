@@ -39,6 +39,7 @@ public class UIStepDefinition {
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-search-engine-choice-screen");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
