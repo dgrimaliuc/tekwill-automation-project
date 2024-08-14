@@ -17,8 +17,7 @@ public class TestArgumentsProvider implements ArgumentsProvider {
         list.add("Banana");
         list.add("Orange");
         list.add("Pineapple");
-        
-        return list.stream().map(Arguments::of);
 
+        return list.stream().map(Arguments::of);
     }
 }
