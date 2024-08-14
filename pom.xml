@@ -16,6 +16,7 @@
         <parallelCount>1</parallelCount>
         <chrome.config>src/main/resources/chromeSettings/chrome.yaml</chrome.config>
         <current_os>windows</current_os>
+
     </properties>
 
     <build>
