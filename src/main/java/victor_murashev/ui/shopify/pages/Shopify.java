@@ -4,11 +4,11 @@ import org.openqa.selenium.By;
 
 public class Shopify {
 
-    public By cardContainer = By.id("card-container");
+    public By cardContainer = By.cssSelector("#card-container");
     public By firstItem = By.cssSelector(".card:nth-of-type(1)");
 
     // Prices
-    public By cardPrices = By.id("card-price");
+    public By cardPrices = By.cssSelector("#card-price");
     public By priceUnder25 = By.cssSelector("input[value='Under $25']");
     public By price25to50 = By.cssSelector("input[value='$25 to $50']");
     public By price50to100 = By.cssSelector("input[value='$50 to $100']");
@@ -17,24 +17,24 @@ public class Shopify {
     // Colors
     public By cardColors = By.cssSelector("#card-color > canvas");
     // Sizes
-    public By cardSizes = By.id("card-size");
-    public By addToCart = By.id("add_to_cart_button");
-    public By cartButton = By.className("cart-button");
-    public By emptyCardTitle = By.className("empty-cart-title");
-    public By plusButton = By.className("plus-item");
-    public By minusButton = By.className("minus-item");
-    public By itemQuantity = By.className("item-quantity");
+    public By cardSizes = By.cssSelector("#card-size");
+    public By addToCart = By.cssSelector("#add_to_cart_button");
+    public By cartButton = By.cssSelector(".cart-button");
+    public By emptyCardTitle = By.cssSelector(".empty-cart-title");
+    public By plusButton = By.cssSelector(".plus-item");
+    public By minusButton = By.cssSelector(".minus-item");
+    public By itemQuantity = By.cssSelector(".item-quantity");
     public By itemPrice = By.xpath("//p[contains(text(),'Price')]");
-    public By cartItems = By.className("cart-card");
-    public By totalPrice = By.className("total-price");
+    public By cartItems = By.cssSelector(".cart-card");
+    public By totalPrice = By.cssSelector(".total-price");
 
     // Genders
-    public By cardGenders = By.id("card-gender");
+    public By cardGenders = By.cssSelector("#card-gender");
 
     // Sorting dropdown
 //    public By sortingIcon = By.id("dropdownIcon");
-    public By sortingButton = By.id("dropdownButton");
-    public By cardImages = By.id("card-image");
+    public By sortingButton = By.cssSelector("#dropdownButton");
+    public By cardImages = By.cssSelector("#card-image");
 
     public static By getColorByName(String color) {
         return By.cssSelector("input[value='" + color + "']");
