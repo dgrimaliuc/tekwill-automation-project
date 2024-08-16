@@ -7,6 +7,7 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +39,7 @@ public class UIStepDefinition {
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-search-engine-choice-screen");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -198,7 +201,7 @@ public class UIStepDefinition {
         assertThat(containerText, equalTo(message));
     }
 
-    //        driver.switchTo().alert()
+
     @When("Select sorting {string}")
     public void selectSorting(String sortingType) {
         WebElement sortButton = driver.findElement(shopifyPage.sortingButton);
@@ -207,8 +210,8 @@ public class UIStepDefinition {
         option.click();
     }
 
-    @When("I sort items by price")
-    public void iSortItemsByPrice() {
+    @When("I sort items by price {string}")
+    public void iSortItemsByPrice(String sortingType) {
         var prices = driver.findElements(shopifyPage.cardPrices);
         List<Integer> sortedPrices = new ArrayList<>();
         for (WebElement price : prices) {
@@ -217,6 +220,10 @@ public class UIStepDefinition {
             sortedPrices.add(intPrice);
         }
         Collections.sort(sortedPrices);
+        if (sortingType.equals("Descending")) {
+            Collections.reverse(sortedPrices);
+        }
+
 
         stepResults.put("sortedPrices", sortedPrices);
     }
@@ -226,9 +233,7 @@ public class UIStepDefinition {
         List<Integer> sortedPrices = (List<Integer>) stepResults.get("sortedPrices");
 
         if (sortingType.equals("Ascending")) {
-//            List<Integer> copy = new ArrayList<>(sortedPrices);
-//            Collections.sort(copy);
-//            assertThat(sortedPrices, equalTo(copy));
+
             for (int i = 0; i < sortedPrices.size() - 1; i++) {
                 Integer expectedPrice = sortedPrices.get(i);
                 Integer actualPrice = Integer.parseInt(driver.findElements(shopifyPage.cardPrices).get(i).getText().substring(1));
@@ -303,14 +308,15 @@ public class UIStepDefinition {
     @Then("Verify cart is empty")
     public void verifyCartIsEmpty() {
         WebElement emptyCart = driver.findElement(shopifyPage.emptyCardTitle);
-
         assertThat(emptyCart.getText(), equalTo("Your cart is empty"));
     }
 
-    @When("User click on Plus button")
-    public void userClickOnPlusButton() {
+    @When("User click on Plus button {int} times")
+    public void userClickOnPlusButton(int times) {
         WebElement plusButton = driver.findElement(shopifyPage.plusButton);
-        plusButton.click();
+        for (int i = 0; i < times; i++) {
+            plusButton.click();
+        }
     }
 
     @Then("Verify item quantity is {string}")
@@ -337,5 +343,66 @@ public class UIStepDefinition {
     public void userClickOnMinusButton() {
         WebElement plusButton = driver.findElement(shopifyPage.minusButton);
         plusButton.click();
+    }
+
+
+    @When("User click on Remove button")
+    public void userClickOnRemoveButton() {
+        WebElement removeButton = driver.findElement(shopifyPage.removeButton);
+        removeButton.click();
+
+    }
+
+    @Then("Verify cart is not displayed")
+    public void verifyCartIsNotDisplayed() {
+        WebElement cart = driver.findElement(shopifyPage.cartWrapper);
+        assertThat(cart.isDisplayed(), equalTo(false));
+    }
+
+    @When("Add random item to cart {int} times")
+    public void addRandomItemToCartTimes(int times) {
+        List<WebElement> elements;
+        SecureRandom random = new SecureRandom();
+
+        for (int i = 0; i < times; i++) {
+            elements = driver.findElements(shopifyPage.addToCart);
+            int index = random.nextInt(elements.size());
+            elements.get(index).click();
+        }
+    }
+
+    @When("Find sum of all items")
+    public void findSumOfAllItems() {
+        var prices = driver.findElements(shopifyPage.itemPrice);
+        int sum = 0;
+        for (var price : prices) {
+            String stringPrice = price.getText().replaceAll("[^0-9]", "");
+            int intPrice = Integer.parseInt(stringPrice);
+            sum += intPrice;
+        }
+        stepResults.put("price_sum", sum);
+    }
+
+    @Then("Verify total price is correct")
+    public void verifyTotalPriceIsCorrect() {
+        Integer expectedTotalPrice = (Integer) stepResults.get("price_sum");
+        String actualTotalPrice = driver.findElement(shopifyPage.totalPrice).getText();
+
+        assertThat(actualTotalPrice, equalTo("Total: $" + expectedTotalPrice));
+    }
+
+    @When("User click on Order button")
+    public void userClickOnOrderButton() {
+        WebElement orderButton = driver.findElement(shopifyPage.orderButton);
+        orderButton.click();
+
+    }
+
+    @Then("Verify order is successful")
+    public void verifyOrderIsSuccessful() {
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        assertThat(alertText, equalTo("Order has been placed!"));
+        alert.accept();
     }
 }

@@ -1,7 +1,6 @@
 package victor_murashev.step_definitions;
 
 import denis_grimaliuc.actions.BaseActions;
-import denis_grimaliuc.ui.shopify.pages.Shopify;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -14,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import victor_murashev.ui.shopify.pages.Shopify;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
