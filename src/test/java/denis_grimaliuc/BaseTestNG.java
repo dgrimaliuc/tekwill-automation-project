@@ -13,12 +13,11 @@ import java.util.Map;
 
 import static java.lang.System.getProperty;
 
-public class BaseTest {
+public class BaseTestNG {
 
     public WebDriver driver = null;
     public BaseActions actions = null;
     public WebDriverWait wait = null;
-//    public AdoptPage page = null;
 
     @BeforeMethod
     public void beforeTestNg() {
@@ -36,10 +35,7 @@ public class BaseTest {
         var provider = new ChromeDriverProvider(getProperty("config"));
         driver = provider.getDriver();
         wait = new WebDriverWait(driver, explicitTimeout);
-//        page = new AdoptPage(driver);
-//        actions = new BaseActions(driver, page);
-//        actions.openCustomLocation("Chisinau");
-//        actions.openRandomLocation();
+        actions = new BaseActions(driver);
 
     }
 
