@@ -38,7 +38,10 @@ public class CustomElementLocator implements ElementLocator {
             return this.parentElement.findElement(this.by);
         } else if (this.parentBy != null) {
             WebElement parentEl = this.searchContext.findElement(parentBy);
-            return parentEl.findElement(this.by);
+            if (parentBy.equals(this.by)) {
+                return parentEl;
+            } else
+                return parentEl.findElement(this.by);
         } else {
             return this.searchContext.findElement(this.by);
         }
