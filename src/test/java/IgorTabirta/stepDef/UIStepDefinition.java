@@ -34,7 +34,7 @@ public class UIStepDefinition {
 
     @Before
     public void before() {
-        var pathToChrome = "src/main/resources/chromedriver127.exe";
+        var pathToChrome = "src/main/resources/chromedriver.exe";
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-search-engine-choice-screen");

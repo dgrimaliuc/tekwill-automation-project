@@ -1,2 +1,34 @@
-package IgorTabirta.UI.Component;public class Cards {
+package IgorTabirta.UI.Component;
+
+import helpers.customElements.Component;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+public class Cards extends Component {
+
+    @FindBy(id = "card-image")
+    public WebElement image;
+
+    @FindBy(css = "card-color canvas")
+    public WebElement cardColor;
+
+    @FindBy(id = "card-title")
+    public WebElement cardTitle;
+
+    @FindBy(id = "card-price")
+    public WebElement cardPrice;
+
+    @FindBy(id = "card-size")
+    public WebElement cardSize;
+
+    @FindBy(id = "card-gender")
+    public WebElement cardGender;
+
+    @FindBy(id = "add_to_cart_button")
+    public WebElement addToCart;
+
+    public Cards(WebElement parent) {
+        super(parent);
+    }
+
 }
