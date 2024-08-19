@@ -10,6 +10,7 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.apache.log4j.Logger;
@@ -45,6 +46,8 @@ public class SRUIStepDefinition {
         driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 10);
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
         stepResults = new HashMap<>();
     }
 
@@ -81,7 +84,7 @@ public class SRUIStepDefinition {
             {
                 assertThat(actual, lessThanOrEqualTo(25));
             } else if (filter.equals("over $100")) {
-                assertThat(actual, lessThanOrEqualTo(100));
+                assertThat(actual, greaterThan(100));
             }
         }
     }
