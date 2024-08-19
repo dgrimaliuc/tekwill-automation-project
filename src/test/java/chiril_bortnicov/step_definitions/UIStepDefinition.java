@@ -1,30 +1,22 @@
 package chiril_bortnicov.step_definitions;
 
+import chiril_bortnicov.ui.shopify.pages.Shopify;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.it.Ma;
-import org.codehaus.groovy.classgen.asm.BytecodeDumper;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matchers;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.apache.log4j.Logger;
 
 import java.security.SecureRandom;
-import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import chiril_bortnicov.ui.shopify.pages.Shopify;
 
 import static chiril_bortnicov.ui.shopify.pages.Shopify.*;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -34,8 +26,6 @@ import static org.hamcrest.Matchers.*;
 
 public class UIStepDefinition {
     WebDriver driver = null;
-    WebDriverWait wait = null;
-    Logger log = Logger.getLogger(UIStepDefinition.class);
     HashMap<String, Object> stepResults = null;
 
     Shopify shopifyPage = new Shopify();
@@ -50,8 +40,6 @@ public class UIStepDefinition {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
-//        wait = new WebDriverWait(driver, 10);
-//        actions = new BaseActions(driver);
         stepResults = new HashMap<>();
     }
 
@@ -388,7 +376,7 @@ public class UIStepDefinition {
 
     @When("Add random item to cart {int} times")
     public void addRandomItemToCartTimes(int times) {
-        List <WebElement> elements;
+        List<WebElement> elements;
         SecureRandom random = new SecureRandom();
         for (int i = 0; i < times; i++) {
             elements = driver.findElements(shopifyPage.addToCart);
@@ -401,8 +389,8 @@ public class UIStepDefinition {
     public void findSumOfAllItems() {
         var prices = driver.findElements(shopifyPage.itemPrice);
         int sum = 0;
-        for (var price : prices){
-            String stringPrices = price.getText().replaceAll("[^0-9]","");
+        for (var price : prices) {
+            String stringPrices = price.getText().replaceAll("[^0-9]", "");
             int intPrice = Integer.parseInt(stringPrices);
             sum += intPrice;
         }
