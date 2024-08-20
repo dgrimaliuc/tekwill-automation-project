@@ -1,9 +1,6 @@
 package chiril_bortnicov.ui.shopify.pages;
 
-import chiril_bortnicov.ui.shopify.components.Card;
-import chiril_bortnicov.ui.shopify.components.GenderFilterSection;
-import chiril_bortnicov.ui.shopify.components.PriceFilterSection;
-import chiril_bortnicov.ui.shopify.components.SizeFilterSection;
+import chiril_bortnicov.ui.shopify.components.*;
 import helpers.BasePage;
 import helpers.customElements.Components;
 import org.openqa.selenium.WebDriver;
@@ -26,10 +23,11 @@ public class ShopifyV2 extends BasePage {
     public Components<Card> cards;
 
     @FindBy(css = ".cart-cards-wrapper")
-    public WebElement cardsWrapper;
+    public CartSection cartSection;
 
     @FindBy(css = ".cart-button")
-    public WebElement cartButton;
+    public WebElement cartIcon;
+
 
     public ShopifyV2(WebDriver driver) {
         super(driver);
