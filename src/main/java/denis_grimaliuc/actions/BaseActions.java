@@ -8,8 +8,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 import static denis_grimaliuc.data.enums.OS.MAC;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class BaseActions {
 
@@ -42,8 +40,7 @@ public class BaseActions {
     public void shouldHaveTextContains(WebElement element, String text) {
         log.trace("Checking if element has text: " + element);
         String actual = element.getText();
-        assertThat(actual, containsString(text));
-
+        wait.until(driver -> actual.contains(text));
     }
 
     public void shouldHaveTextEndsWith(WebElement element, String text) {
