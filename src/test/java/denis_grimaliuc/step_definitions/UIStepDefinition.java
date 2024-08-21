@@ -24,7 +24,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class UIStepDefinition {
+public class UIStepDefinition{
     Shopify shopifyPage = new Shopify();
     BaseActions actions = null;
     WebDriver driver = null;

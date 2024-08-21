@@ -1,5 +1,6 @@
 package IgorTabirta.stepDef;
 
+
 import IgorTabirta.UI.Shopify.Page.ShopifyIT;
 import denis_grimaliuc.actions.BaseActions;
 import io.cucumber.java.After;
@@ -7,6 +8,7 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,6 +16,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +26,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class UIStepDefinition {
+
     ShopifyIT shopifyPage = new ShopifyIT();
+
     BaseActions actions = null;
     WebDriver driver = null;
     WebDriverWait wait = null;
@@ -34,6 +39,7 @@ public class UIStepDefinition {
     @Before
     public void before() {
         var pathToChrome = "src/main/resources/chromedriver.exe";
+
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-search-engine-choice-screen");
@@ -337,5 +343,67 @@ public class UIStepDefinition {
         WebElement plusButton = driver.findElement(shopifyPage.minusButton);
         plusButton.click();
     }
+
+
+    @When("User click on Remove button")
+    public void userClickOnRemoveButton() {
+        WebElement removeButton = driver.findElement(shopifyPage.removeButton);
+        removeButton.click();
+
+    }
+
+    @Then("Verify cart is not displayed")
+    public void verifyCartIsNotDisplayed() {
+        WebElement cart = driver.findElement(shopifyPage.cartWrapper);
+        assertThat(cart.isDisplayed(), equalTo(false));
+    }
+
+    @When("Add random item to cart {int} times")
+    public void addRandomItemToCartTimes(int times) {
+        List<WebElement> elements;
+        SecureRandom random = new SecureRandom();
+
+        for (int i = 0; i < times; i++) {
+            elements = driver.findElements(shopifyPage.addToCart);
+            int index = random.nextInt(elements.size());
+            elements.get(index).click();
+        }
+    }
+
+    @When("Find sum of all items")
+    public void findSumOfAllItems() {
+        var prices = driver.findElements(shopifyPage.itemPrice);
+        int sum = 0;
+        for (var price : prices) {
+            String stringPrice = price.getText().replaceAll("[^0-9]", "");
+            int intPrice = Integer.parseInt(stringPrice);
+            sum += intPrice;
+        }
+        stepResults.put("price_sum", sum);
+    }
+
+    @Then("Verify total price is correct")
+    public void verifyTotalPriceIsCorrect() {
+        Integer expectedTotalPrice = (Integer) stepResults.get("price_sum");
+        String actualTotalPrice = driver.findElement(shopifyPage.totalPrice).getText();
+
+        assertThat(actualTotalPrice, equalTo("Total: $" + expectedTotalPrice));
+    }
+
+    @When("User click on Order button")
+    public void userClickOnOrderButton() {
+        WebElement orderButton = driver.findElement(shopifyPage.orderButton);
+        orderButton.click();
+
+    }
+
+    @Then("Verify order is successful")
+    public void verifyOrderIsSuccessful() {
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        assertThat(alertText, equalTo("Order has been placed!"));
+        alert.accept();
+    }
+
 }
 
