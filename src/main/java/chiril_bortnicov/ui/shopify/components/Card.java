@@ -11,7 +11,7 @@ public class Card extends Component {
     public WebElement image;
 
     @FindBy(css = "#card-color canvas")
-    public WebElement colors;
+    public WebElement color;
 
     @FindBy(id = "card-title")
     public WebElement title;
