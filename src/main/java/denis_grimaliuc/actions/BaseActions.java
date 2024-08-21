@@ -39,8 +39,7 @@ public class BaseActions {
 
     public void shouldHaveTextContains(WebElement element, String text) {
         log.trace("Checking if element has text: " + element);
-        String actual = element.getText();
-        wait.until(driver -> actual.contains(text));
+        wait.until(driver -> element.getText().contains(text));
     }
 
     public void shouldHaveTextEndsWith(WebElement element, String text) {
