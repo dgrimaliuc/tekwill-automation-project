@@ -1,4 +1,4 @@
-package IgorTabirta.UI.Component;
+package IgorTabirta.UI.Shopify.Component;
 
 import helpers.customElements.Component;
 import org.openqa.selenium.WebElement;

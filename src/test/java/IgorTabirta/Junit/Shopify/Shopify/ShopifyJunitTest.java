@@ -1,8 +1,9 @@
-package IgorTabirta.Junit.HW;
+package IgorTabirta.Junit.Shopify.Shopify;
 
-import IgorTabirta.UI.ShopifyV2;
+import IgorTabirta.UI.Shopify.Page.ShopifyV2;
 import internal.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
@@ -48,8 +49,14 @@ public class ShopifyJunitTest extends BaseTest {
         shopifyV2.addToCart.addToCart.click();
         shopifyV2.addToCart.addToCart.click();
         shopifyV2.addToCart.addToCart.click();
-        System.out.println();
 
+
+    }
+
+    @Test
+    @DisplayName("Adding item in cart")
+    public void addItemInCartTest() {
+        driver.get("https://shopify-eta-drab.vercel.app/");
 
     }
 

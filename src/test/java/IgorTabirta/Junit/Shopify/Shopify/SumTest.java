@@ -1,6 +1,5 @@
-package IgorTabirta.Junit.HW;
+package IgorTabirta.Junit.Shopify.Shopify;
 
-import com.graphbuilder.math.FuncNode;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

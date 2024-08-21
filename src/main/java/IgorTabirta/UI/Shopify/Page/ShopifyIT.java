@@ -1,4 +1,4 @@
-package IgorTabirta.UI;
+package IgorTabirta.UI.Shopify.Page;
 
 import org.openqa.selenium.By;
 

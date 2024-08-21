@@ -1,6 +1,8 @@
-package IgorTabirta.UI;
+package IgorTabirta.UI.Shopify.Page;
 
-import IgorTabirta.UI.Component.*;
+import IgorTabirta.UI.Shopify.Component.AddToCart;
+import IgorTabirta.UI.Shopify.Component.Card;
+import IgorTabirta.UI.Shopify.Component.GenderFilterSection;
 import helpers.BasePage;
 import helpers.customElements.Components;
 import org.openqa.selenium.WebDriver;
@@ -12,14 +14,14 @@ import java.util.List;
 public class ShopifyV2 extends BasePage {
 
     @FindBy(css = "[data-t= 'price-section']")
-    public PriceFilterSection PriceFilterSection;
+    public IgorTabirta.UI.Shopify.Component.PriceFilterSection PriceFilterSection;
 
 
     @FindBy(css = "[data-t='size-section']")
-    public SizeFilterSection SizeFilterSection;
+    public IgorTabirta.UI.Shopify.Component.SizeFilterSection SizeFilterSection;
 
     @FindBy(css = "[data-t='color-section']")
-    public ColorFilterSection ColorFilterSection;
+    public IgorTabirta.UI.Shopify.Component.ColorFilterSection ColorFilterSection;
 
 
     @FindBy(css = ".card")
@@ -29,10 +31,13 @@ public class ShopifyV2 extends BasePage {
     public GenderFilterSection genderFilters;
 
     @FindBy(css = ".card")
-    public Components<Cards> cards;
+    public Components<Card> cards;
 
     @FindBy(css = ".card")
     public AddToCart addToCart;
+
+    @FindBy(css = ".cart-button")
+    public WebElement cartIcon;
 
     public ShopifyV2(WebDriver driver) {
         super(driver);

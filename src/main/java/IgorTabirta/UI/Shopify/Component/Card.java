@@ -1,10 +1,10 @@
-package IgorTabirta.UI.Component;
+package IgorTabirta.UI.Shopify.Component;
 
 import helpers.customElements.Component;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class Cards extends Component {
+public class Card extends Component {
 
     @FindBy(id = "card-image")
     public WebElement image;
@@ -27,7 +27,10 @@ public class Cards extends Component {
     @FindBy(id = "add_to_cart_button")
     public WebElement addToCart;
 
-    public Cards(WebElement parent) {
+    @FindBy(id = "card-title")
+    public WebElement title;
+
+    public Card(WebElement parent) {
         super(parent);
     }
 

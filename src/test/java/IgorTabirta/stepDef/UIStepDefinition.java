@@ -1,8 +1,7 @@
-
 package IgorTabirta.stepDef;
 
+import IgorTabirta.UI.Shopify.Page.ShopifyIT;
 import denis_grimaliuc.actions.BaseActions;
-import IgorTabirta.UI.ShopifyIT;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
