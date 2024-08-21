@@ -29,5 +29,6 @@ public class ShopifyJUnitTestIn extends BaseTest {
         shopifyV2.cardsC.get(3).addToCard.click();
         System.out.println();
 
+
     }
 }

@@ -1,9 +1,6 @@
 package IngaTitchiev.UI.shopify.pages;
 
-import IngaTitchiev.UI.shopify.components.Card;
-import IngaTitchiev.UI.shopify.components.GenderFilterSection;
-import IngaTitchiev.UI.shopify.components.PriceFilterSection;
-import IngaTitchiev.UI.shopify.components.SizeFilterSection;
+import IngaTitchiev.UI.shopify.components.*;
 import helpers.BasePage;
 import helpers.customElements.Components;
 import org.openqa.selenium.WebDriver;
@@ -42,6 +39,12 @@ public class ShopifyV2 extends BasePage {
 
     @FindBy(css = ".card")
     public Components<Card> cardsC;
+
+    @FindBy(css = ".cart-button")
+    public WebElement cartItem;
+
+    @FindBy(css = ".cart-cards-wrapper")
+    public CartSection cartSection;
 
     public ShopifyV2(WebDriver driver) {
         super(driver);
