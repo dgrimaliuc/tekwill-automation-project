@@ -1,8 +1,7 @@
-
 package IgorTabirta.stepDef;
 
 import denis_grimaliuc.actions.BaseActions;
-import IgorTabirta.UI.ShopifyIT;
+import denis_grimaliuc.ui.shopify.pages.Shopify;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -24,7 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class UIStepDefinition {
-    ShopifyIT shopifyPage = new ShopifyIT();
+    Shopify shopifyPage = new Shopify();
     BaseActions actions = null;
     WebDriver driver = null;
     WebDriverWait wait = null;
