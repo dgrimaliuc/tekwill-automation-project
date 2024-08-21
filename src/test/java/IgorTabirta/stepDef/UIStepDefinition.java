@@ -1,7 +1,8 @@
 package IgorTabirta.stepDef;
 
+
+import IgorTabirta.UI.Shopify.Page.ShopifyIT;
 import denis_grimaliuc.actions.BaseActions;
-import denis_grimaliuc.ui.shopify.pages.Shopify;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -25,7 +26,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class UIStepDefinition {
-    Shopify shopifyPage = new Shopify();
+
+    ShopifyIT shopifyPage = new ShopifyIT();
+
     BaseActions actions = null;
     WebDriver driver = null;
     WebDriverWait wait = null;
@@ -35,7 +38,8 @@ public class UIStepDefinition {
 
     @Before
     public void before() {
-        var pathToChrome = "src/main/resources/chromedriver127.exe";
+        var pathToChrome = "src/main/resources/chromedriver.exe";
+
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-search-engine-choice-screen");
@@ -339,6 +343,7 @@ public class UIStepDefinition {
         WebElement plusButton = driver.findElement(shopifyPage.minusButton);
         plusButton.click();
     }
+
 
     @When("User click on Remove button")
     public void userClickOnRemoveButton() {
