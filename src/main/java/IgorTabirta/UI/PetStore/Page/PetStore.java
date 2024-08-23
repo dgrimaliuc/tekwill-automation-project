@@ -1,6 +1,7 @@
 package IgorTabirta.UI.PetStore.Page;
 
 import IgorTabirta.UI.PetStore.Component.AdoptionsSection;
+import IgorTabirta.UI.PetStore.Component.InfoSection;
 import IgorTabirta.UI.PetStore.Component.LocationSection;
 import IgorTabirta.UI.PetStore.Component.PetsSection;
 import helpers.BasePage;
@@ -22,6 +23,9 @@ public class PetStore extends BasePage {
 
     @FindBy(css = "[data-t=adoptions-section]")
     public AdoptionsSection adoptionsSection;
+
+    @FindBy(css = "[data-t=info-section]")
+    public InfoSection infoSection;
 
     public PetStore(WebDriver driver) {
         super(driver);
