@@ -2,15 +2,18 @@ package denis_grimaliuc.junit.petstore;
 
 import denis_grimaliuc.ui.petstore.pages.PetStore;
 import internal.BaseTest;
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 
-public class BaseLocationTest extends BaseTest {
+public class BasePetstoreTest extends BaseTest {
 
     PetStore petStore = new PetStore(driver);
 
     @BeforeEach
     public void setUp() {
-        petStore.openPage();
+        String randomLocation = RandomStringUtils.randomAlphanumeric(17).toUpperCase();
+        super.setUp();
+        petStore.openPage(randomLocation);
     }
 
 }
