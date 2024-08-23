@@ -10,6 +10,7 @@ public class BaseLocationTest extends BaseTest {
 
     @BeforeEach
     public void setUp() {
+        super.setUp();
         petStore.openPage();
     }
 }
