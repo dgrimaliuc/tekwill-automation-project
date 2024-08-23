@@ -9,7 +9,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class LocationTests extends BaseLocationTest {
+public class LocationTests extends BasePetstoreTest {
     private final String expectedLocation = "New York";
 
     @BeforeEach
@@ -41,7 +41,7 @@ public class LocationTests extends BaseLocationTest {
         var location = "SanFrancisco";
         driver.get("https://petstore-eb41f.web.app/?location=" + location);
     }
-    
+
     @AfterEach
     public void validateLocation() {
         var url = driver.getCurrentUrl();
