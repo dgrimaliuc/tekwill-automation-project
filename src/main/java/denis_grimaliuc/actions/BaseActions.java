@@ -58,6 +58,12 @@ public class BaseActions {
         }
     }
 
+    public void shouldHaveTextEndsWith(WebElement element, String text) {
+        log.trace("Checking if element has text: " + element);
+        wait.until(driver -> element.getText().endsWith(text));
+
+    }
+
     public boolean isInView(WebElement element) {
         return (boolean) executeScript("""
                 if (!arguments[0].getBoundingClientRect) {
