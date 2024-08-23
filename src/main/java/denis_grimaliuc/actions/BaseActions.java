@@ -112,14 +112,7 @@ public class BaseActions {
     public void waitForNumberOfElements(By locator, int count) {
         wait.until(ExpectedConditions.numberOfElementsToBe(locator, count));
     }
-
-    public void shouldHaveTextEndsWith(WebElement element, String text) {
-
-        log.trace("Checking if element has text" + element);
-
-        wait.until(driver -> element.getText().endsWith(text));
-
-    }
+    
 
     public void hover(WebElement element) {
         log.trace("Hovering over element: " + element);
