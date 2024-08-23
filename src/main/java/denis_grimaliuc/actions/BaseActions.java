@@ -5,6 +5,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
+
 import static denis_grimaliuc.data.enums.OS.MAC;
 
 public class BaseActions {
@@ -28,6 +30,21 @@ public class BaseActions {
 
     public Object executeScript(String script, Object object) {
         return ((JavascriptExecutor) driver).executeScript(script, object);
+    }
+
+    public void waitForNumberOfElements(List<WebElement> elements, int count) {
+        log.trace("Waiting for number of elements: " + count);
+        wait.until(driver -> elements.size() == count);
+    }
+
+    public void shouldHaveTextContains(WebElement element, String text) {
+        log.trace("Checking if element has text: " + element);
+        wait.until(driver -> element.getText().contains(text));
+    }
+
+    public void shouldHaveTextEndsWith(WebElement element, String text) {
+        log.trace("Checking if element has text: " + element);
+        wait.until(driver -> element.getText().endsWith(text));
     }
 
     public void shouldSee(WebElement element) {
@@ -58,11 +75,6 @@ public class BaseActions {
         }
     }
 
-    public void shouldHaveTextEndsWith(WebElement element, String text) {
-        log.trace("Checking if element has text: " + element);
-        wait.until(driver -> element.getText().endsWith(text));
-
-    }
 
     public boolean isInView(WebElement element) {
         return (boolean) executeScript("""

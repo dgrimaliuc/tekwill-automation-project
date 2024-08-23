@@ -1,4 +1,3 @@
-
 Feature: Cart Tests
   # Enter feature description here
 
@@ -73,7 +72,6 @@ Feature: Cart Tests
     When Open cart
     When Find sum of all items
     Then Verify total price is correct
-
 
 
 

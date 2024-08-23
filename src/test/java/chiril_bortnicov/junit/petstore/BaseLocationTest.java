@@ -13,4 +13,6 @@ public class BaseLocationTest extends BaseTest {
         petStore.openPage();
     }
 
+
 }
+
