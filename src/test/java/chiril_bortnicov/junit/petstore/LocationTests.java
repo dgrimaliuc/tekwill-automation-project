@@ -15,6 +15,7 @@ public class LocationTests extends BaseLocationTest {
     public void changeLocationTest() {
         var expectedLocation = "New York";
         actions.clear(petStore.location.locationInput);
+        petStore.location.locationInput.clear();
         petStore.location.locationInput.sendKeys(expectedLocation);
         petStore.location.changeLocationBtn.click();
         var url = driver.getCurrentUrl();
@@ -26,6 +27,9 @@ public class LocationTests extends BaseLocationTest {
         assertThat(petStore.petSection.title.getText(), equalTo(expectedTitleP));
 
         var expectedTitleA = "Adoptions in " + expectedLocation;
+
+
+        assertThat(petStore.petSection.title.getText(), equalTo(expectedTitleP));
 
         assertThat(petStore.adoptionSection.title.getText(), equalTo(expectedTitleA));
 
