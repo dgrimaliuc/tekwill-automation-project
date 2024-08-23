@@ -1,6 +1,7 @@
 package victor_murashev.junit;
 
 import helpers.BasePage;
+import internal.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ import victor_murashev.ui.shopify.pages.SaucePOM;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class SauceAddToCart extends BasePage {
+public class SauceAddToCart extends BaseTest {
 
     SaucePOM saucepom = new SaucePOM(driver);
 
@@ -28,14 +29,12 @@ public class SauceAddToCart extends BasePage {
 
         var actualProductTitle = saucepom.sauceCartSection.productNamesInCart.get(0).getText();
 
-       // log.info("expectedProductTitle = " + expectedProductTitle);
-       // log.info("actualThemeTitle = " + actualThemeTitle);
+       log.info("expectedProductTitle = " + expectedProductTitle);
+       log.info("actualProductTitle = " + actualProductTitle);
 
         assertThat(expectedProductTitle, equalTo(actualProductTitle));
     }
 
 
-    public SauceAddToCart(WebDriver driver) {
-        super(driver);
-    }
+
 }

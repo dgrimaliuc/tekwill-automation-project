@@ -35,5 +35,6 @@ public class SaucePOM extends BasePage {
         driver.get("https://www.saucedemo.com/");
         driver.findElement(By.cssSelector("input#user-name")).sendKeys("standard_user");
         driver.findElement(By.cssSelector("input#password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
     }
 }
