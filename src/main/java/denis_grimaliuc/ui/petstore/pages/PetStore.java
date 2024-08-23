@@ -1,6 +1,7 @@
 package denis_grimaliuc.ui.petstore.pages;
 
 import denis_grimaliuc.ui.petstore.components.AdoptionsSection;
+import denis_grimaliuc.ui.petstore.components.InformationSection;
 import denis_grimaliuc.ui.petstore.components.Location;
 import denis_grimaliuc.ui.petstore.components.PetsSection;
 import helpers.BasePage;
@@ -16,6 +17,9 @@ public class PetStore extends BasePage {
     public PetsSection petsSection;
     @FindBy(css = "[data-t=adoptions-section]")
     public AdoptionsSection adoptionsSection;
+
+    @FindBy(css = "[data-t=info-section]")
+    public InformationSection informationSection;
 
     public PetStore(WebDriver driver) {
         super(driver);
