@@ -10,11 +10,11 @@ public class PetsSection extends Component {
 
     @FindBy(tagName = "h2")
     public WebElement title;
-    @FindBy(css = "[data-t=add-pets-button]")
+    @FindBy(css = "[data-t=add-pet-button]")
     public WebElement addPetBtn;
     @FindBy(css = "[data-t=adopt-button]")
     public WebElement adoptBtn;
-    @FindBy(css = "[data-t=single-pets]")
+    @FindBy(css = "[data-t=single-pet]")
     public List<WebElement> pets;
 
     public PetsSection(WebElement parent) {
