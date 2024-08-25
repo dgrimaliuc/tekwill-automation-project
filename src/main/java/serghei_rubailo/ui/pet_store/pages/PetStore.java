@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import serghei_rubailo.ui.pet_store.components.AdoptionsSection;
 import serghei_rubailo.ui.pet_store.components.Location;
+import serghei_rubailo.ui.pet_store.components.PetsInfoSection;
 import serghei_rubailo.ui.pet_store.components.PetsSection;
 
 public class PetStore extends BasePage {
@@ -24,4 +25,7 @@ public class PetStore extends BasePage {
 
     @FindBy(css = "[data-t=adoptions-section]")
     public AdoptionsSection adoptionsSection;
+
+    @FindBy(css = "[data-t=info-section]")
+    public PetsInfoSection petsInfoSection;
 }
