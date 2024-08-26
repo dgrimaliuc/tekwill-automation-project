@@ -1,6 +1,6 @@
-package chiril_bortnicov.junit.petstore;
+package IngaTitchiev.JUnit.perstore;
 
-import chiril_bortnicov.ui.petstore.pages.PetStore;
+import IngaTitchiev.JUnit.perstore.pages.PetStore;
 import internal.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -10,10 +10,6 @@ public class BaseLocationTest extends BaseTest {
 
     @BeforeEach
     public void setUp() {
-        super.setUp();
         petStore.openPage();
     }
-
-
 }
-

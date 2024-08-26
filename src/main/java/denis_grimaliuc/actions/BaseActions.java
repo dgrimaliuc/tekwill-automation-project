@@ -1,8 +1,10 @@
 package denis_grimaliuc.actions;
 
+import helpers.customElements.Components;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
@@ -36,6 +38,12 @@ public class BaseActions {
         log.trace("Waiting for number of elements: " + count);
         wait.until(driver -> elements.size() == count);
     }
+
+    public void waitForNumberOfElements(Components<?> elements, int count) {
+        log.trace("Waiting for number of elements: " + count);
+        wait.until(driver -> elements.size() == count);
+    }
+    
 
     public void shouldHaveTextContains(WebElement element, String text) {
         log.trace("Checking if element has text: " + element);
@@ -109,10 +117,16 @@ public class BaseActions {
         element.sendKeys(Keys.chord(key, "a") + Keys.BACK_SPACE);
     }
 
+    public void waitForNumberOfElements(By locator, int count) {
+        wait.until(ExpectedConditions.numberOfElementsToBe(locator, count));
+    }
+    
+
     public void hover(WebElement element) {
         log.trace("Hovering over element: " + element);
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
     }
+
 
 }
