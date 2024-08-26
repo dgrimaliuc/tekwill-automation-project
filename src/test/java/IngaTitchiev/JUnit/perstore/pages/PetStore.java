@@ -1,6 +1,7 @@
 package IngaTitchiev.JUnit.perstore.pages;
 
 import IngaTitchiev.JUnit.perstore.components.AdoptionSection;
+import IngaTitchiev.JUnit.perstore.components.InformationSection;
 import IngaTitchiev.JUnit.perstore.components.Location;
 import IngaTitchiev.JUnit.perstore.components.PetsSection;
 import helpers.BasePage;
@@ -13,12 +14,15 @@ public class PetStore extends BasePage {
     public Location location;
 
     @FindBy(css = "[data-t=pets-section]")
-    public PetsSection petSection;
+    public PetsSection petsSection;
 
     @FindBy(css = "[data-t=adoptions-section]")
     public AdoptionSection adoptionSection;
 
-    public PetStore(WebDriver driver) {
+    @FindBy(css = "[data-t=info-section]")
+    public InformationSection informationSection;
+
+        public PetStore(WebDriver driver) {
         super(driver);
     }
 

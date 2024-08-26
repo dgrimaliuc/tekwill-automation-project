@@ -2,6 +2,7 @@ package IngaTitchiev.JUnit.perstore;
 
 import IngaTitchiev.JUnit.perstore.pages.PetStore;
 import internal.BaseTest;
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 
 public class BaseLocationTest extends BaseTest {
@@ -10,6 +11,8 @@ public class BaseLocationTest extends BaseTest {
 
     @BeforeEach
     public void setUp() {
+        String randomLocation = RandomStringUtils.randomAlphanumeric(17).toUpperCase();
+        super.setUp();
         petStore.openPage();
     }
 }
