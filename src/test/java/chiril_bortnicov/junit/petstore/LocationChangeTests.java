@@ -13,18 +13,16 @@ public class LocationChangeTests extends BaseLocationTest {
     @DisplayName("Change location in new tab test2")
     public void changeLocationTest2() {
         var expectedLocation = "San Francisco";
-<<<<<<< HEAD
+
         actions.clear(petStore.location.locationInput);
         petStore.location.locationInput.clear();
         petStore.location.locationInput.sendKeys(expectedLocation);
         petStore.location.changeLocationBtn.click();
         var url = driver.getCurrentUrl();
 
-=======
-        driver.get("https://petstore-eb41f.web.app/?location=" + expectedLocation);
 
-        var url = driver.getCurrentUrl();
->>>>>>> 5ea3061086c84503c5581e32dd3d712091c02225
+        driver.get("https://petstore-eb41f.web.app/?location=" + expectedLocation);
+        
 
         assertThat(url, containsString("?location=" + expectedLocation.replaceAll(" ", "+")));
         var expectedTitleP = "Pets in " + expectedLocation;
