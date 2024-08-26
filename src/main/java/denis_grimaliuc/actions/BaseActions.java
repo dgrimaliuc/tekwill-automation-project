@@ -83,6 +83,7 @@ public class BaseActions {
         }
     }
 
+
     public boolean isInView(WebElement element) {
         return (boolean) executeScript("""
                 if (!arguments[0].getBoundingClientRect) {
