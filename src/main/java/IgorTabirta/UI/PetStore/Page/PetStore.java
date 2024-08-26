@@ -10,9 +10,14 @@ import org.openqa.selenium.support.FindBy;
 
 public class PetStore extends BasePage {
 
+    public void openPage(String location) {
+        driver.get("https://petstore-eb41f.web.app/?location=" + location);
+    }
+
     public void openPage() {
         driver.get("https://petstore-eb41f.web.app/");
     }
+
 
     @FindBy(css = "[data-t=location-section]")
     public LocationSection location;
