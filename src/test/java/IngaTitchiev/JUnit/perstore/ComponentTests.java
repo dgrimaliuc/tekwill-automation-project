@@ -27,20 +27,36 @@ public class ComponentTests extends BaseTest {
         String hoverBackgroundColor = locationButton.getCssValue("background-color");
         assertThat(hoverBackgroundColor, either(equalTo("rgba(29, 79, 217, 1)")).or(equalTo("rgba(29, 78, 216, 1)")));
     }
+
     @Test
     @DisplayName("Hover adopt selected pets button test")
     public void hoverAdoptSelectedPetsButtonTest() {
         var adoptSelectedPetsButton = petStore.petsSection.adoptionButton;
         petStore.openPage();
         var pet = petStore.petsSection.pets.get(0);
-       pet.checkbox.click();
-       String defaultBackgroundColor = adoptSelectedPetsButton.getCssValue("background-color");
-        System.out.println("back color"+ defaultBackgroundColor);
+        pet.checkbox.click();
+        String defaultBackgroundColor = adoptSelectedPetsButton.getCssValue("background-color");
+        System.out.println("back color" + defaultBackgroundColor);
         assertThat(defaultBackgroundColor, either(equalTo("rgba(216, 196, 185, 1)")).or(equalTo("rgba(227, 168, 129, 1)")));
         actions.hover(adoptSelectedPetsButton);
         waitFor(2);
         String hoverBackgroundColor = adoptSelectedPetsButton.getCssValue("background-color");
         System.out.println("color after" + hoverBackgroundColor);
-       assertThat(hoverBackgroundColor, either(equalTo("rgba(234, 88, 12, 1)")).or(equalTo("rgba(237, 145, 83, 1)")));
+        assertThat(hoverBackgroundColor, either(equalTo("rgba(234, 88, 12, 1)")).or(equalTo("rgba(237, 145, 83, 1)")));
+    }
+
+    @Test
+    @DisplayName("Hover adopt button test")
+    public void hoverADoptButtonTest() {
+        petStore.openPage();
+        var adoptButton = petStore.petsSection.adoptionButton;
+        var defaultBackgroundColor = adoptButton.getCssValue("background-color");
+        assertThat(defaultBackgroundColor, equalTo("rgba(209, 213, 219, 1)"));
+
+        var pet = petStore.petsSection.pets.get(0);
+        pet.click();
+        actions.waitForBackgroundColor(adoptButton, "rgba(249, 115, 22, 1)");
+        actions.hover(adoptButton);
+        actions.waitForBackgroundColor(adoptButton, "rgba(234, 88, 12, 1)");
     }
 }

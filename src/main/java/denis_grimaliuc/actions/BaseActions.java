@@ -1,6 +1,7 @@
 package denis_grimaliuc.actions;
 
 import helpers.customElements.Components;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -10,6 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 import static denis_grimaliuc.data.enums.OS.MAC;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class BaseActions {
 
@@ -30,6 +33,10 @@ public class BaseActions {
         }
     }
 
+    public static String getRandomString(int length) {
+        return RandomStringUtils.randomAlphanumeric(length).toUpperCase();
+    }
+
     public Object executeScript(String script, Object object) {
         return ((JavascriptExecutor) driver).executeScript(script, object);
     }
@@ -39,15 +46,25 @@ public class BaseActions {
         wait.until(driver -> elements.size() == count);
     }
 
+    public void waitForBackgroundColor(WebElement element, String color) {
+        log.trace("Waiting for background color: " + color);
+        wait.until(ExpectedConditions.attributeToBe(element, "background-color", color));
+        // driver -> element.getCssValue("background-color").equals(color)
+    }
+
     public void waitForNumberOfElements(Components<?> elements, int count) {
         log.trace("Waiting for number of elements: " + count);
         wait.until(driver -> elements.size() == count);
     }
-    
 
     public void shouldHaveTextContains(WebElement element, String text) {
         log.trace("Checking if element has text: " + element);
         wait.until(driver -> element.getText().contains(text));
+    }
+
+    public void shouldHaveTextToBe(WebElement element, String text) {
+        log.trace("Checking if element has text: " + element);
+        wait.until(ExpectedConditions.textToBePresentInElement(element, text));
     }
 
     public void shouldHaveTextEndsWith(WebElement element, String text) {
@@ -63,6 +80,18 @@ public class BaseActions {
             throw new TimeoutException("Element is not in viewport: " + element, e);
         }
     }
+
+    public void shouldNotSee(WebElement element) {
+        log.trace("Checking if element is not visible: " + element);
+        boolean isDisplayed;
+        try {
+            isDisplayed = element.isDisplayed();
+        } catch (Exception e) {
+            isDisplayed = false;
+        }
+        assertThat(isDisplayed, equalTo(false));
+    }
+
 
     public void waitUntilPageToLoad() {
         log.trace("Waiting for page to load");
@@ -120,7 +149,7 @@ public class BaseActions {
     public void waitForNumberOfElements(By locator, int count) {
         wait.until(ExpectedConditions.numberOfElementsToBe(locator, count));
     }
-    
+
 
     public void hover(WebElement element) {
         log.trace("Hovering over element: " + element);
