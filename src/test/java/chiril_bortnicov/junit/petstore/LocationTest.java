@@ -3,28 +3,20 @@ package chiril_bortnicov.junit.petstore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
 
-public class LocationChangeTests extends BaseLocationTest {
+public class LocationTest extends BaseLocationTest {
 
     @Test
-    @DisplayName("Change location in new tab test2")
-    public void changeLocationTest2() {
-        var expectedLocation = "San Francisco";
-<<<<<<< HEAD
-        actions.clear(petStore.location.locationInput);
+    @DisplayName("Change location test")
+    public void changeLocationTest() {
+        var expectedLocation = "New York";
         petStore.location.locationInput.clear();
         petStore.location.locationInput.sendKeys(expectedLocation);
         petStore.location.changeLocationBtn.click();
         var url = driver.getCurrentUrl();
-
-=======
-        driver.get("https://petstore-eb41f.web.app/?location=" + expectedLocation);
-
-        var url = driver.getCurrentUrl();
->>>>>>> 5ea3061086c84503c5581e32dd3d712091c02225
 
         assertThat(url, containsString("?location=" + expectedLocation.replaceAll(" ", "+")));
         var expectedTitleP = "Pets in " + expectedLocation;
@@ -32,5 +24,6 @@ public class LocationChangeTests extends BaseLocationTest {
 
         var expectedTitleA = "Adoptions in " + expectedLocation;
         assertThat(petStore.adoptionsSection.title.getText(), equalTo(expectedTitleA));
+
     }
 }
