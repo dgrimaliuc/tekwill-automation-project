@@ -15,6 +15,7 @@ public class PetStore extends BasePage {
 
     @FindBy(css = "[data-t=pets-section]")
     public PetsSection petsSection;
+
     @FindBy(css = "[data-t=adoptions-section]")
     public AdoptionsSection adoptionsSection;
 

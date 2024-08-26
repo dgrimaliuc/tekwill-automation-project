@@ -90,5 +90,17 @@ public class PetTests extends BaseTest {
         assertThat(isAdoptBtnEnabled, equalTo(false));
     }
 
+    @Test
+    @DisplayName("Verify empty state disappears when a pet is added")
+    public void emptyStateDisappearsTest() {
+        var defaultText = petSection.defaultText.getText();
+
+        assertThat(defaultText, equalTo("No rows. Try reset filters"));
+        petSection.addPets(1);
+        actions.waitForNumberOfElements(petSection.pets, 1);
+        actions.shouldNotSee(petSection.defaultText);
+
+    }
+
 
 }
