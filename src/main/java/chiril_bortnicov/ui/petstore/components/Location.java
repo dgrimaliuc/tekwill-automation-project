@@ -12,6 +12,9 @@ public class Location extends Component {
     @FindBy(css = "[data-t=change-location]")
     public WebElement changeLocationBtn;
 
+    @FindBy(css = "[data-t=adopt-button]")
+    public WebElement adoptBtn;
+
     @FindBy(css = "[data-t=open-in-new-tab]")
     public WebElement openInNewTabBtn;
 

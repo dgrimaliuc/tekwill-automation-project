@@ -1,11 +1,11 @@
 package chiril_bortnicov.ui.petstore.components;
 
 import helpers.customElements.Component;
+import helpers.customElements.Components;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
 
 public class PetsSection extends Component {
 
@@ -18,14 +18,32 @@ public class PetsSection extends Component {
     @FindBy(css = "[data-t=adopt-button]")
     public WebElement adoptBtn;
 
+
+    @FindBy(css = "[data-t=pet-name-input]")
+    public WebElement petNameInput;
+
+    @FindBy(css = "[data-t=deselect-button]")
+    public WebElement deselectBtn;
+
+    @FindBy(css = "[data-t=checkbox]")
+    public WebElement checkbox;
+
     @FindBy(css = "[data-t=single-pet]")
-    public List<WebElement> pets;
+    public Components<Pet> pets;
+
 
     public static final By petsLocator = By.cssSelector("[data-t=single-pet]");
 
     public void addPets(int count) {
         for (int i = 0; i < count; i++) {
             addPetBtn.click();
+
+        }
+    }
+
+    public void selectFirst(int count) {
+        for (int i = 0; i < count; i++) {
+            pets.get(i).checkbox.click();
 
         }
     }

@@ -24,14 +24,14 @@ public class LocationTests extends BaseLocationTest {
 
         var expectedTitleP = "Pets in " + expectedLocation;
 
-        assertThat(petStore.petSection.title.getText(), equalTo(expectedTitleP));
+        assertThat(petStore.petsSection.title.getText(), equalTo(expectedTitleP));
 
         var expectedTitleA = "Adoptions in " + expectedLocation;
 
 
-        assertThat(petStore.petSection.title.getText(), equalTo(expectedTitleP));
+        assertThat(petStore.petsSection.title.getText(), equalTo(expectedTitleP));
 
-        assertThat(petStore.adoptionSection.title.getText(), equalTo(expectedTitleA));
+        assertThat(petStore.adoptionsSection.title.getText(), equalTo(expectedTitleA));
 
     }
 }
