@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static denis_grimaliuc.actions.BaseActions.waitFor;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -105,5 +106,17 @@ public class PetTests extends BaseTest {
 
         assertThat(isDeselectBtnEnabled, equalTo(false));
         assertThat(isAdoptBtnEnabled, equalTo(false));
+    }
+
+    @Test
+    @DisplayName("Verify empty state disappears when the pet is added")
+    public void emptyStateDisappearsTest() {
+        var defaultText = petsSection.defaultText.getText();
+        assertThat(defaultText, equalTo("No rows. Try reset filters"));
+        petsSection.addPets(1);
+        waitFor(1);
+        var updateText = petsSection.defaultText.getText();
+        boolean isEmptyStateGone = !updateText.equals("No rows. Try reset filters");
+        assertThat(isEmptyStateGone, equalTo(true));
     }
 }
