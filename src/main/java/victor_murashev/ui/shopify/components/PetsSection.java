@@ -30,6 +30,14 @@ public class PetsSection extends Component {
         }
     }
 
+    public void selectPets(int count) throws InterruptedException {
+        for (int i = 0; i < count; i++) {
+            petsList.get(i).click();
+            adoptPetButton.isEnabled();
+            adoptPetButton.click();
+        }
+    }
+
     public PetsSection(WebElement parent) {
         super(parent);
     }

@@ -35,16 +35,19 @@ public class PetStoreInfoTest extends BaseTest {
     @DisplayName("Check non-zero Pets and Adoptions")
     public void checkNonZeroPetsAdoptions() throws InterruptedException {
 
-        var petsCount = 3;
+        var petsCount = 5;
+        var petsSelected = 3;
         petStore.petsSection.addPets(petsCount);
-        petStore.petsSection.petsList.get(0).click();
-        petStore.petsSection.adoptPetButton.click();
-        //petStore.adoptionSection.ti
-        var adoptionsCount = String.valueOf(petStore.adoptionSection.adoptionsList.size());
+        petStore.petsSection.selectPets(petsSelected);
+
+        //petStore.petsSection.adoptPetButton.click();
+
+        int adoptionsToBeApproved = petStore.adoptionSection.adoptionsList.size() + 1;
 
         System.out.println("PetCount = " + actions.getCountsOfWebElements(petStore.informationSection.petsCount));
+        System.out.println("adoptionsToBeApproved = " + adoptionsToBeApproved);
         assertThat(actions.getCountsOfWebElements(petStore.informationSection.petsCount), equalTo(String.valueOf(petsCount)));
-        assertThat(actions.getCountsOfWebElements(petStore.informationSection.adoptionCount), equalTo(adoptionsCount));
+        assertThat(actions.getCountsOfWebElements(petStore.informationSection.adoptionCount), equalTo(String.valueOf(adoptionsToBeApproved)));
 
         //System.out.println();
     }
