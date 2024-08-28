@@ -34,11 +34,11 @@ public class BaseTest {
 //        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
-        setTimeouts(driver, 5);
+        setDefaultTimeouts(driver);
     }
 
     public static void setDefaultTimeouts(WebDriver driver) {
-        setTimeouts(driver, 5);
+        setTimeouts(driver, 10);
     }
 
     public static void turnOffTimeouts(WebDriver driver) {

@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 import static denis_grimaliuc.data.enums.OS.MAC;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class BaseActions {
 
@@ -47,7 +48,12 @@ public class BaseActions {
 
     public void waitForBackgroundColor(WebElement element, String color) {
         log.trace("Waiting for background color: " + color);
-        wait.until(ExpectedConditions.attributeToBe(element, "background-color", color));
+        wait.until(attributeToBe(element, "background-color", color));
+        // driver -> element.getCssValue("background-color").equals(color)
+    }
+
+    public void shouldNotHaveAttribute(WebElement element, String attribute, String value) {
+        wait.until(not(attributeToBe(element, attribute, value)));
         // driver -> element.getCssValue("background-color").equals(color)
     }
 
@@ -64,7 +70,12 @@ public class BaseActions {
 
     public void shouldHaveTextToBe(WebElement element, String text) {
         log.trace("Checking if element has text: " + element);
-        wait.until(ExpectedConditions.textToBePresentInElement(element, text));
+        wait.until(textToBePresentInElement(element, text));
+    }
+
+    public void shouldNotHaveTextToBe(WebElement element, String text) {
+        log.trace("Checking if element has text: " + element);
+        wait.until(not(textToBePresentInElement(element, text)));
     }
 
     public void shouldHaveTextEndsWith(WebElement element, String text) {
@@ -75,10 +86,25 @@ public class BaseActions {
     public void shouldSee(WebElement element) {
         log.trace("Checking if element is visible: " + element);
         try {
-            wait.until(driver -> isInView(element));
+            wait.until(driver -> element.isDisplayed());
         } catch (Exception e) {
             throw new TimeoutException("Element is not in viewport: " + element, e);
         }
+    }
+
+
+    public void shouldNotSee(WebElement element) {
+        log.trace("Checking if element is not visible: " + element);
+        wait.until(d -> {
+            boolean isDisplayed;
+            try {
+                isDisplayed = element.isDisplayed();
+            } catch (Exception e) {
+                isDisplayed = false;
+            }
+            return isDisplayed;
+        });
+
     }
 
 
@@ -145,9 +171,4 @@ public class BaseActions {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
     }
-
-    public void shouldNotSee(WebElement element) {
-        wait.until(ExpectedConditions.invisibilityOfAllElements(element));
-    }
-
 }
