@@ -30,7 +30,7 @@ public class PetsSection extends Component {
         }
     }
 
-    public void selectPets(int count) throws InterruptedException {
+    public void selectPets(int count) {
         for (int i = 0; i < count; i++) {
             petsList.get(i).click();
             adoptPetButton.isEnabled();
