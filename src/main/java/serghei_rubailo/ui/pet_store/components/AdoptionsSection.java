@@ -1,6 +1,7 @@
 package serghei_rubailo.ui.pet_store.components;
 
 import helpers.customElements.Component;
+import helpers.customElements.Components;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -15,5 +16,5 @@ public class AdoptionsSection extends Component {
     public WebElement header;
 
     @FindBy(css = "[data-t=single-adoption]")
-    public List<WebElement> adoptions;
+    public Components<Adoption> adoptions;
 }
