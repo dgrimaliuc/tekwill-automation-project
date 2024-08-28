@@ -104,7 +104,7 @@ public class BaseActions {
         Pattern pattern = Pattern.compile(":\\s*(\\d+$)");
         Matcher matcher = pattern.matcher(textElement);
         if (matcher.find()) {
-            String number = matcher.group(1); // This is the number "3"
+            String number = matcher.group(1);
             return number;
         } else {
             System.out.println("Number not found!");
