@@ -18,6 +18,8 @@ public class PetsSection extends Component {
     @FindBy(css = "[data-t=adopt-button]")
     public WebElement adoptBtn;
 
+    @FindBy(css = "#pets-table div.items-center")
+    public WebElement defaultText;
 
     @FindBy(css = "[data-t=pet-name-input]")
     public WebElement petNameInput;

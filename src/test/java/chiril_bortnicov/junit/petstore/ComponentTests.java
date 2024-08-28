@@ -37,13 +37,28 @@ public class ComponentTests extends BaseTest {
         petStore.openPage();
         petsSection.addPetBtn.click();
         petsSection.checkbox.click();
+        waitFor(1);
         String defaultBackGroundColor = locationBtn.getCssValue("background-color");
         System.out.println(defaultBackGroundColor);
-        assertThat(defaultBackGroundColor, equalTo("rgba(234, 88, 12, 1)"));//rgba(249, 115, 22, 1)
-        //Expected: "rgba(234, 88, 12, 1)" but: was "rgba(227, 168, 129, 1)"
+        assertThat(defaultBackGroundColor, equalTo("rgba(249, 115, 22, 1)"));
         actions.hover(locationBtn);
         waitFor(1);
         String hoverBackGroundColor = locationBtn.getCssValue("background-color");
-        assertThat(hoverBackGroundColor, (equalTo("rgba(249, 115, 22, 1)")));//rgba(234, 88, 12, 1)
+        assertThat(hoverBackGroundColor, (equalTo("rgba(234, 88, 12, 1)")));
+    }
+
+    @Test
+    @DisplayName("Hover adopt button test")
+    public void hoverAdoptButtonTest() {
+        petStore.openPage();
+        var adoptBtn = petsSection.adoptBtn;
+        var defaultBackgroundColor = adoptBtn.getCssValue("background-color");
+        assertThat(defaultBackgroundColor, equalTo("rgba(209, 213, 219, 1)"));
+
+        var pet = petsSection.pets.get(0);
+        pet.click();
+        actions.waitForBackgroundColor(adoptBtn, "rgba(249, 115, 22, 1)");
+        actions.hover(adoptBtn);
+        actions.waitForBackgroundColor(adoptBtn, "rgba(234, 88, 12, 1)");
     }
 }

@@ -13,8 +13,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static denis_grimaliuc.data.enums.OS.MAC;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class BaseActions {
 
@@ -24,7 +24,7 @@ public class BaseActions {
 
     public BaseActions(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, 10);
+        wait = new WebDriverWait(driver, 10, 200);
     }
 
     public static void waitFor(int seconds) {
@@ -39,6 +39,20 @@ public class BaseActions {
         return RandomStringUtils.randomAlphanumeric(length).toUpperCase();
     }
 
+    public static void setDefaultTimeouts(WebDriver driver) {
+        setTimeouts(driver, 10);
+    }
+
+    public static void setTimeoutsToMin(WebDriver driver) {
+        setTimeouts(driver, 3);
+    }
+
+    public static void setTimeouts(WebDriver driver, int timeout) {
+        driver.manage().timeouts().implicitlyWait(timeout, SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(timeout, SECONDS);
+        driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);
+    }
+
     public Object executeScript(String script, Object object) {
         return ((JavascriptExecutor) driver).executeScript(script, object);
     }
@@ -50,7 +64,12 @@ public class BaseActions {
 
     public void waitForBackgroundColor(WebElement element, String color) {
         log.trace("Waiting for background color: " + color);
-        wait.until(ExpectedConditions.attributeToBe(element, "background-color", color));
+        wait.until(attributeToBe(element, "background-color", color));
+        // driver -> element.getCssValue("background-color").equals(color)
+    }
+
+    public void shouldNotHaveAttribute(WebElement element, String attribute, String value) {
+        wait.until(not(attributeToBe(element, attribute, value)));
         // driver -> element.getCssValue("background-color").equals(color)
     }
 
@@ -66,7 +85,12 @@ public class BaseActions {
 
     public void shouldHaveTextToBe(WebElement element, String text) {
         log.trace("Checking if element has text: " + element);
-        wait.until(ExpectedConditions.textToBePresentInElement(element, text));
+        wait.until(textToBePresentInElement(element, text));
+    }
+
+    public void shouldNotHaveTextToBe(WebElement element, String text) {
+        log.trace("Checking if element has text: " + element);
+        wait.until(not(textToBePresentInElement(element, text)));
     }
 
     public void shouldHaveTextEndsWith(WebElement element, String text) {
@@ -91,22 +115,32 @@ public class BaseActions {
 
     public void shouldSee(WebElement element) {
         log.trace("Checking if element is visible: " + element);
-        try {
-            wait.until(driver -> isInView(element));
-        } catch (Exception e) {
-            throw new TimeoutException("Element is not in viewport: " + element, e);
-        }
+
+
+        setTimeoutsToMin(driver);
+        wait.until(driver -> {
+            try {
+                return element.isDisplayed();
+            } catch (Exception e) {
+                return false;
+            }
+        });
+        setDefaultTimeouts(driver);
     }
 
     public void shouldNotSee(WebElement element) {
         log.trace("Checking if element is not visible: " + element);
-        boolean isDisplayed;
-        try {
-            isDisplayed = element.isDisplayed();
-        } catch (Exception e) {
-            isDisplayed = false;
-        }
-        assertThat(isDisplayed, equalTo(false));
+        setTimeoutsToMin(driver);
+        wait.until(d -> {
+            boolean isDisplayed;
+            try {
+                isDisplayed = element.isDisplayed();
+            } catch (Exception e) {
+                isDisplayed = false;
+            }
+            return !isDisplayed;
+        });
+        setDefaultTimeouts(driver);
     }
 
 
@@ -173,6 +207,5 @@ public class BaseActions {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
     }
-
 
 }

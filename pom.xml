@@ -222,12 +222,12 @@
                 <current_os>windows</current_os>
             </properties>
         </profile>
-        <profile>
-            <id>headless</id>
-            <properties>
-                <chrome.config>src/main/resources/chromeSettings/headless.yaml</chrome.config>
-            </properties>
-        </profile>
+        <!--        <profile>-->
+        <!--            <id>headless</id>-->
+        <!--            <properties>-->
+        <!--                <chrome.config>src/main/resources/chromeSettings/headless.yaml</chrome.config>-->
+        <!--            </properties>-->
+        <!--        </profile>-->
     </profiles>
 
 </project>

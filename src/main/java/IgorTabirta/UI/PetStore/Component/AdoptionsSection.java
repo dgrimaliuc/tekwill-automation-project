@@ -1,10 +1,9 @@
 package IgorTabirta.UI.PetStore.Component;
 
 import helpers.customElements.Component;
+import helpers.customElements.Components;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 public class AdoptionsSection extends Component {
 
@@ -12,7 +11,8 @@ public class AdoptionsSection extends Component {
     public WebElement title;
 
     @FindBy(css = "[data-t=single-adoption]")
-    public List<WebElement> adoptions;
+    public Components<Adoption> adoptions;
+
 
     public AdoptionsSection(WebElement parent) {
         super(parent);
