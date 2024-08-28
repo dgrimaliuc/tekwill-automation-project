@@ -1,5 +1,6 @@
 package denis_grimaliuc.actions;
 
+import helpers.customElements.Components;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -33,6 +34,11 @@ public class BaseActions {
     }
 
     public void waitForNumberOfElements(List<WebElement> elements, int count) {
+        log.trace("Waiting for number of elements: " + count);
+        wait.until(driver -> elements.size() == count);
+    }
+
+    public void waitForNumberOfElements(Components<?> elements, int count) {
         log.trace("Waiting for number of elements: " + count);
         wait.until(driver -> elements.size() == count);
     }
