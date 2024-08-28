@@ -100,9 +100,9 @@ public class BaseActions {
 
     public String getPetsAdoptionCounts(WebElement element) {
         log.trace("Checking if element has text: " + element);
-        String PetsAdoptions = element.getText();
+        String textElement = element.getText();
         Pattern pattern = Pattern.compile(":\\s*(\\d+$)");
-        Matcher matcher = pattern.matcher(PetsAdoptions);
+        Matcher matcher = pattern.matcher(textElement);
         if (matcher.find()) {
             String number = matcher.group(1); // This is the number "3"
             return number;
