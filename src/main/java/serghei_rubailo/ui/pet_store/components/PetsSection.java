@@ -1,6 +1,7 @@
 package serghei_rubailo.ui.pet_store.components;
 
 import helpers.customElements.Component;
+import helpers.customElements.Components;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -15,9 +16,7 @@ public class PetsSection extends Component {
     public WebElement header;
 
     @FindBy(css = "[data-t=single-pet]")
-    public List<WebElement> pets;
-
-//    public WebElement petsLocator
+    public Components<Pet> pets;
 
     @FindBy(css = "[data-t=add-pet-button]")
     public WebElement addPetButton;
@@ -25,9 +24,21 @@ public class PetsSection extends Component {
     @FindBy(css = "[data-t=adopt-button]")
     public WebElement adoptButton;
 
+    @FindBy(css = "[data-t=pet-name-input]")
+    public WebElement petNameInput;
+
+    @FindBy(css = "[data-t=deselect-button]")
+    public WebElement deselectButton;
+
     public void addPets(int quantity) {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < quantity; i++) {
             addPetButton.click();
+        }
+    }
+
+    public void selectFirst(int quantity) {
+        for (int i = 0; i < quantity; i++) {
+            pets.get(i).petCheckbox.click();
         }
     }
 
