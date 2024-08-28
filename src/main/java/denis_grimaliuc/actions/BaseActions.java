@@ -11,8 +11,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 import static denis_grimaliuc.data.enums.OS.MAC;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class BaseActions {
 
@@ -46,11 +44,13 @@ public class BaseActions {
         wait.until(driver -> elements.size() == count);
     }
 
+
     public void waitForBackgroundColor(WebElement element, String color) {
         log.trace("Waiting for background color: " + color);
         wait.until(ExpectedConditions.attributeToBe(element, "background-color", color));
         // driver -> element.getCssValue("background-color").equals(color)
     }
+
 
     public void waitForNumberOfElements(Components<?> elements, int count) {
         log.trace("Waiting for number of elements: " + count);
@@ -79,17 +79,6 @@ public class BaseActions {
         } catch (Exception e) {
             throw new TimeoutException("Element is not in viewport: " + element, e);
         }
-    }
-
-    public void shouldNotSee(WebElement element) {
-        log.trace("Checking if element is not visible: " + element);
-        boolean isDisplayed;
-        try {
-            isDisplayed = element.isDisplayed();
-        } catch (Exception e) {
-            isDisplayed = false;
-        }
-        assertThat(isDisplayed, equalTo(false));
     }
 
 
@@ -157,5 +146,8 @@ public class BaseActions {
         actions.moveToElement(element).perform();
     }
 
+    public void shouldNotSee(WebElement element) {
+        wait.until(ExpectedConditions.invisibilityOfAllElements(element));
+    }
 
 }
