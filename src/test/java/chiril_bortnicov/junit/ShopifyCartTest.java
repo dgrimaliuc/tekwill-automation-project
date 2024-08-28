@@ -24,7 +24,7 @@ public class ShopifyCartTest extends BaseTest {
         var expectedCard = shopifyV2.cards.get(0);
         String expectedTitle = expectedCard.title.getText();
         String expectedPrice = expectedCard.price.getText();
-        String expectedColor = expectedCard.color.toString();
+        String expectedColor = expectedCard.color.getAttribute("data-t");
         String expectedSize = expectedCard.size.getText();
 
         expectedCard.addToCart.click();
@@ -40,7 +40,7 @@ public class ShopifyCartTest extends BaseTest {
 
         assertThat(actualTitle, equalTo(expectedTitle));
         assertThat(actualPrice, equalTo("Price: " + expectedPrice));
-        assertThat(actualColor, equalTo(expectedColor));
+        assertThat(actualColor, equalTo("Color: " + expectedColor));
         assertThat(actualSize, equalTo(expectedSize));
 
     }

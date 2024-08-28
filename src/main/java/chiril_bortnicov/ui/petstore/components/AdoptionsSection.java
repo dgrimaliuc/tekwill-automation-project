@@ -12,7 +12,6 @@ public class AdoptionsSection extends Component {
     public WebElement title;
 
     @FindBy(css = "[data-t=single-adoption]")
-
     public Components<Adoption> adoptions;
 
 
