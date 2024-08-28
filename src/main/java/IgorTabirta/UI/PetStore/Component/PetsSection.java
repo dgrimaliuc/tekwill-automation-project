@@ -17,11 +17,13 @@ public class PetsSection extends Component {
     @FindBy(css = "[data-t=pet-name-input]")
     public WebElement petNameInput;
 
+
     @FindBy(css = "[data-t=add-pet-button]")
     public WebElement addPetBtn;
 
     @FindBy(css = "[data-t=adopt-button]")
     public WebElement adoptBtn;
+
 
     @FindBy(css = "[data-t=deselect-button]")
     public WebElement deselectBtn;
@@ -38,6 +40,7 @@ public class PetsSection extends Component {
             addPetBtn.click();
         }
     }
+
 
     public void selectFirst(int count) {
         for (int i = 0; i < count; i++) {

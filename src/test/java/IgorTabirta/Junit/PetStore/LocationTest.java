@@ -13,6 +13,7 @@ public class LocationTest extends BasePetstoreTest {
 
     private final String expectedLocation = "New York";
 
+
     @BeforeEach
     public void typeLocation() {
 

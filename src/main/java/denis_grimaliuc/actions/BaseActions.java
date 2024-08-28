@@ -1,6 +1,7 @@
 package denis_grimaliuc.actions;
 
 import helpers.customElements.Components;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -30,6 +31,10 @@ public class BaseActions {
         }
     }
 
+    public static String getRandomString(int length) {
+        return RandomStringUtils.randomAlphanumeric(length).toUpperCase();
+    }
+
     public Object executeScript(String script, Object object) {
         return ((JavascriptExecutor) driver).executeScript(script, object);
     }
@@ -38,6 +43,14 @@ public class BaseActions {
         log.trace("Waiting for number of elements: " + count);
         wait.until(driver -> elements.size() == count);
     }
+
+
+    public void waitForBackgroundColor(WebElement element, String color) {
+        log.trace("Waiting for background color: " + color);
+        wait.until(ExpectedConditions.attributeToBe(element, "background-color", color));
+        // driver -> element.getCssValue("background-color").equals(color)
+    }
+
 
     public void waitForNumberOfElements(Components<?> elements, int count) {
         log.trace("Waiting for number of elements: " + count);
@@ -68,6 +81,7 @@ public class BaseActions {
         }
     }
 
+
     public void waitUntilPageToLoad() {
         log.trace("Waiting for page to load");
         wait.until(driver -> executeScript("return document.readyState", null).equals("complete"));
@@ -86,6 +100,7 @@ public class BaseActions {
             throw new TimeoutException("Element is not displayed: " + element, e);
         }
     }
+
 
     public boolean isInView(WebElement element) {
         return (boolean) executeScript("""
@@ -131,8 +146,8 @@ public class BaseActions {
         actions.moveToElement(element).perform();
     }
 
-
     public void shouldNotSee(WebElement element) {
         wait.until(ExpectedConditions.invisibilityOfAllElements(element));
     }
+
 }

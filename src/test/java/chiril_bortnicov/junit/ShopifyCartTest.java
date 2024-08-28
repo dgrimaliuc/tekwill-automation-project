@@ -21,12 +21,27 @@ public class ShopifyCartTest extends BaseTest {
     @Test
     @DisplayName("Add to cart test")
     public void addToCartTest() {
-        var card = shopifyV2.cards.get(0);
-        String expectedTitle = shopifyV2.cards.get(0).title.getText();
-        card.addToCart.click();
+        var expectedCard = shopifyV2.cards.get(0);
+        String expectedTitle = expectedCard.title.getText();
+        String expectedPrice = expectedCard.price.getText();
+        String expectedColor = expectedCard.color.getAttribute("data-t");
+        String expectedSize = expectedCard.size.getText();
+
+        expectedCard.addToCart.click();
         shopifyV2.cartIcon.click();
 
-        String actualTitle = shopifyV2.cartSection.miniCards.get(0).title.getText();
-        assertThat(expectedTitle, equalTo(actualTitle));
+
+        var actualMini = shopifyV2.cartSection.miniCards.get(0);
+        String actualTitle = actualMini.title.getText();
+        String actualPrice = actualMini.price.getText();
+        String actualColor = actualMini.color.getText();
+        String actualSize = actualMini.size.getText();
+
+
+        assertThat(actualTitle, equalTo(expectedTitle));
+        assertThat(actualPrice, equalTo("Price: " + expectedPrice));
+        assertThat(actualColor, equalTo("Color: " + expectedColor));
+        assertThat(actualSize, equalTo(expectedSize));
+
     }
 }

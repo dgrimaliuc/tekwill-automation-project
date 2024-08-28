@@ -1,15 +1,15 @@
-package denis_grimaliuc.junit.petstore;
+package victor_murashev.junit.petstore;
 
-import denis_grimaliuc.ui.petstore.pages.PetStore;
 import internal.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
+import victor_murashev.ui.shopify.pages.PetStore;
 
 public class BaseLocationTest extends BaseTest {
 
     PetStore petStore = new PetStore(driver);
 
     @BeforeEach
-    public void setUp() {
+    public void openPage() {
         petStore.openPage();
     }
 

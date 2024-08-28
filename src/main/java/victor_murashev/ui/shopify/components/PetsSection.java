@@ -1,15 +1,15 @@
-package chiril_bortnicov.ui.petstore.components;
+package victor_murashev.ui.shopify.components;
 
 import helpers.customElements.Component;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class AdoptionSection extends Component {
+public class PetsSection extends Component {
 
     @FindBy(tagName = "h2")
     public WebElement title;
-    
-    public AdoptionSection(WebElement parent) {
+
+    public PetsSection(WebElement parent) {
         super(parent);
     }
 }

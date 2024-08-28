@@ -1,15 +1,15 @@
-package chiril_bortnicov.ui.petstore.components;
+package IngaTitchiev.UI.shopify.components;
 
 import helpers.customElements.Component;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class PetSection extends Component {
+public class MiniCard extends Component {
 
-    @FindBy(tagName = "h2")
+    @FindBy(tagName = "h4")
     public WebElement title;
 
-    public PetSection(WebElement parent) {
+    public MiniCard(WebElement parent) {
         super(parent);
     }
 }

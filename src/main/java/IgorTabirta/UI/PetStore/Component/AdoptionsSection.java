@@ -13,6 +13,7 @@ public class AdoptionsSection extends Component {
     @FindBy(css = "[data-t=single-adoption]")
     public Components<Adoption> adoptions;
 
+
     public AdoptionsSection(WebElement parent) {
         super(parent);
     }

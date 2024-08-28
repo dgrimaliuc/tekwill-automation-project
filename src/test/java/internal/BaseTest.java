@@ -9,10 +9,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.concurrent.TimeUnit;
-
 import static denis_grimaliuc.data.enums.OS.MAC;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
+@SuppressWarnings("unused")
 public class BaseTest {
 
     public final Logger log = Logger.getLogger(BaseTest.class);
@@ -34,9 +34,21 @@ public class BaseTest {
 //        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
+        setTimeouts(driver, 5);
+    }
+
+    public static void setDefaultTimeouts(WebDriver driver) {
+        setTimeouts(driver, 5);
+    }
+
+    public static void turnOffTimeouts(WebDriver driver) {
+        setTimeouts(driver, 0);
+    }
+
+    public static void setTimeouts(WebDriver driver, int timeout) {
+        driver.manage().timeouts().implicitlyWait(timeout, SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(timeout, SECONDS);
+        driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);
     }
 
     @BeforeEach
