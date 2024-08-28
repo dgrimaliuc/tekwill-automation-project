@@ -26,6 +26,7 @@ public class PetStoreInfoTest extends BaseTest {
         String actualPetsCount = petStore.informationSection.petsCount.getText();
         String actualAdoptionCount = petStore.informationSection.adoptionCount.getText();
 
+
         assertThat(actualPetsCount, equalTo("No pets. Go rescue some pets!"));
         assertThat(actualAdoptionCount, equalTo("No adoptions. Go get those pets adopted!"));
     }
@@ -34,10 +35,18 @@ public class PetStoreInfoTest extends BaseTest {
     @DisplayName("Check non-zero Pets and Adoptions")
     public void checkNonZeroPetsAdoptions() throws InterruptedException {
 
-        petStore.petsSection.addPets(3);
+        var petsCount = 3;
+        petStore.petsSection.addPets(petsCount);
         petStore.petsSection.petsList.get(0).click();
         petStore.petsSection.adoptPetButton.click();
-        System.out.println();
+        //petStore.adoptionSection.ti
+        var adoptionsCount = String.valueOf(petStore.adoptionSection.adoptionsList.size());
+
+        System.out.println("PetCount = " + actions.getPetsAdoptionCounts(petStore.informationSection.petsCount));
+        assertThat(actions.getPetsAdoptionCounts(petStore.informationSection.petsCount), equalTo(String.valueOf(petsCount)));
+        assertThat(actions.getPetsAdoptionCounts(petStore.informationSection.adoptionCount), equalTo(adoptionsCount));
+
+        //System.out.println();
     }
 
 }

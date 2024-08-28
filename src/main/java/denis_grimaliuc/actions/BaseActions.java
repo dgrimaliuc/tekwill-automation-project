@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static denis_grimaliuc.data.enums.OS.MAC;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -70,6 +72,21 @@ public class BaseActions {
     public void shouldHaveTextEndsWith(WebElement element, String text) {
         log.trace("Checking if element has text: " + element);
         wait.until(driver -> element.getText().endsWith(text));
+    }
+
+    public String getPetsAdoptionCounts(WebElement element) {
+        log.trace("Checking if element has text: " + element);
+        String PetsAdoptions = element.getText();
+        Pattern pattern = Pattern.compile(":\\s*(\\d+$)");
+        Matcher matcher = pattern.matcher(PetsAdoptions);
+        if (matcher.find()) {
+            String number = matcher.group(1); // This is the number "3"
+            return number;
+        } else {
+            System.out.println("Number not found!");
+            return "0";
+        }
+
     }
 
     public void shouldSee(WebElement element) {
