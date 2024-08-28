@@ -7,8 +7,6 @@ import org.openqa.selenium.support.FindBy;
 
 public class PetsSection extends Component {
 
-//    public static final By defaultTextLocator = By.cssSelector("#pets-table div.items-center");
-
     @FindBy(tagName = "h2")
     public WebElement title;
     @FindBy(css = "[data-t=deselect-button]")
