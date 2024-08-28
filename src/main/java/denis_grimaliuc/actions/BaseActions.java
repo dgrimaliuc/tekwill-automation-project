@@ -49,6 +49,11 @@ public class BaseActions {
         wait.until(driver -> element.getText().contains(text));
     }
 
+    public void shouldHaveTextToBe(WebElement element, String text) {
+        log.trace("Checking if element has text: " + element);
+        wait.until(ExpectedConditions.textToBePresentInElement(element, text));
+    }
+
     public void shouldHaveTextEndsWith(WebElement element, String text) {
         log.trace("Checking if element has text: " + element);
         wait.until(driver -> element.getText().endsWith(text));
@@ -127,4 +132,7 @@ public class BaseActions {
     }
 
 
+    public void shouldNotSee(WebElement element) {
+        wait.until(ExpectedConditions.invisibilityOfAllElements(element));
+    }
 }

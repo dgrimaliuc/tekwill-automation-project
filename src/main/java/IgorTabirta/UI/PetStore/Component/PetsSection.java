@@ -10,6 +10,7 @@ public class PetsSection extends Component {
 
     public static final By petsLocator = By.cssSelector("[data-t=single-pet]");
 
+
     @FindBy(tagName = "h2")
     public WebElement title;
 
@@ -27,6 +28,10 @@ public class PetsSection extends Component {
 
     @FindBy(css = "[data-t=single-pet]")
     public Components<Pet> pets;
+
+    @FindBy(xpath = "//*[contains(text(), 'No rows')]")
+    public WebElement defaultText;
+
 
     public void addPets(int count) {
         for (int i = 0; i < count; i++) {

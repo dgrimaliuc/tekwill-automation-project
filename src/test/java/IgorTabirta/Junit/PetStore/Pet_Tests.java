@@ -88,6 +88,19 @@ public class Pet_Tests extends BaseTest {
 
     }
 
+    @Test
+    @DisplayName("Verify empty state disappears when a pet is aded")
+    public void emptyStateDisappersTest() {
+
+        String randomLocation = RandomStringUtils.randomAlphabetic(17).toUpperCase();
+        petStore.openPage(randomLocation);
+        var defaultText = petStore.petsSection.defaultText.getText();
+        assertThat(defaultText, equalTo("No rows. Try reset filters"));
+        petStore.petsSection.addPets(1);
+        petStore.petsSection.addPetBtn.click();
+        actions.shouldNotSee(petStore.petsSection.defaultText);
+
+    }
 
 }
 
