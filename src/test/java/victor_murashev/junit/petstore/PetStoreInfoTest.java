@@ -42,9 +42,9 @@ public class PetStoreInfoTest extends BaseTest {
         //petStore.adoptionSection.ti
         var adoptionsCount = String.valueOf(petStore.adoptionSection.adoptionsList.size());
 
-        System.out.println("PetCount = " + actions.getPetsAdoptionCounts(petStore.informationSection.petsCount));
-        assertThat(actions.getPetsAdoptionCounts(petStore.informationSection.petsCount), equalTo(String.valueOf(petsCount)));
-        assertThat(actions.getPetsAdoptionCounts(petStore.informationSection.adoptionCount), equalTo(adoptionsCount));
+        System.out.println("PetCount = " + actions.getCountsOfWebElements(petStore.informationSection.petsCount));
+        assertThat(actions.getCountsOfWebElements(petStore.informationSection.petsCount), equalTo(String.valueOf(petsCount)));
+        assertThat(actions.getCountsOfWebElements(petStore.informationSection.adoptionCount), equalTo(adoptionsCount));
 
         //System.out.println();
     }

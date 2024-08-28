@@ -13,8 +13,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static denis_grimaliuc.data.enums.OS.MAC;
-import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class BaseActions {
 
@@ -98,7 +98,7 @@ public class BaseActions {
         wait.until(driver -> element.getText().endsWith(text));
     }
 
-    public String getPetsAdoptionCounts(WebElement element) {
+    public String getCountsOfWebElements(WebElement element) {
         log.trace("Checking if element has text: " + element);
         String textElement = element.getText();
         Pattern pattern = Pattern.compile(":\\s*(\\d+$)");
