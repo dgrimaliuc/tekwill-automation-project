@@ -40,8 +40,6 @@ public class PetStoreInfoTest extends BaseTest {
         petStore.petsSection.addPets(petsCount);
         petStore.petsSection.selectPets(petsSelected);
 
-        //petStore.petsSection.adoptPetButton.click();
-
         int adoptionsToBeApproved = petStore.adoptionSection.adoptionsList.size() + 1;
 
         System.out.println("PetCount = " + actions.getCountsOfWebElements(petStore.informationSection.petsCount));
