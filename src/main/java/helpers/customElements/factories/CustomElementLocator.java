@@ -5,6 +5,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
 import org.openqa.selenium.support.pagefactory.Annotations;
+import org.openqa.selenium.support.pagefactory.ByChained;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.Field;
@@ -51,8 +52,8 @@ public class CustomElementLocator implements ElementLocator {
         if (this.parentElement != null) {
             return this.parentElement.findElements(this.by);
         } else if (this.parentBy != null) {
-            WebElement parentEl = this.searchContext.findElement(parentBy);
-            return parentEl.findElements(this.by);
+            ByChained chained = new ByChained(parentBy, this.by);
+            return this.searchContext.findElements(chained);
         } else {
             return this.searchContext.findElements(this.by);
         }
