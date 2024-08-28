@@ -17,6 +17,10 @@ public class PetStore extends BasePage {
         driver.get("https://petstore-eb41f.web.app/");
     }
 
+    public void openPage(String location) {
+        driver.get("https://petstore-eb41f.web.app/?location=" + location);
+    }
+
     @FindBy(css = "[data-t=location-section]")
     public Location location;
 
