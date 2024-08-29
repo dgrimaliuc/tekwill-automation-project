@@ -9,12 +9,12 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CustomLocatingElementListHandler implements InvocationHandler {
+public class LocatingElementComponentsHandler implements InvocationHandler {
     private final CustomElementLocator locator;
     private final WebDriver driver;
     private final Class<?> componentType;
 
-    public CustomLocatingElementListHandler(WebDriver driver, CustomElementLocator locator, Class<?> componentClass) {
+    public LocatingElementComponentsHandler(WebDriver driver, CustomElementLocator locator, Class<?> componentClass) {
         this.driver = driver;
         this.locator = locator;
         this.componentType = componentClass;
@@ -36,7 +36,7 @@ public class CustomLocatingElementListHandler implements InvocationHandler {
             CustomPageFactory.initComponent(driver, component, parent);
             return component;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                NoSuchMethodException e) {
+                 NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }

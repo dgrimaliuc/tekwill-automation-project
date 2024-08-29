@@ -95,7 +95,7 @@ public class CustomFieldDecorator implements FieldDecorator {
             return component;
 
         } catch (InstantiationException | InvocationTargetException | NoSuchMethodException |
-                IllegalAccessException e) {
+                 IllegalAccessException e) {
             throw new RuntimeException(e);
         }
 
@@ -103,8 +103,8 @@ public class CustomFieldDecorator implements FieldDecorator {
 
     protected Components<?> proxyForComponentsLocator(Field field, ClassLoader loader, CustomElementLocator locator) {
         Class<?> componentType = ((Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0]);
-        InvocationHandler handler = new CustomLocatingElementListHandler(this.factory.getDriver(), locator, componentType);
-        List<?> proxy = (List) Proxy.newProxyInstance(loader, new Class[]{List.class}, handler);
+        InvocationHandler handler = new LocatingElementComponentsHandler(this.factory.getDriver(), locator, componentType);
+        List<?> proxy = (List<?>) Proxy.newProxyInstance(loader, new Class[]{List.class}, handler);
         return new Components<>(proxy);
     }
 }
