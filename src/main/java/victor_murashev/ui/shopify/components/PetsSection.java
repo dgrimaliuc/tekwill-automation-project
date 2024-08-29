@@ -6,6 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static helpers.Helpers.log;
 
 public class PetsSection extends Component {
 
@@ -36,6 +40,21 @@ public class PetsSection extends Component {
             adoptPetButton.isEnabled();
             adoptPetButton.click();
         }
+    }
+
+    public String getCountsOfWebElements(WebElement element) {
+        log.trace("Checking if element has text: " + element);
+        String textElement = element.getText();
+        Pattern pattern = Pattern.compile(":\\s*(\\d+$)");
+        Matcher matcher = pattern.matcher(textElement);
+        if (matcher.find()) {
+            String number = matcher.group(1);
+            return number;
+        } else {
+            System.out.println("Number not found!");
+            return "0";
+        }
+
     }
 
     public PetsSection(WebElement parent) {

@@ -42,10 +42,10 @@ public class PetStoreInfoTest extends BaseTest {
 
         int adoptionsToBeApproved = petStore.adoptionSection.adoptionsList.size() + 1;
 
-        System.out.println("PetCount = " + actions.getCountsOfWebElements(petStore.informationSection.petsCount));
+        System.out.println("PetCount = " + petStore.petsSection.getCountsOfWebElements(petStore.informationSection.petsCount));
         System.out.println("adoptionsToBeApproved = " + adoptionsToBeApproved);
-        assertThat(actions.getCountsOfWebElements(petStore.informationSection.petsCount), equalTo(String.valueOf(petsCount)));
-        assertThat(actions.getCountsOfWebElements(petStore.informationSection.adoptionCount), equalTo(String.valueOf(adoptionsToBeApproved)));
+        assertThat(petStore.petsSection.getCountsOfWebElements(petStore.informationSection.petsCount), equalTo(String.valueOf(petsCount)));
+        assertThat(petStore.petsSection.getCountsOfWebElements(petStore.informationSection.adoptionCount), equalTo(String.valueOf(adoptionsToBeApproved)));
 
         //System.out.println();
     }

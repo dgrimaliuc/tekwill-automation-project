@@ -98,21 +98,6 @@ public class BaseActions {
         wait.until(driver -> element.getText().endsWith(text));
     }
 
-    public String getCountsOfWebElements(WebElement element) {
-        log.trace("Checking if element has text: " + element);
-        String textElement = element.getText();
-        Pattern pattern = Pattern.compile(":\\s*(\\d+$)");
-        Matcher matcher = pattern.matcher(textElement);
-        if (matcher.find()) {
-            String number = matcher.group(1);
-            return number;
-        } else {
-            System.out.println("Number not found!");
-            return "0";
-        }
-
-    }
-
     public void shouldSee(WebElement element) {
         log.trace("Checking if element is visible: " + element);
 
