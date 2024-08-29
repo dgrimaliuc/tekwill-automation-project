@@ -9,12 +9,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static denis_grimaliuc.data.enums.OS.MAC;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class BaseActions {
 
