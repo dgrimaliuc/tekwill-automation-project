@@ -1,6 +1,7 @@
 package denis_grimaliuc.junit.neonStream;
 
 import denis_grimaliuc.ui.neonStream.components.HeroCarousel;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,6 @@ public class NeonStreamSmokeTests extends NeonStreamBaseTest {
     @Test
     @DisplayName("Content is displayed test")
     public void contentIsDisplayedTest() {
-
         actions.shouldSee(carousel.cards.get(0).title);
         actions.shouldSee(carousel.cards.get(0).description);
         actions.shouldSee(carousel.cards.get(0).watchlistButton);
@@ -88,5 +88,60 @@ public class NeonStreamSmokeTests extends NeonStreamBaseTest {
 
         actions.shouldSee(neonStreamPage.watchlistCollection);
         actions.shouldHaveTextToBe(neonStreamPage.watchlistCollection.titles.get(0), expectedTitle);
+    }
+
+    @Test
+    @DisplayName("Click on Add to TV movie test")
+    public void addToWLTvTest() {
+
+        var index = carousel.findHeroCard("tv");
+        String expectedTitle = carousel.cards.get(index).title.getText();
+        carousel.cards.get(index).watchlistButton.click();
+
+        actions.shouldSee(neonStreamPage.watchlistCollection);
+        actions.shouldHaveTextToBe(neonStreamPage.watchlistCollection.titles.get(0), expectedTitle);
+    }
+
+    @Test
+    @DisplayName("Select tab by index test")
+    public void selectTabByIndexTest() {
+        carousel.tabs.get(2).click();
+        Assertions.assertTrue(carousel.tabs.get(2).isActive(), "Verify that 3-th tab is active");
+        Assertions.assertFalse(carousel.tabs.get(0).isActive(), "Verify that 1-th tab is NOT active");
+    }
+
+    @Test
+    @DisplayName("TAB timeout test")
+    public void tabTimeoutTest() {
+        Assertions.assertTrue(carousel.tabs.get(0).isActive(), "Verify that 1-th tab is active");
+        actions.shouldHaveAttributeContains(carousel.tabs.get(1), "class", "is-active");
+        Assertions.assertFalse(carousel.tabs.get(0).isActive(), "Verify that 0-th tab is not active");
+    }
+
+    @Test
+    @DisplayName("Reverse click on left arrow")
+    public void reverseClickOnLeftArrow() {
+        int count = carousel.tabs.size();
+        carousel.leftArrow.click();
+        Assertions.assertTrue(carousel.tabs.get(count - 1).isActive(), "Verify that last tab is active");
+        Assertions.assertFalse(carousel.tabs.get(0).isActive(), "Verify that 0-th tab is not active");
+    }
+
+    @Test
+    @DisplayName("Reverse click on right arrow")
+    public void reverseClickOnRightArrow() {
+        int count = carousel.tabs.size();
+
+        carousel.tabs.get(count - 1).click();
+        carousel.rightArrow.click();
+        Assertions.assertFalse(carousel.tabs.get(count - 1).isActive(), "Verify that last tab is not active");
+        Assertions.assertTrue(carousel.tabs.get(0).isActive(), "Verify that 0-th tab is active");
+    }
+
+    @Test
+    @DisplayName("test Scroll")
+    public void testScroll() {
+        actions.scrollTo(neonStreamPage.singleCard);
+
     }
 }
