@@ -8,4 +8,8 @@ public class Tab extends Component {
     public Tab(WebElement parent) {
         super(parent);
     }
+
+    public boolean isActive() {
+        return this.getAttribute("class").contains("is-active");
+    }
 }
