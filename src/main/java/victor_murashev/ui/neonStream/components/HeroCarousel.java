@@ -11,11 +11,11 @@ public class HeroCarousel extends Component {
     public WebElement placeholder;
 
     //@FindBy(css = "[alt='Scrollleft']")
-    @FindBy(xpath = "//img[@alt='Scrollleft']/ancestor::div[@role='button']")
+    @FindBy(xpath = "//div[@role='button'][.//@alt='Scrollleft']")
     public WebElement arrowLeft;
 
     //@FindBy(css = "[alt='Scrollright']")
-    @FindBy(xpath = "//img[@alt='Scrollright']/ancestor::div[@role='button']")
+    @FindBy(xpath = "//div[@role='button'][.//@alt='Scrollright']")
     public WebElement arrowRight;
 
     @FindBy(css = "[class*=hero-card-container]")
