@@ -25,7 +25,7 @@ public class NeonStreamSmokeTest extends NeonStreamBaseTest {
     @DisplayName("Content is displayed")
     public void contentIsDisplayed() throws InterruptedException {
 
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         actions.shouldSee(herosCarousel.cardContainers.get(0).cardTitle);
         actions.shouldSee(herosCarousel.cardContainers.get(0).backgroundImage);
         actions.shouldSee(herosCarousel.cardContainers.get(0).cardDescription);
