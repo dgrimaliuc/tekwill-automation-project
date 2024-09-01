@@ -4,6 +4,7 @@ import denis_grimaliuc.ui.neonStream.components.HeroCarousel;
 import denis_grimaliuc.ui.neonStream.components.WatchlistCollection;
 import helpers.BasePage;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class NeonStreamHomePage extends BasePage {
@@ -13,6 +14,11 @@ public class NeonStreamHomePage extends BasePage {
 
     @FindBy(css = ".hero-carousel-wrapper")
     public HeroCarousel heroCarousel;
+
+    @FindBy(css = ".single-promo-card-container")
+    public WebElement promoCard;
+    @FindBy(css = ".single-card")
+    public WebElement singleCard;
 
     public NeonStreamHomePage(WebDriver driver) {
         super(driver);

@@ -42,7 +42,7 @@ public class BaseActions {
     }
 
     public static void setTimeoutsToMin(WebDriver driver) {
-        setTimeouts(driver, 3);
+        setTimeouts(driver, 2);
     }
 
     public static void setTimeouts(WebDriver driver, int timeout) {
@@ -69,6 +69,10 @@ public class BaseActions {
     public void shouldNotHaveAttribute(WebElement element, String attribute, String value) {
         wait.until(not(attributeToBe(element, attribute, value)));
         // driver -> element.getCssValue("background-color").equals(color)
+    }
+
+    public void shouldHaveAttributeContains(WebElement element, String attribute, String value) {
+        wait.until((ExpectedConditions.attributeContains(element, attribute, value)));
     }
 
     public void waitForNumberOfElements(Components<?> elements, int count) {
@@ -167,9 +171,30 @@ public class BaseActions {
 
     public void scrollTo(WebElement element) {
         log.trace("Scrolling to element: " + element);
+        setTimeouts(driver, 1);
+        while (!isDisplayed(element)) {
+            executeScript("""
+                    // Scroll certain amounts from current position
+                    window.scrollBy({
+                      top: 500, // could be negative value
+                      left: 0,
+                      behavior: 'smooth'
+                    });
+                    """, null);
+        }
         executeScript("arguments[0].scrollIntoView(true);", element);
+        setDefaultTimeouts(driver);
     }
 
+
+    public boolean isDisplayed(WebElement element) {
+        log.trace("Checking if element is displayed: " + element);
+        try {
+            return element.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     public void clear(WebElement element) {
         log.trace("Clearing element: " + element);
