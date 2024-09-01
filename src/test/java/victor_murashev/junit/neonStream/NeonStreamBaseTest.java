@@ -11,7 +11,6 @@ public class NeonStreamBaseTest extends BaseTest {
     @BeforeEach
     public void openNeonStream() {
         neonStreamPage.openPage();
-
     }
 
 }

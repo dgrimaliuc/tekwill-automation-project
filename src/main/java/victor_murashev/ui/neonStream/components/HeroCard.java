@@ -9,11 +9,10 @@ public class HeroCard extends Component {
     @FindBy(css = "[class*='hero-card_title']")
     public WebElement cardTitle;
 
-
     @FindBy(css = "[class*='hero-card_description']")
     public WebElement cardDescription;
 
-    @FindBy(css = "[class*='watch-now-button']")
+    @FindBy(css = "[class*='actions_watch-now']")
     public WebElement watchNowButton;
 
     @FindBy(css = "[class*='watchlist-button']")
