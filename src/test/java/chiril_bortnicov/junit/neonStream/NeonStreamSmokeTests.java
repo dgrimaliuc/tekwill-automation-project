@@ -1,6 +1,7 @@
 package chiril_bortnicov.junit.neonStream;
 
 import chiril_bortnicov.ui.neonStream.components.HeroCarousel;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,4 +85,51 @@ public class NeonStreamSmokeTests extends NeonStreamBaseTest {
         actions.shouldSee(neonStreamPage.watchlistCollection);
         actions.shouldHaveTextToBe(neonStreamPage.watchlistCollection.titles.get(0), expectedTitle);
     }
+
+    @Test
+    @DisplayName("Click on Add to WL TV test")
+    public void addToWLTVTest() {
+        var index = heroCarousel.findHeroCard("tv");
+        String expectedTitle = heroCarousel.cards.get(index).title.getText();
+        heroCarousel.cards.get(index).watchlistButton.click();
+
+        actions.shouldSee(neonStreamPage.watchlistCollection);
+        actions.shouldHaveTextToBe(neonStreamPage.watchlistCollection.titles.get(0), expectedTitle);
+    }
+
+    @Test
+    @DisplayName("Select Tab by index test")
+    public void selectTabByIndexTest() {
+        heroCarousel.tabs.get(2).click();
+        Assertions.assertTrue(heroCarousel.tabs.get(2).isActive(), "Verify that 3-th tab is active");
+        Assertions.assertFalse(heroCarousel.tabs.get(0).isActive(), "Verify that 1-th tab is NOT active");
+    }
+
+    @Test
+    @DisplayName("TAB timeout test")
+    public void tabTimeoutTest() {
+        Assertions.assertTrue(heroCarousel.tabs.get(0).isActive(), "Verify that 1th tab is active");
+        actions.shouldHaveAttributeContains(heroCarousel.tabs.get(1), "class", "is-active");
+        Assertions.assertFalse(heroCarousel.tabs.get(0).isActive(), "Verify that 0-th tab is NOT active");
+    }
+
+    @Test
+    @DisplayName("Reverse click on left arrow")
+    public void reverseClickOnLeftArrow() {
+        int count = heroCarousel.tabs.size();
+        heroCarousel.leftArrow.click();
+        Assertions.assertTrue(heroCarousel.tabs.get(count - 1).isActive(), "Verify that last tab is active");
+        Assertions.assertFalse(heroCarousel.tabs.get(0).isActive(), "Verify that 0-th tab is not active");
+    }
+
+    @Test
+    @DisplayName("Reverse click on right arrow")
+    public void reverseClickOnRightArrow() {
+        int count = heroCarousel.tabs.size();
+        heroCarousel.tabs.get(count - 1).click();
+        heroCarousel.rightArrow.click();
+        Assertions.assertFalse(heroCarousel.tabs.get(count - 1).isActive(), "Verify that last tab is not active");
+        Assertions.assertTrue(heroCarousel.tabs.get(0).isActive(), "Verify that 0-tn tab is active");
+    }
+    
 }
