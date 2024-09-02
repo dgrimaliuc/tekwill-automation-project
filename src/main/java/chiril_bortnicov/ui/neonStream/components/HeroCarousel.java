@@ -13,7 +13,7 @@ public class HeroCarousel extends Component {
     @FindBy(css = "[class*=hero-carousel-arrows]:nth-child(1):not([class*=placeholder])")
     public WebElement leftArrow;
 
-    @FindBy(css = "[class*=arrow-right]")
+    @FindBy(css = "[class*=hero-carousel-arrows]:nth-child(3):not([class*=placeholder])")
     public WebElement rightArrow;
 
     @FindBy(css = "[class*=hero-card-container]")
@@ -25,11 +25,11 @@ public class HeroCarousel extends Component {
     public int findHeroCard(String type) {
         for (int i = 0; i < cards.size(); i++) {
             tabs.get(i).click();
-            if (cards.get(i).title.getAttribute("href").contains(type)) {
+            if (cards.get(i).title.getAttribute("href").contains(type.toLowerCase())) {
                 return i;
             }
         }
-        return 0;
+        return Integer.MIN_VALUE;
     }
 
     public HeroCarousel(WebElement parent) {
