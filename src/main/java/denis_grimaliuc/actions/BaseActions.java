@@ -1,6 +1,7 @@
 package denis_grimaliuc.actions;
 
 import helpers.customElements.Components;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -10,6 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 import static denis_grimaliuc.data.enums.OS.MAC;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class BaseActions {
 
@@ -19,7 +22,7 @@ public class BaseActions {
 
     public BaseActions(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, 10);
+        wait = new WebDriverWait(driver, 10, 200);
     }
 
     public static void waitFor(int seconds) {
@@ -28,6 +31,24 @@ public class BaseActions {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String getRandomString(int length) {
+        return RandomStringUtils.randomAlphanumeric(length).toUpperCase();
+    }
+
+    public static void setDefaultTimeouts(WebDriver driver) {
+        setTimeouts(driver, 10);
+    }
+
+    public static void setTimeoutsToMin(WebDriver driver) {
+        setTimeouts(driver, 2);
+    }
+
+    public static void setTimeouts(WebDriver driver, int timeout) {
+        driver.manage().timeouts().implicitlyWait(timeout, SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(timeout, SECONDS);
+        driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);
     }
 
     public Object executeScript(String script, Object object) {
@@ -39,15 +60,39 @@ public class BaseActions {
         wait.until(driver -> elements.size() == count);
     }
 
+    public void waitForBackgroundColor(WebElement element, String color) {
+        log.trace("Waiting for background color: " + color);
+        wait.until(attributeToBe(element, "background-color", color));
+        // driver -> element.getCssValue("background-color").equals(color)
+    }
+
+    public void shouldNotHaveAttribute(WebElement element, String attribute, String value) {
+        wait.until(not(attributeToBe(element, attribute, value)));
+        // driver -> element.getCssValue("background-color").equals(color)
+    }
+
+    public void shouldHaveAttributeContains(WebElement element, String attribute, String value) {
+        wait.until((ExpectedConditions.attributeContains(element, attribute, value)));
+    }
+
     public void waitForNumberOfElements(Components<?> elements, int count) {
         log.trace("Waiting for number of elements: " + count);
         wait.until(driver -> elements.size() == count);
     }
-    
 
     public void shouldHaveTextContains(WebElement element, String text) {
         log.trace("Checking if element has text: " + element);
         wait.until(driver -> element.getText().contains(text));
+    }
+
+    public void shouldHaveTextToBe(WebElement element, String text) {
+        log.trace("Checking if element has text: " + element);
+        wait.until(textToBePresentInElement(element, text));
+    }
+
+    public void shouldNotHaveTextToBe(WebElement element, String text) {
+        log.trace("Checking if element has text: " + element);
+        wait.until(not(textToBePresentInElement(element, text)));
     }
 
     public void shouldHaveTextEndsWith(WebElement element, String text) {
@@ -57,12 +102,34 @@ public class BaseActions {
 
     public void shouldSee(WebElement element) {
         log.trace("Checking if element is visible: " + element);
-        try {
-            wait.until(driver -> isInView(element));
-        } catch (Exception e) {
-            throw new TimeoutException("Element is not in viewport: " + element, e);
-        }
+
+
+        setTimeoutsToMin(driver);
+        wait.until(driver -> {
+            try {
+                return element.isDisplayed();
+            } catch (Exception e) {
+                return false;
+            }
+        });
+        setDefaultTimeouts(driver);
     }
+
+    public void shouldNotSee(WebElement element) {
+        log.trace("Checking if element is not visible: " + element);
+        setTimeoutsToMin(driver);
+        wait.until(d -> {
+            boolean isDisplayed;
+            try {
+                isDisplayed = element.isDisplayed();
+            } catch (Exception e) {
+                isDisplayed = false;
+            }
+            return !isDisplayed;
+        });
+        setDefaultTimeouts(driver);
+    }
+
 
     public void waitUntilPageToLoad() {
         log.trace("Waiting for page to load");
@@ -104,9 +171,30 @@ public class BaseActions {
 
     public void scrollTo(WebElement element) {
         log.trace("Scrolling to element: " + element);
+        setTimeouts(driver, 1);
+        while (!isDisplayed(element)) {
+            executeScript("""
+                    // Scroll certain amounts from current position
+                    window.scrollBy({
+                      top: 500, // could be negative value
+                      left: 0,
+                      behavior: 'smooth'
+                    });
+                    """, null);
+        }
         executeScript("arguments[0].scrollIntoView(true);", element);
+        setDefaultTimeouts(driver);
     }
 
+
+    public boolean isDisplayed(WebElement element) {
+        log.trace("Checking if element is displayed: " + element);
+        try {
+            return element.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     public void clear(WebElement element) {
         log.trace("Clearing element: " + element);
@@ -120,13 +208,12 @@ public class BaseActions {
     public void waitForNumberOfElements(By locator, int count) {
         wait.until(ExpectedConditions.numberOfElementsToBe(locator, count));
     }
-    
+
 
     public void hover(WebElement element) {
         log.trace("Hovering over element: " + element);
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
     }
-
 
 }
