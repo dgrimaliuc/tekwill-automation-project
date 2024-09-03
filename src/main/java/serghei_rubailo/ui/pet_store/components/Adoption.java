@@ -17,4 +17,10 @@ public class Adoption extends Component {
     @FindBy(css = "[data-t=pet-name]")
     public List<WebElement> pets;
 
+    @FindBy(css = "[data-t=approve-button]")
+    public WebElement approveButton;
+
+    @FindBy(css = "[data-t=deny-button]")
+    public WebElement denyButton;
+
 }
