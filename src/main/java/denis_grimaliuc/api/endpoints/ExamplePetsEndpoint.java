@@ -1,12 +1,10 @@
 package denis_grimaliuc.api.endpoints;
 
-import denis_grimaliuc.api.BaseRequest;
+import denis_grimaliuc.api.petstore.PetstoreBaseRequest;
 import denis_grimaliuc.data.enums.Status;
 import io.restassured.response.Response;
 
-import static io.restassured.RestAssured.given;
-
-public class PetsEndpoint extends BaseRequest {
+public class ExamplePetsEndpoint extends PetstoreBaseRequest {
     public static Response getPets() {
         return getPets(null, null);
     }
@@ -27,7 +25,7 @@ public class PetsEndpoint extends BaseRequest {
         resp.then()
                 .assertThat()
                 .statusCode(200);
-        return resp;
+        return handleResponse(resp);
     }
 
     public static Response addPet(String name, String location) {
@@ -49,7 +47,7 @@ public class PetsEndpoint extends BaseRequest {
                 .assertThat()
                 .statusCode(201);
 
-        return resp;
+        return handleResponse(resp);
     }
 
     public static Response updateStatus(Status status, String id) {
@@ -67,6 +65,6 @@ public class PetsEndpoint extends BaseRequest {
 
         resp.then().assertThat().statusCode(201);
 
-        return resp;
+        return handleResponse(resp);
     }
 }

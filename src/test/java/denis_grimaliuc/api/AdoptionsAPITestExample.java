@@ -1,32 +1,24 @@
 package denis_grimaliuc.api;
 
-import helpers.PropertiesReader;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
-import static denis_grimaliuc.api.endpoints.AdoptionsEndpoint.*;
-import static denis_grimaliuc.api.endpoints.PetsEndpoint.getPets;
+import static denis_grimaliuc.api.endpoints.ExampleAdoptionsEndpoint.*;
+import static denis_grimaliuc.api.endpoints.ExamplePetsEndpoint.getPets;
 import static denis_grimaliuc.data.enums.Status.APPROVED;
 import static denis_grimaliuc.data.enums.Status.AVAILABLE;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
 
 public class AdoptionsAPITestExample {
     Response response = null;
 
-
-    @AfterEach
-    public void log() {
-        if (PropertiesReader.getPropertyOrDefault("log_all", "false").equals("true")) {
-            response.then().log().all();
-        }
-    }
 
     @Test
     public void getAdoptionsSchemaTest() throws FileNotFoundException {
@@ -34,7 +26,7 @@ public class AdoptionsAPITestExample {
         response = getAdoptions(AVAILABLE, "Chisinau");
         response.then().assertThat().body(JsonSchemaValidator
                 .matchesJsonSchema(new FileInputStream("src/main/resources/schemes/getAdoptionsSchema.json")));
-
+        response.then().assertThat().body("size()", greaterThan(0));
     }
 
     @Test
@@ -51,6 +43,7 @@ public class AdoptionsAPITestExample {
         Response pets = getPets(AVAILABLE, "Chisinau");
         String[] petIds = pets.jsonPath().getList("id")
                 .stream().limit(4).toArray(String[]::new);
+
         response = addAdoption("Chisinau", petIds);
         response.then().assertThat().body(JsonSchemaValidator
                 .matchesJsonSchema(new FileInputStream("src/main/resources/schemes/addAdoptionSchema.json")));
