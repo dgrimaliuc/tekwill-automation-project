@@ -28,7 +28,7 @@ public class ExamplePetsEndpoint extends PetstoreBaseRequest {
         return handleResponse(resp);
     }
 
-    public static Response addPet(String name, String location) {
+    public static Response addPetA(String name, String location) {
         Response resp = given()
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
@@ -50,7 +50,7 @@ public class ExamplePetsEndpoint extends PetstoreBaseRequest {
         return handleResponse(resp);
     }
 
-    public static Response updateStatus(Status status, String id) {
+    public static Response updateStatusA(Status status, String id) {
         Response resp = given()
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
