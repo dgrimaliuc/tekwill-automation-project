@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class ExampleAdoptionsEndpoint extends PetstoreBaseRequest {
 
-    public static Response getAdoptions(Status status, String location) {
+    public static Response getAdoptionsA(Status status, String location) {
         Response resp = given()
                 .queryParam("status", status.toString().toLowerCase())
                 .queryParam("location", location)
@@ -20,9 +20,8 @@ public class ExampleAdoptionsEndpoint extends PetstoreBaseRequest {
         resp.then().assertThat().statusCode(200);
         return handleResponse(resp);
     }
-
-
-    public static Response addAdoption(String location, String... petIds) {
+    
+    public static Response addAdoptionA(String location, String... petIds) {
         var req = given()
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json");
@@ -44,7 +43,7 @@ public class ExampleAdoptionsEndpoint extends PetstoreBaseRequest {
         return handleResponse(resp);
     }
 
-    public static Response updateStatus(Status status, String id) {
+    public static Response updateStatusA(Status status, String id) {
         Response resp = given()
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
