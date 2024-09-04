@@ -30,6 +30,7 @@ public class PetstoreBaseRequest {
         return response
                 .then()
                 .log().all()  // Log all response details
-                .extract().response();
+                .extract()
+                .response();
     }
 }
