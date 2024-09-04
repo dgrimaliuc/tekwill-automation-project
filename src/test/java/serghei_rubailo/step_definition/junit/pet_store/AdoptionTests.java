@@ -89,4 +89,29 @@ public class AdoptionTests extends BaseTest {
         actions.waitForNumberOfElements(petStore.petsSection.pets, 1);
         actions.waitForNumberOfElements(petStore.adoptionsSection.adoptions, 0);
     }
+
+    @Test
+    @DisplayName("Adopt on hold pet")
+    public void adoptOnHoldPet() {
+        petStore.petsSection.addPets(1);
+        actions.waitForNumberOfElements(petStore.petsSection.pets, 1);
+
+        petStore.petsSection.pets.get(0).click();
+        petStore.petsSection.adoptButton.click();
+        actions.waitForNumberOfElements(petStore.adoptionsSection.adoptions, 1);
+
+        petStore.petsSection.pets.get(0).click();
+        petStore.petsSection.adoptButton.click();
+        actions.waitForNumberOfElements(petStore.adoptionsSection.adoptions, 2);
+
+        actions.shouldHaveTextToBe(petStore.adoptionsSection.adoptions.get(0).status, "REJECTED");
+
+        assertThat(petStore.adoptionsSection.adoptions.get(0).pets.get(0).errorReason.getText(), equalTo("ONHOLD"));
+        assertThat(petStore.adoptionsSection.adoptions.get(0).errorMessage.getText(), equalTo("Some of the pets could not be adopted"));
+
+        driver.navigate().refresh();
+        actions.waitForNumberOfElements(petStore.petsSection.pets, 1);
+        actions.waitForNumberOfElements(petStore.adoptionsSection.adoptions, 1);
+    }
+
 }
