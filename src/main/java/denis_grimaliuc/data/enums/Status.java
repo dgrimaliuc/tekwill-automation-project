@@ -5,6 +5,11 @@ public enum Status {
     APPROVED,
     ONHOLD,
     AVAILABLE,
-    DENIED
+    DENIED;
+
+    @Override
+    public String toString() {
+        return name().toLowerCase();
+    }
 
 }
