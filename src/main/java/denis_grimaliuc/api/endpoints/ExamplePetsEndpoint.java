@@ -5,11 +5,11 @@ import denis_grimaliuc.data.enums.Status;
 import io.restassured.response.Response;
 
 public class ExamplePetsEndpoint extends PetstoreBaseRequest {
-    public static Response getPets() {
-        return getPets(null, null);
+    public static Response getPetsA() {
+        return getPetsA(null, null);
     }
 
-    public static Response getPets(Status status, String location) {
+    public static Response getPetsA(Status status, String location) {
         var req = given()
                 .header("Accept", "application/json");
 

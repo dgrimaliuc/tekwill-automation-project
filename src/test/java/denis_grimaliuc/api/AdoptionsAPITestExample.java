@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
 import static denis_grimaliuc.api.endpoints.ExampleAdoptionsEndpoint.*;
-import static denis_grimaliuc.api.endpoints.ExamplePetsEndpoint.getPets;
+import static denis_grimaliuc.api.endpoints.ExamplePetsEndpoint.getPetsA;
 import static denis_grimaliuc.data.enums.Status.APPROVED;
 import static denis_grimaliuc.data.enums.Status.AVAILABLE;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -40,7 +40,7 @@ public class AdoptionsAPITestExample {
 
     @Test
     public void addAdoptionSchemaTest() throws FileNotFoundException {
-        Response pets = getPets(AVAILABLE, "Chisinau");
+        Response pets = getPetsA(AVAILABLE, "Chisinau");
         String[] petIds = pets.jsonPath().getList("id")
                 .stream().limit(4).toArray(String[]::new);
 
@@ -52,7 +52,7 @@ public class AdoptionsAPITestExample {
 
     @Test
     public void addAdoptionTimingTest() {
-        Response pets = getPets(AVAILABLE, "Chisinau");
+        Response pets = getPetsA(AVAILABLE, "Chisinau");
         String[] petIds = pets.jsonPath().getList("id")
                 .stream().limit(4).toArray(String[]::new);
         response = addAdoption("Chisinau", petIds);
