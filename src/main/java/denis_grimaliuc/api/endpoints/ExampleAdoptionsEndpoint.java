@@ -1,6 +1,6 @@
 package denis_grimaliuc.api.endpoints;
 
-import denis_grimaliuc.api.BaseRequest;
+import denis_grimaliuc.api.petstore.PetstoreBaseRequest;
 import denis_grimaliuc.data.enums.Status;
 import helpers.Helpers;
 import io.restassured.response.Response;
@@ -8,11 +8,9 @@ import io.restassured.response.Response;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static io.restassured.RestAssured.given;
+public class ExampleAdoptionsEndpoint extends PetstoreBaseRequest {
 
-public class AdoptionsEndpoint extends BaseRequest {
-
-    public static Response getAdoptions(Status status, String location) {
+    public static Response getAdoptionsA(Status status, String location) {
         Response resp = given()
                 .queryParam("status", status.toString().toLowerCase())
                 .queryParam("location", location)
@@ -20,11 +18,10 @@ public class AdoptionsEndpoint extends BaseRequest {
                 .get("/adoptions");
 
         resp.then().assertThat().statusCode(200);
-        return resp;
+        return handleResponse(resp);
     }
     
-
-    public static Response addAdoption(String location, String... petIds) {
+    public static Response addAdoptionA(String location, String... petIds) {
         var req = given()
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json");
@@ -43,10 +40,10 @@ public class AdoptionsEndpoint extends BaseRequest {
                 """, pets, location));
         Response resp = req.post("/adoptions");
         resp.then().statusCode(201);
-        return resp;
+        return handleResponse(resp);
     }
 
-    public static Response updateStatus(Status status, String id) {
+    public static Response updateStatusA(Status status, String id) {
         Response resp = given()
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
@@ -60,7 +57,7 @@ public class AdoptionsEndpoint extends BaseRequest {
 
         resp.then().assertThat().statusCode(200);
 
-        return resp;
+        return handleResponse(resp);
 
     }
 }
