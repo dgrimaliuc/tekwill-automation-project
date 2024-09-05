@@ -30,5 +30,18 @@ public class PetsEndpoint extends PetstoreBaseRequest {
         return getPets(null);
     }
 
+    public static Response addPets(String location, String name) {
+        var response = given()
+                .body(String.format("""
+                               {
+                               "location":"%s",
+                               "name":"%s"
+                               }                  
+                        """, location, name))
+                .when()
+                .post("/pets");
+
+        return handleResponse(response);
+    }
 
 }
