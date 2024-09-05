@@ -86,6 +86,17 @@ public class PetsAPITests {
                 .body("status", equalTo(AVAILABLE.toString()))
                 .body(matchesJsonSchema(new FileInputStream("src/main/resources/schemes/addPetSchema.json")))
                 .time(lessThan(1000L));
+    }
 
+    @Test
+    @DisplayName("Add pet without location test")
+    public void addPetWithoutLocationTest() {
+        var response = addPet("", "Rex");
+        response
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .body("error", equalTo("Props are required: location"))
+                .time(lessThan(1000L));
     }
 }

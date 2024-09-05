@@ -32,6 +32,10 @@ public class PetsEndpoint extends PetstoreBaseRequest {
         return handleResponse(response);
     }
 
+    public static Response addPet() {
+        return addPet("", "");
+    }
+
     public static Response addPet(String location, String name) {
         var response = given()
                 .body(String.format("""
