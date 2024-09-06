@@ -3,12 +3,9 @@ package denis_grimaliuc.api.petstore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import static denis_grimaliuc.api.petstore.endpoints.PetsEndpoint.*;
 import static denis_grimaliuc.data.enums.Status.*;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+import static denis_grimaliuc.data.utils.MatcherUtils.matchesJsonSchemaFrom;
 import static org.hamcrest.Matchers.*;
 
 public class PetsAPITests {
@@ -30,15 +27,13 @@ public class PetsAPITests {
     @DisplayName("Get all pets schema test")
     public void getPetsSchemaTest() {
         var response = getPets("Chisinau");
-        try {
-            response
-                    .then()
-                    .assertThat()
-                    .body(matchesJsonSchema(new FileInputStream("src/main/resources/schemes/getPetsSchema.json")));
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        response
+                .then()
+                .assertThat()
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/getPetsSchema.json"));
+
+
     }
 
     @Test
@@ -70,7 +65,7 @@ public class PetsAPITests {
 
     @Test
     @DisplayName("Add pet test")
-    public void addPetTest() throws FileNotFoundException {
+    public void addPetTest() {
         String name = "Rex";
         String location = "Chisinau";
 
@@ -83,7 +78,7 @@ public class PetsAPITests {
                 .body("name", equalTo(name))
                 .body("location", equalTo(location))
                 .body("status", equalTo(AVAILABLE.toString()))
-                .body(matchesJsonSchema(new FileInputStream("src/main/resources/schemes/addPetSchema.json")))
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json"))
                 .time(lessThan(1000L));
     }
 

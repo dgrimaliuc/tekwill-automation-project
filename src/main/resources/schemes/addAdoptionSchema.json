@@ -17,6 +17,7 @@
   "required": [
     "pets",
     "location",
+    "status",
     "id"
   ]
 }
