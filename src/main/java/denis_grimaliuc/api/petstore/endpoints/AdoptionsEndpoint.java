@@ -19,9 +19,7 @@ public class AdoptionsEndpoint extends PetstoreBaseRequest {
             request.queryParam("status", status);
         }
 
-        var response = request
-                .when()
-                .get("/adoptions");
+        var response = request.when().get("/adoptions");
 
         return handleResponse(response);
     }
@@ -47,16 +45,14 @@ public class AdoptionsEndpoint extends PetstoreBaseRequest {
         }
 
 
-        var response = given()
-                .body("""
-                        {
-                        "location": "%s",
-                        "pets": %s
-                        }
-                        """.formatted(location, jsonList))
-                .when()
-                .post("/adoptions");
+        var response = given().body("""
+                {
+                "location": "%s",
+                "pets": %s
+                }
+                """.formatted(location, jsonList)).when().post("/adoptions");
 
         return handleResponse(response);
     }
+
 }
