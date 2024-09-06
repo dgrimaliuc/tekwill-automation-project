@@ -40,4 +40,78 @@ public class AdoptionTests extends BaseTest {
         assertThat(pet.petName.getText(), equalTo(adoption.pets.get(0).getText()));
         assertThat(adoption.status.getText(), equalTo("AVAILABLE"));
     }
+
+    @Test
+    @DisplayName("Adoption approve test")
+    public void adoptionApproveTest() {
+        petStore.petsSection.addPets(1);
+        actions.waitForNumberOfElements(petStore.petsSection.pets, 1);
+
+        petStore.petsSection.pets.get(0).click();
+        petStore.petsSection.adoptButton.click();
+        actions.waitForNumberOfElements(petStore.adoptionsSection.adoptions, 1);
+
+        Adoption adoption = petStore.adoptionsSection.adoptions.get(0);
+        adoption.approveButton.click();
+
+        actions.shouldHaveTextToBe(petStore.adoptionsSection.adoptions.get(0).status, "APPROVED");
+        actions.shouldHaveTextToBe(petStore.petsSection.pets.get(0).petStatus, "ADOPTED");
+        assertThat(petStore.adoptionsSection.adoptions.get(0).approveButton.isEnabled(), equalTo(false));
+        assertThat(petStore.adoptionsSection.adoptions.get(0).denyButton.isEnabled(), equalTo(false));
+        actions.waitForBackgroundColor(petStore.adoptionsSection.adoptions.get(0).approveButton, "rgba(209, 213, 219, 1)");
+        actions.waitForBackgroundColor(petStore.adoptionsSection.adoptions.get(0).denyButton, "rgba(209, 213, 219, 1)");
+
+        driver.navigate().refresh();
+        actions.waitForNumberOfElements(petStore.petsSection.pets, 0);
+        actions.waitForNumberOfElements(petStore.adoptionsSection.adoptions, 0);
+        assertThat(petStore.petsSection.defaultText.getText(), equalTo("No rows. Try reset filters"));
+    }
+
+    @Test
+    @DisplayName("Adoption deny test")
+    public void adoptionDenyTest() {
+        petStore.petsSection.addPets(1);
+        actions.waitForNumberOfElements(petStore.petsSection.pets, 1);
+
+        petStore.petsSection.pets.get(0).click();
+        petStore.petsSection.adoptButton.click();
+        actions.waitForNumberOfElements(petStore.adoptionsSection.adoptions, 1);
+
+        Adoption adoption = petStore.adoptionsSection.adoptions.get(0);
+        adoption.denyButton.click();
+
+        actions.shouldHaveTextToBe(petStore.adoptionsSection.adoptions.get(0).status, "DENIED");
+        actions.shouldHaveTextToBe(petStore.petsSection.pets.get(0).petStatus, "AVAILABLE");
+        assertThat(petStore.adoptionsSection.adoptions.get(0).approveButton.isEnabled(), equalTo(false));
+        assertThat(petStore.adoptionsSection.adoptions.get(0).denyButton.isEnabled(), equalTo(false));
+
+        driver.navigate().refresh();
+        actions.waitForNumberOfElements(petStore.petsSection.pets, 1);
+        actions.waitForNumberOfElements(petStore.adoptionsSection.adoptions, 0);
+    }
+
+    @Test
+    @DisplayName("Adopt on hold pet")
+    public void adoptOnHoldPet() {
+        petStore.petsSection.addPets(1);
+        actions.waitForNumberOfElements(petStore.petsSection.pets, 1);
+
+        petStore.petsSection.pets.get(0).click();
+        petStore.petsSection.adoptButton.click();
+        actions.waitForNumberOfElements(petStore.adoptionsSection.adoptions, 1);
+
+        petStore.petsSection.pets.get(0).click();
+        petStore.petsSection.adoptButton.click();
+        actions.waitForNumberOfElements(petStore.adoptionsSection.adoptions, 2);
+
+        actions.shouldHaveTextToBe(petStore.adoptionsSection.adoptions.get(0).status, "REJECTED");
+
+        assertThat(petStore.adoptionsSection.adoptions.get(0).pets.get(0).errorReason.getText(), equalTo("ONHOLD"));
+        assertThat(petStore.adoptionsSection.adoptions.get(0).errorMessage.getText(), equalTo("Some of the pets could not be adopted"));
+
+        driver.navigate().refresh();
+        actions.waitForNumberOfElements(petStore.petsSection.pets, 1);
+        actions.waitForNumberOfElements(petStore.adoptionsSection.adoptions, 1);
+    }
+
 }

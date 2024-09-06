@@ -43,15 +43,9 @@ public class ComponentTests extends BaseTest {
 
         Pet pet = petStore.petsSection.pets.get(0);
         pet.click();
-        waitFor(1);
-        String currentColor = petStore.petsSection.adoptButton.getCssValue("background-color");
+        actions.waitForBackgroundColor(petStore.petsSection.adoptButton, "rgba(249, 115, 22, 1)" );
 
         actions.hover(petStore.petsSection.adoptButton);
-
-        String hoverColor = petStore.petsSection.adoptButton.getCssValue("background-color");
-
-        assertThat(currentColor, equalTo("rgba(249, 115, 22, 1)"));
-        assertThat(hoverColor, equalTo("rgba(234, 88, 12, 1)"));
+        actions.waitForBackgroundColor(petStore.petsSection.adoptButton, "rgba(234, 88, 12, 1)" );
     }
-
 }

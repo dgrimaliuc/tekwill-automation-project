@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import serghei_rubailo.ui.pet_store.components.Pet;
 import serghei_rubailo.ui.pet_store.pages.PetStore;
 
+import static denis_grimaliuc.actions.BaseActions.getRandomString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -83,7 +84,19 @@ public class PetTest extends BaseTest {
         assertThat(petStore.petsSection.adoptButton.isEnabled(), equalTo(false));
     }
 
+    @Test
+    @DisplayName("Empty state disappears when pet is added")
+    public void emptyStateDisappearTest() {
+        String randomLocation = getRandomString(18);
+        petStore.openPage(randomLocation);
 
+        String defaultText = petStore.petsSection.defaultText.getText();
+
+        assertThat(defaultText, equalTo("No rows. Try reset filters"));
+        petStore.petsSection.addPets(1);
+        actions.shouldNotSee(petStore.petsSection.defaultText);
+
+    }
 
 
 }
