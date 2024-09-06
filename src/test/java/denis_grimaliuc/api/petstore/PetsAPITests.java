@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import static denis_grimaliuc.api.petstore.endpoints.PetsEndpoint.addPet;
-import static denis_grimaliuc.api.petstore.endpoints.PetsEndpoint.getPets;
+import static denis_grimaliuc.api.petstore.endpoints.PetsEndpoint.*;
 import static denis_grimaliuc.data.enums.Status.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 import static org.hamcrest.Matchers.*;
@@ -80,7 +79,7 @@ public class PetsAPITests {
         response
                 .then()
                 .assertThat()
-                .statusCode(200)
+                .statusCode(201)
                 .body("name", equalTo(name))
                 .body("location", equalTo(location))
                 .body("status", equalTo(AVAILABLE.toString()))
@@ -98,5 +97,35 @@ public class PetsAPITests {
                 .statusCode(400)
                 .body("error", equalTo("Props are required: location"))
                 .time(lessThan(1000L));
+    }
+
+    @Test
+    @DisplayName("Delete pets from location test")
+    public void deletePetsTest() {
+        String location = "Plett";
+        var response = deletePets(location);
+
+        response
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("message", equalTo("Removed"))
+                .time(lessThan(1000L));
+
+        getPets(location)
+                .then()
+                .assertThat()
+                .body("size()", equalTo(0));
+    }
+
+    @Test
+    @DisplayName("Get pets with !status test")
+    public void getCustomStatusPets() {
+        getPets("Chisinau", "!" + AVAILABLE + "&!" + ADOPTED)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("status", everyItem(equalTo(ONHOLD.toString())));
+
     }
 }
