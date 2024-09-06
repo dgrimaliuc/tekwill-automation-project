@@ -30,6 +30,9 @@ public class PetsSection extends Component {
     @FindBy(css = "[data-t=deselect-button]")
     public WebElement deselectButton;
 
+    @FindBy(xpath = "//*[contains(text(),'No rows')]")
+    public WebElement defaultText;
+
     public void addPets(int quantity) {
         for (int i = 0; i < quantity; i++) {
             addPetButton.click();
