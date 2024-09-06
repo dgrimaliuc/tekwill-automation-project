@@ -1,7 +1,7 @@
 package victor_murashev.api.petstore.endpoints;
 
+import denis_grimaliuc.api.petstore.PetstoreBaseRequest;
 import io.restassured.response.Response;
-import victor_murashev.api.petstore.PetstoreBaseRequest;
 
 public class PetsEndpoint extends PetstoreBaseRequest {
 
