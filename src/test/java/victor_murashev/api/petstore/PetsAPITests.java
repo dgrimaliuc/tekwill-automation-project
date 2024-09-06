@@ -84,7 +84,7 @@ public class PetsAPITests extends PetsEndpoint {
     @DisplayName("Adding a pet")
     public void addPet() throws FileNotFoundException {
 
-        String location = "Orhei";
+        String location = "Balti";
         String petName = "Kuzia";
 
         var response = addPets(location, petName);
@@ -92,7 +92,7 @@ public class PetsAPITests extends PetsEndpoint {
         response
                 .then()
                 .assertThat()
-                .statusCode(200)
+                .statusCode(201)
                 .body("location", equalTo(location))
                 .body("name", equalTo(petName))
                 .body("status", equalTo(AVAILABLE.toString()))
