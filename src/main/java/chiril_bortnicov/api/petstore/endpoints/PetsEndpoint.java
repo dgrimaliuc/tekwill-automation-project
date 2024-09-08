@@ -11,15 +11,20 @@ public class PetsEndpoint extends PetStoreBaseRequest {
     }
 
     public static Response getPets(String location) {
-        return getPets(location, null);
+        return getPets(location, "");
     }
 
     public static Response getPets(String location, Status status) {
+        return getPets(location, status.toString());
+    }
+
+
+    public static Response getPets(String location, String status) {
         var request = given();
         if (location != null && !location.isEmpty()) {
             request.queryParam("location", location);
         }
-        if (status != null && !status.toString().isEmpty()) {
+        if (status != null && !status.isEmpty()) {
             request.queryParam("status", status);
         }
         return handleResponse(request
@@ -44,13 +49,28 @@ public class PetsEndpoint extends PetStoreBaseRequest {
         return handleResponse(response);
     }
 
-    public static Response deletePet(String id) {
+    public static Response deletePets(String location) {
         var request = given();
-        if (id != null && !id.isEmpty()) {
-            request.queryParam("id", id);
+        if (location != null && !location.isEmpty()) {
+            request.queryParam("location", location);
         }
         return handleResponse(request
                 .when()
-                .delete("/pets" + id));
+                .delete("/pets"));
+    }
+
+    public static Response updatePet(String id, String location, String status, String name) {
+        var response = given()
+                .body("""
+                        {
+                        "location": "%s",
+                        "status": "%s",
+                        "name": "%s"
+                        }
+                        """.formatted(location, status, name))
+                .pathParams("id", id)
+                .when()
+                .patch("/pets/{id}");
+        return handleResponse(response);
     }
 }

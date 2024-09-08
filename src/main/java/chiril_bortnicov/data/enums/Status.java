@@ -6,10 +6,10 @@ public enum Status {
     ONHOLD,
     AVAILABLE,
     DENIED;
+    
 
     @Override
     public String toString() {
         return name().toLowerCase();
     }
-
 }
