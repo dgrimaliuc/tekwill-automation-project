@@ -17,16 +17,18 @@ public class AdoptionTests extends BasePetstoreTest {
     @Test
     @DisplayName("Adoption create test")
     public void createAdoptionTest() {
-        String petName = petsSection.petNameInput.getAttribute("value");
-        petsSection.addPetBtn.click();
-        actions.waitForNumberOfElements(petsSection.pets, 1);
-        var pet = petsSection.pets.get(0);
-        pet.click();
+        var petsCount = 1;
+        var petName = petStore.addPets(petsCount).get(0).get("name");
 
+        driver.navigate().refresh();
+        actions.waitForNumberOfElements(petsSection.pets, petsCount);
+        
+        var uiPet = petsSection.pets.get(0);
+        uiPet.click();
         petsSection.adoptBtn.click();
         actions.waitForNumberOfElements(adoptionsSection.adoptions, 1);
 
-        String newPetStatus = pet.status.getText();
+        String newPetStatus = uiPet.status.getText();
         assertThat(newPetStatus, equalTo("ONHOLD"));
 
         Adoption adoption = adoptionsSection.adoptions.get(0);

@@ -15,6 +15,16 @@ public class PetsEndpoint extends PetstoreBaseRequest {
         return getPets(location, "");
     }
 
+    public static Response getPet(String id, String location) {
+        var request = given().pathParams("pet_id", id)
+                .queryParam("location", location);
+
+        var response = request
+                .when()
+                .get("/pets/{pet_id}");
+
+        return handleResponse(response);
+    }
 
     public static Response getPets(String location, Status status) {
         return getPets(location, status.toString());

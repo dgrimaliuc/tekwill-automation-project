@@ -63,7 +63,7 @@ public class PetTests extends BaseTest {
     @DisplayName("Deselect button test")
     public void deselectButtonTest() {
         var petSection = petStore.petsSection;
-        petSection.addPets(2);
+        petStore.addPets(2);
         actions.waitForNumberOfElements(petSection.pets, 2);
 
         petSection.selectFirst(2);
@@ -96,7 +96,7 @@ public class PetTests extends BaseTest {
         var defaultText = petSection.defaultText.getText();
 
         assertThat(defaultText, equalTo("No rows. Try reset filters"));
-        petSection.addPets(1);
+        petStore.addPets(1);
         actions.waitForNumberOfElements(petSection.pets, 1);
         actions.shouldNotSee(petSection.defaultText);
 

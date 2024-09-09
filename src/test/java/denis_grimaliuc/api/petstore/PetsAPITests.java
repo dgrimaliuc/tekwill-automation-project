@@ -82,8 +82,8 @@ public class PetsAPITests {
     public void getCustomStatusPets() {
         getPets("Chisinau", "!" + AVAILABLE + "&!" + ADOPTED).
                 then().assertThat().statusCode(200).body("status", everyItem(equalTo(ONHOLD.toString())));
-
     }
+
 
     @Test
     @DisplayName("Update pet test")
@@ -104,4 +104,49 @@ public class PetsAPITests {
                 .time(lessThan(1000L));
 
     }
+
+
+    @Test
+    @DisplayName("Get pet by id test")
+    public void getPetByIdTest() {
+        var location = "Plett";
+        var name = "Rex";
+
+        String id = addPet(location, name).jsonPath().getString("id");
+
+        getPet(id, location)
+                .then()
+                .assertThat()
+                .body("id", equalTo(id))
+                .body("name", equalTo(name))
+                .body("location", equalTo(location))
+                .body("status", equalTo(AVAILABLE.toString()))
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json"))
+                .time(lessThan(1000L));
+    }
+
+    @Test
+    @DisplayName("Get pet by invalid format id test")
+    public void getPetByInvalidFormatIdTest() {
+        String id = "123";
+        getPet(id, "Chisinau")
+                .then()
+                .assertThat()
+                .body("error", equalTo("Pet ID is invalid"))
+                .time(lessThan(1000L));
+    }
+
+    @Test
+    @DisplayName("Get pet by invalid id test")
+    public void getPetByInvalidIdTest() {
+        String id = "5660cd92-9d76-403b-bd28-e07e83a2e545";
+        String location = "Chisinau";
+
+        getPet(id, location)
+                .then()
+                .assertThat()
+                .body("error", equalTo("Pet %s not found in %s".formatted(id, location)))
+                .time(lessThan(1000L));
+    }
+
 }
