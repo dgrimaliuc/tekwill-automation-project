@@ -76,6 +76,18 @@ public class PetsEndpoint extends PetstoreBaseRequest {
         return handleResponse(response);
     }
 
+    public static Response deletePet(String id, String location) {
+        var request = given();
+
+        if (location != null && !location.isEmpty()) {
+            request.queryParam("location", location);
+        }
+        request.pathParams("pet_id", id);
+
+        var response = request.when().delete("/pets/{pet_id}");
+        return handleResponse(response);
+    }
+
     public static Response updatePet(String id, String location, String status, String name) {
         var response = given()
                 .body("""

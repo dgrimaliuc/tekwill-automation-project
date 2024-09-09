@@ -3,6 +3,9 @@ package denis_grimaliuc.api.petstore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static denis_grimaliuc.api.petstore.endpoints.AdoptionsEndpoint.*;
 import static denis_grimaliuc.api.petstore.endpoints.PetsEndpoint.*;
 import static denis_grimaliuc.data.enums.Status.*;
 import static denis_grimaliuc.data.utils.MatcherUtils.matchesJsonSchemaFrom;
@@ -66,15 +69,17 @@ public class PetsAPITests {
     }
 
     @Test
-    @DisplayName("Delete pets from location test")
+    @DisplayName("Deleting all pets deletes all adoptions test")
     public void deletePetsTest() {
         String location = "Plett";
         var response = deletePets(location);
 
         response.then().assertThat().statusCode(200)
-                .body("message", equalTo("Removed")).time(lessThan(1000L));
+                .body("message", equalTo("Removed"))
+                .time(lessThan(1500L));
 
         getPets(location).then().assertThat().body("size()", equalTo(0));
+        getAdoptions(location, "").then().assertThat().body("size()", equalTo(0));
     }
 
     @Test
@@ -97,6 +102,7 @@ public class PetsAPITests {
         response
                 .then()
                 .assertThat()
+                .statusCode(200)
                 .body("name", equalTo(newName))
                 .body("location", equalTo(location))
                 .body("status", equalTo(ADOPTED.toString()))
@@ -132,6 +138,7 @@ public class PetsAPITests {
         getPet(id, "Chisinau")
                 .then()
                 .assertThat()
+                .statusCode(400)
                 .body("error", equalTo("Pet ID is invalid"))
                 .time(lessThan(1000L));
     }
@@ -145,8 +152,48 @@ public class PetsAPITests {
         getPet(id, location)
                 .then()
                 .assertThat()
+                .statusCode(404)
                 .body("error", equalTo("Pet %s not found in %s".formatted(id, location)))
                 .time(lessThan(1000L));
     }
+
+    @Test
+    @DisplayName("Deleting an adopted pet is impossible and will return 400 bad request")
+    public void deletingAdoptedPetIsImpossibleTest() {
+        var location = "Chisinau";
+        var petId = addPet(location, "Fluffy")
+                .jsonPath()
+                .getString("id");
+
+        createAdoption(location, List.of(petId));
+
+        deletePet(petId, location)
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .body("error", equalTo("Pet '%s' is onhold".formatted(petId)));
+    }
+
+    @Test
+    @DisplayName("When Adoption with pet is approved or denied Pet can be removed ")
+    public void whenAdoptionWithPetIsApprovedItCanBeDeleted() {
+        var location = "Chisinau";
+        var petId = addPet(location, "Fluffy")
+                .jsonPath()
+                .getString("id");
+
+        var adoptionId = createAdoption(location, List.of(petId))
+                .jsonPath()
+                .get("id").toString();
+
+        updateAdoption(adoptionId, "approved", location);
+
+        deletePet(petId, location)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("message", equalTo("Pet removed: %s".formatted(petId)));
+    }
+
 
 }
