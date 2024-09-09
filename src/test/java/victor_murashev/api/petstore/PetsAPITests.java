@@ -7,6 +7,7 @@ import victor_murashev.api.petstore.endpoints.PetsEndpoint;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import static denis_grimaliuc.api.petstore.endpoints.PetsEndpoint.deletePets;
 import static denis_grimaliuc.data.enums.Status.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 import static org.hamcrest.Matchers.*;
@@ -101,5 +102,23 @@ public class PetsAPITests extends PetsEndpoint {
 
     }
 
+    @Test
+    @DisplayName("Delete all pets from location")
+    public void deletePetsTest() {
+        String location = "Plett";
+        var response = deletePets(location);
+        response
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("message", equalTo("Removed"))
+                .time(lessThan(1500L));
 
+        getPets(location)
+                .then()
+                .assertThat()
+                .body("size()", equalTo(0));
+    }
+
+    
 }
