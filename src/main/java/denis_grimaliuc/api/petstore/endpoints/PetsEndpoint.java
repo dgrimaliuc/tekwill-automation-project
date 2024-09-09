@@ -65,4 +65,20 @@ public class PetsEndpoint extends PetstoreBaseRequest {
         var response = request.when().delete("/pets");
         return handleResponse(response);
     }
+
+    public static Response updatePet(String id, String location, String status, String name) {
+        var response = given()
+                .body("""
+                        {
+                        "location": "%s",
+                        "name": "%s",
+                        "status": "%s"
+                        }
+                        """.formatted(location, name, status))
+                .pathParams("pet_id", id)
+                .when()
+                .patch("/pets/{pet_id}");
+
+        return handleResponse(response);
+    }
 }

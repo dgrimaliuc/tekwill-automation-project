@@ -55,4 +55,32 @@ public class AdoptionsEndpoint extends PetstoreBaseRequest {
         return handleResponse(response);
     }
 
+    public static Response updateAdoption(String id, String status, String location) {
+        var response = given()
+                .body("""
+                        {
+                        "status":"%s",
+                        "location":"%s"
+                        }
+                        """.formatted(status, location))
+                .pathParams("adoption_id", id)
+                .when()
+                .patch("/adoptions/{adoption_id}");
+
+        return handleResponse(response);
+    }
+
+    public static Response deleteAdoptions(String location) {
+        var request = given();
+
+        if (location != null && !location.isEmpty()) {
+            request.queryParam("location", location);
+        }
+
+        var response = request
+                .when()
+                .delete("/adoptions");
+        return handleResponse(response);
+    }
+
 }
