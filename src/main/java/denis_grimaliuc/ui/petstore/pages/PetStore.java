@@ -8,6 +8,9 @@ import helpers.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+import java.util.Map;
+
 public class PetStore extends BasePage {
 
     @FindBy(css = "[data-t=location-section]")
@@ -32,5 +35,13 @@ public class PetStore extends BasePage {
 
     public void openPage() {
         driver.get("https://petstore-eb41f.web.app/");
+    }
+
+    public List<Map<String, String>> addPets(int count) {
+        return petsSection.addPets(location.locationInput.getAttribute("value"), count);
+    }
+
+    public List<Map<String, String>> addAdoptions(List<String> pets, int count) {
+        return adoptionsSection.addAdoptions(location.locationInput.getAttribute("value"), pets, count);
     }
 }

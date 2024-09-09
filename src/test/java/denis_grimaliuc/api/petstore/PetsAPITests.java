@@ -3,7 +3,6 @@ package denis_grimaliuc.api.petstore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-
 import static denis_grimaliuc.api.petstore.endpoints.PetsEndpoint.*;
 import static denis_grimaliuc.data.enums.Status.*;
 import static denis_grimaliuc.data.utils.MatcherUtils.matchesJsonSchemaFrom;
@@ -54,7 +53,8 @@ public class PetsAPITests {
         var response = addPet(location, name);
 
         response.then().assertThat().statusCode(201)
-                .body("name", equalTo(name)).body("location", equalTo(location)).body("status", equalTo(AVAILABLE.toString())).body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json")).time(lessThan(1000L));
+                .body("name", equalTo(name)).body("location", equalTo(location)).body("status", equalTo(AVAILABLE.toString()))
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json")).time(lessThan(1000L));
     }
 
     @Test
@@ -82,6 +82,71 @@ public class PetsAPITests {
     public void getCustomStatusPets() {
         getPets("Chisinau", "!" + AVAILABLE + "&!" + ADOPTED).
                 then().assertThat().statusCode(200).body("status", everyItem(equalTo(ONHOLD.toString())));
+    }
+
+
+    @Test
+    @DisplayName("Update pet test")
+    public void updatePetTest() {
+        var location = "Chisinau";
+        var newName = "Rex";
+        var pet = addPet(location, "Fluffy").jsonPath().getString("id");
+
+        var response = updatePet(pet, location, ADOPTED.toString(), newName);
+
+        response
+                .then()
+                .assertThat()
+                .body("name", equalTo(newName))
+                .body("location", equalTo(location))
+                .body("status", equalTo(ADOPTED.toString()))
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json"))
+                .time(lessThan(1000L));
 
     }
+
+
+    @Test
+    @DisplayName("Get pet by id test")
+    public void getPetByIdTest() {
+        var location = "Plett";
+        var name = "Rex";
+
+        String id = addPet(location, name).jsonPath().getString("id");
+
+        getPet(id, location)
+                .then()
+                .assertThat()
+                .body("id", equalTo(id))
+                .body("name", equalTo(name))
+                .body("location", equalTo(location))
+                .body("status", equalTo(AVAILABLE.toString()))
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json"))
+                .time(lessThan(1000L));
+    }
+
+    @Test
+    @DisplayName("Get pet by invalid format id test")
+    public void getPetByInvalidFormatIdTest() {
+        String id = "123";
+        getPet(id, "Chisinau")
+                .then()
+                .assertThat()
+                .body("error", equalTo("Pet ID is invalid"))
+                .time(lessThan(1000L));
+    }
+
+    @Test
+    @DisplayName("Get pet by invalid id test")
+    public void getPetByInvalidIdTest() {
+        String id = "5660cd92-9d76-403b-bd28-e07e83a2e545";
+        String location = "Chisinau";
+
+        getPet(id, location)
+                .then()
+                .assertThat()
+                .body("error", equalTo("Pet %s not found in %s".formatted(id, location)))
+                .time(lessThan(1000L));
+    }
+
 }

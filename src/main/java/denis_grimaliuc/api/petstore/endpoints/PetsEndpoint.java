@@ -15,6 +15,16 @@ public class PetsEndpoint extends PetstoreBaseRequest {
         return getPets(location, "");
     }
 
+    public static Response getPet(String id, String location) {
+        var request = given().pathParams("pet_id", id)
+                .queryParam("location", location);
+
+        var response = request
+                .when()
+                .get("/pets/{pet_id}");
+
+        return handleResponse(response);
+    }
 
     public static Response getPets(String location, Status status) {
         return getPets(location, status.toString());
@@ -63,6 +73,22 @@ public class PetsEndpoint extends PetstoreBaseRequest {
         }
 
         var response = request.when().delete("/pets");
+        return handleResponse(response);
+    }
+
+    public static Response updatePet(String id, String location, String status, String name) {
+        var response = given()
+                .body("""
+                        {
+                        "location": "%s",
+                        "name": "%s",
+                        "status": "%s"
+                        }
+                        """.formatted(location, name, status))
+                .pathParams("pet_id", id)
+                .when()
+                .patch("/pets/{pet_id}");
+
         return handleResponse(response);
     }
 }

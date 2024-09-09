@@ -12,7 +12,7 @@ public class IntegrationTests extends BasePetstoreTest {
     @Test
     @DisplayName("Added pet in different location is not reflected in current one test")
     public void integrationLocationTest() {
-        petStore.petsSection.addPets(1);
+        petStore.addPets(1);
         actions.waitForNumberOfElements(petStore.petsSection.pets, 1);
         var pet = petStore.petsSection.pets.get(0);
         pet.click();
