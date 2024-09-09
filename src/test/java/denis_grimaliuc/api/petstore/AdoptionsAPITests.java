@@ -7,6 +7,7 @@ import java.util.List;
 
 import static denis_grimaliuc.api.petstore.endpoints.AdoptionsEndpoint.*;
 import static denis_grimaliuc.api.petstore.endpoints.PetsEndpoint.addPet;
+import static denis_grimaliuc.api.petstore.endpoints.PetsEndpoint.getPet;
 import static denis_grimaliuc.data.enums.Status.AVAILABLE;
 import static denis_grimaliuc.data.utils.MatcherUtils.matchesJsonSchemaFrom;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -145,6 +146,13 @@ public class AdoptionsAPITests {
     @DisplayName("Delete adoptions test")
     public void deleteAdoptionTest() {
         var location = "Chisinau 2";
+
+        var petId = addPet(location, "CAT")
+                .jsonPath()
+                .getString("id");
+
+        createAdoption(location, List.of(petId));
+
         deleteAdoptions(location)
                 .then()
                 .assertThat()
@@ -156,17 +164,57 @@ public class AdoptionsAPITests {
                 .then()
                 .assertThat()
                 .body("size()", equalTo(0));
+
+        getPet(petId, location)
+                .then()
+                .assertThat()
+                .body("status", equalTo(AVAILABLE.toString()));
     }
 
     @Test
     @DisplayName("Delete adoptions without location test")
     public void deleteAdoptionWithoutLocationTest() {
-        // FIX
         deleteAdoptions("")
                 .then()
                 .assertThat()
                 .statusCode(400)
                 .body("error", equalTo("Location is required"))
+                .time(lessThan(1000L));
+    }
+
+    @Test
+    @DisplayName("Delete adoptions by id test")
+    public void deleteAdoptionByIDTest() {
+        deleteAdoption("a3b63f24-ce7d-4f4a-9d05-be9d4d04d50b", "Plett")
+                .then()
+                .assertThat()
+                .statusCode(200)
+//                .body("error", equalTo("Location is required"))
+                .time(lessThan(1000L));
+    }
+
+    @Test
+    @DisplayName("Get adoption by invalid format id test")
+    public void getAdoptionByInvalidFormatId() {
+        getAdoption("123", "Chisinau")
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .body("error", equalTo("Adoption ID is invalid"))
+                .time(lessThan(1000L));
+    }
+
+    @Test
+    @DisplayName("Get adoption by invalid  id test")
+    public void getAdoptionByInvalidId() {
+        var id = "b0e52088-0767-4591-95b1-7cc434d610c1";
+        var location = "Chisinau";
+
+        getAdoption(id, location)
+                .then()
+                .assertThat()
+                .statusCode(404)
+                .body("error", equalTo("Adoption %s not found in %s".formatted("b0e52088-0767-4591-95b1-7cc434d610c1", location)))
                 .time(lessThan(1000L));
     }
 }
