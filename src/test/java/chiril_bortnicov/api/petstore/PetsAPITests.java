@@ -1,14 +1,12 @@
 package chiril_bortnicov.api.petstore;
 
+import chiril_bortnicov.data.enums.Status;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import static chiril_bortnicov.api.petstore.endpoints.PetsEndpoint.*;
 import static chiril_bortnicov.data.enums.Status.*;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
+import static chiril_bortnicov.data.utils.MatcherUtils.matchesJsonSchemaFrom;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -17,7 +15,10 @@ public class PetsAPITests {
     @Test
     @DisplayName("Get all pets test")
     public void getPetsTest() {
-        var response = getPets("Moscow", AVAILABLE);
+        String location = "Moscow";
+        String name = "Tom";
+        addPet(location, name);
+        var response = getPets(location, AVAILABLE);
         response
                 .then()
                 .assertThat()
@@ -81,19 +82,15 @@ public class PetsAPITests {
     @DisplayName("Get all pets schema test")
     public void getAllPetsSchemaTest() {
         var response = getPets("Moscow");
-        try {
-            response
-                    .then()
-                    .assertThat()
-                    .body(matchesJsonSchema(new FileInputStream("src/main/resources/schemes/getPetsSchema.json")));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        response
+                .then()
+                .assertThat()
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/getPetsSchema.json"));
     }
 
     @Test
     @DisplayName("Add pet test")
-    public void addPetTest() throws FileNotFoundException {
+    public void addPetTest() {
         String location = "Moscow";
         String name = "Tom";
         var response = addPet(location, name);
@@ -101,11 +98,11 @@ public class PetsAPITests {
         response
                 .then()
                 .assertThat()
-                .statusCode(200)
+                .statusCode(201)
                 .body("name", equalTo(name))
                 .body("location", equalTo(location))
                 .body("status", equalTo(AVAILABLE.toString()))
-                .body(matchesJsonSchema(new FileInputStream("src/main/resources/schemes/addPetSchema.json")))
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json"))
                 .time(lessThan(1500L));
     }
 
@@ -127,45 +124,62 @@ public class PetsAPITests {
         String location = "Moscow";
         String name = "Tom";
         var response = addPet(location, name);
-        try {
-            response
-                    .then()
-                    .assertThat()
-                    .statusCode(200)
-                    .body("name", equalTo(name))
-                    .body("location", equalTo(location))
-                    .body(matchesJsonSchema(new FileInputStream("src/main/resources/schemes/addPetSchema.json")))
-                    .time(lessThan(1500L));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        response
+                .then()
+                .assertThat()
+                .statusCode(201)
+                .body("name", equalTo(name))
+                .body("location", equalTo(location))
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json"))
+                .time(lessThan(1500L));
     }
 
     @Test
     @DisplayName("Delete pet test")
     public void deletePetTest() {
         String location = "Moscow";
-        String name = "Tom";
-        var response = addPet(location, name);
+        var response = deletePets(location);
         response
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("name", equalTo(name))
+                .body("message", equalTo("Removed"))
+                .time(lessThan(1500L));
+        getPets(location)
+                .then()
+                .assertThat()
+                .body("size()", equalTo(0));
+    }
+
+    @Test
+    @DisplayName("Get pets with !status test")
+    public void getCustomStatusPetsTest() {
+        String location = "Moscow";
+        String name = "Tom";
+        addPet(location, name);
+        var response = getPets(location, "!" + AVAILABLE + "&!" + ADOPTED);
+        response
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("status", everyItem(equalTo(Status.ONHOLD.toString())));
+    }
+
+    @Test
+    @DisplayName("Update pet test")
+    public void updatePetTest() {
+        var location = "Moscow";
+        var newName = "Tom";
+        var pet = addPet(location, "Tommy").jsonPath().getString("id");
+        var response = updatePet(pet, location, ADOPTED.toString(), newName);
+        response
+                .then()
+                .assertThat()
+                .body("name", equalTo(newName))
                 .body("location", equalTo(location))
+                .body("status", equalTo(ADOPTED.toString()))
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json"))
                 .time(lessThan(1500L));
-        String petId = response.jsonPath().getString("id");
-        var delResponse = deletePet(petId);
-        delResponse
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .time(lessThan(1500L));
-        var getResponse = getPets(location);
-        getResponse
-                .then()
-                .assertThat()
-                .statusCode(200)
-                .body("find { it.id == '%s' }", equalTo(null));
     }
 }
+
