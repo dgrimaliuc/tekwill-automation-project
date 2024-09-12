@@ -5,6 +5,12 @@ import helpers.customElements.Components;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static denis_grimaliuc.api.petstore.endpoints.PetsEndpoint.addPet;
+
 public class PetsSection extends Component {
 
     @FindBy(tagName = "h2")
@@ -28,10 +34,13 @@ public class PetsSection extends Component {
         super(parent);
     }
 
-    public void addPets(int count) {
+    public List<Map<String, String>> addPets(String location, int count) {
+        List<Map<String, String>> pets = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            addPetBtn.click();
+            var pet = addPet(location, "Cat");
+            pets.add(pet.jsonPath().getMap(""));
         }
+        return pets;
     }
 
     public void selectFirst(int count) {

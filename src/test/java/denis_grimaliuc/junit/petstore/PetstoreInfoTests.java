@@ -34,7 +34,7 @@ public class PetstoreInfoTests extends BaseTest {
     @DisplayName("Get exact info test")
     public void getExactInfoTest() {
         var petsCount = 3;
-        petStore.petsSection.addPets(petsCount);
+        petStore.addPets(petsCount);
         actions.waitForNumberOfElements(petStore.petsSection.pets, petsCount);
 
         petStore.petsSection.pets.get(0).click();

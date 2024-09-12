@@ -8,6 +8,18 @@ import java.util.List;
 
 public class AdoptionsEndpoint extends PetstoreBaseRequest {
 
+    public static Response getAdoption(String id, String location) {
+        var request = given()
+                .pathParam("adoption_id", id);
+
+        if (location != null && !location.isEmpty()) {
+            request.queryParam("location", location);
+        }
+
+        var response = request.when().get("/adoptions/{adoption_id}");
+        return handleResponse(response);
+    }
+
     public static Response getAdoptions(String location, String status) {
         var request = given();
 
@@ -82,5 +94,20 @@ public class AdoptionsEndpoint extends PetstoreBaseRequest {
                 .delete("/adoptions");
         return handleResponse(response);
     }
+
+    public static Response deleteAdoption(String id, String location) {
+        var request = given();
+
+        if (location != null && !location.isEmpty()) {
+            request.queryParam("location", location);
+        }
+
+        var response = request
+                .when()
+                .delete("/adoptions/{adoption_id}", id);
+
+        return handleResponse(response);
+    }
+
 
 }
