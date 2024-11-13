@@ -1,6 +1,6 @@
 package internal;
 
-import denis_grimaliuc.actions.BaseActions;
+import example.actions.BaseActions;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,9 +9,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static denis_grimaliuc.actions.BaseActions.setDefaultTimeouts;
-import static denis_grimaliuc.actions.BaseActions.setTimeouts;
-import static denis_grimaliuc.data.enums.OS.MAC;
+import static example.actions.BaseActions.setDefaultTimeouts;
+import static example.data.enums.OS.MAC;
 
 @SuppressWarnings("unused")
 public class BaseTest {
