@@ -10,8 +10,8 @@
 
 
     <properties>
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <cucumber.version>7.11.1</cucumber.version>
         <parallelCount>1</parallelCount>
         <chrome.config>src/main/resources/chromeSettings/chrome.yaml</chrome.config>

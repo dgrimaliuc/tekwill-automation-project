@@ -23,7 +23,7 @@ public class BaseTest {
     public BaseTest() {
         var pathToChrome = "";
         if (MAC.isCurrentOs()) {
-            pathToChrome = "src/main/resources/chromedriver_mac";
+            pathToChrome = "src/main/resources/chromedriver";
         } else {
             pathToChrome = "src/main/resources/chromedriver.exe";
         }
