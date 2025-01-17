@@ -2,7 +2,7 @@
  Feature: My first test
   # Feature description here
 
-  Scenario: TEST
-    Given I have a string "Hello World"
+  Scenario: Test if Hello World includes Hello
+    Given I have a string "Hello World!"
     When I check if it contains "Hello"
     Then It should return true
