@@ -9,7 +9,6 @@ Automate the following scenarios:
 	      “”"
 	    When I count the length of string
 	    Then the length should be 84
-
   2.
 2.1  Scenario: Subtract two numbers
     Given I have the numbers 10 and 4
