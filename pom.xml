@@ -15,7 +15,7 @@
         <cucumber.version>7.11.1</cucumber.version>
         <parallelCount>1</parallelCount>
         <chrome.config>src/main/resources/chromeSettings/chrome.yaml</chrome.config>
-        <current_os>windows</current_os>
+        <current_os>unselected</current_os>
 
     </properties>
 
@@ -226,6 +226,12 @@
             <id>windows</id>
             <properties>
                 <current_os>windows</current_os>
+            </properties>
+        </profile>
+        <profile>
+            <id>linux</id>
+            <properties>
+                <current_os>linux</current_os>
             </properties>
         </profile>
         <!--        <profile>-->

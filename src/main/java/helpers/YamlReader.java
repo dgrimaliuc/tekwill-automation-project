@@ -13,6 +13,10 @@ public class YamlReader {
         this.pathToFile = pathToFile;
     }
 
+    public YamlReader() {
+        this("src/main/resources/chromeSettings/chrome.yaml");
+    }
+
     public Map<String, Object> read() {
         Yaml yaml = new Yaml();
         try (FileInputStream in = new FileInputStream(pathToFile)) {

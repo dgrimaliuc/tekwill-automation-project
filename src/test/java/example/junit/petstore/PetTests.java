@@ -98,7 +98,7 @@ public class PetTests extends BaseTest {
         assertThat(defaultText, equalTo("No rows. Try reset filters"));
         petStore.addPets(1);
         actions.waitForNumberOfElements(petSection.pets, 1);
-        actions.shouldNotSee(petSection.defaultText);
+        actions.shouldNotBeDisplayed(petSection.defaultText);
 
     }
 

@@ -5,12 +5,9 @@ import org.apache.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static example.actions.BaseActions.setDefaultTimeouts;
-import static example.data.enums.OS.MAC;
 
 @SuppressWarnings("unused")
 public class BaseTest {
@@ -21,19 +18,7 @@ public class BaseTest {
     public WebDriverWait wait = null;
 
     public BaseTest() {
-        var pathToChrome = "";
-        if (MAC.isCurrentOs()) {
-            pathToChrome = "src/main/resources/chromedriver";
-        } else {
-            pathToChrome = "src/main/resources/chromedriver.exe";
-        }
-
-        System.setProperty("webdriver.chrome.driver", pathToChrome);
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-search-engine-choice-screen");
-//        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
+        driver = new ChromeDriverProvider().getDriver();
         setDefaultTimeouts(driver);
     }
 

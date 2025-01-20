@@ -4,6 +4,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 public enum OS {
     WINDOWS("windows"),
+    LINUX("linux"),
     MAC("mac");
 
 

@@ -12,6 +12,4 @@ public class UIJunitTest extends BaseTest {
         driver.get("https://shopify-eta-drab.vercel.app/");
         System.out.println();
     }
-
-
 }
