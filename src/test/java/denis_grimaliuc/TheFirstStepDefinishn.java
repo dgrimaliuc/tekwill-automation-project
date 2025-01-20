@@ -3,6 +3,7 @@ package denis_grimaliuc;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TheFirstStepDefinishn {
 
     Map<String, Object> context = new HashMap<>();
+    Logger log = Logger.getLogger(TheFirstStepDefinishn.class);
 
     @Given("I have a string {string}")
     public void iHaveAString(String string) {
@@ -95,5 +97,75 @@ public class TheFirstStepDefinishn {
     public void listShouldContain(String fruit) {
         List<String> list = (List<String>) context.get("my_list");
         assertThat(list, hasItem(fruit));
+    }
+
+    @When("I count the length of string")
+    public void iCountTheLengthOfString() {
+        String myString = context.get("paragraph").toString();
+        int length = myString.length();
+        context.put("length_of_string", length);
+    }
+
+
+    @Given("I have the numbers {int} and {int}")
+    public void i_have_the_numbers_and(Integer int1, Integer int2) {
+        log.info("I have two numbers: " + int1 + " and " + int2);
+        context.put("first_number", int1);
+        context.put("second_number", int2);
+    }
+
+    @When("I subtract the second number from the first")
+    public void i_subtract_the_second_number_from_the_first() {
+        log.info("I subtract the second number from the first");
+        int firstNumber = (int) context.get("first_number");
+        int secondNumber = (int) context.get("second_number");
+        int result = firstNumber - secondNumber;
+        context.put("result", result);
+    }
+
+    @Then("the result should be {int}")
+    public void the_result_should_be(Integer int1) {
+        int result = (int) context.get("result");
+        log.info("The result should be " + int1 + " and actual is " + result);
+        assertThat(result, equalTo(int1));
+    }
+
+    @Given("I have a number {int}")
+    public void i_have_a_number(Integer int1) {
+        context.put("my_number", int1);
+    }
+
+    @Then("the number should be even")
+    public void the_number_should_be_even() {
+        int myNum = (int) context.get("my_number");
+        assertThat(myNum % 2 == 0, equalTo(true));
+    }
+
+    @When("I add the numbers")
+    public void i_add_the_numbers() {
+        int fNum = (int) context.get("first_number");
+        int sNum = (int) context.get("second_number");
+        int sum = fNum + sNum;
+        context.put("result", sum);
+    }
+
+
+    @Given("I have a map with the following key-value pairs:")
+    public void i_have_a_map_with_the_following_key_value_pairs(Map<String, String> map) {
+        context.put("my_map", map);
+    }
+
+    @When("I retrieve the value for the key {string}")
+    public void i_retrieve_the_value_for_the_key(String key) {
+        Map<String, String> myMap = (Map<String, String>) context.get("my_map");
+        String value = myMap.get(key);
+
+        context.put("value", value);
+    }
+
+    @Then("the value should be {string}")
+    public void the_value_should_be(String expectedValue) {
+        String actualValue = (String) context.get("value");
+        assertThat(actualValue, equalTo(expectedValue));
     }
 }

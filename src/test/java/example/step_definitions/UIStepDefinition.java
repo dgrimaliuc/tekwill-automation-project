@@ -38,8 +38,7 @@ public class UIStepDefinition {
         var pathToChrome = "src/main/resources/chromedriver";
         System.setProperty("webdriver.chrome.driver", pathToChrome);
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-search-engine-choice-screen");
-//        options.addArguments("--headless");
+        options.addArguments("--start-maximized", "--disable-search-engine-choice-screen");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
