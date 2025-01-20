@@ -12,27 +12,17 @@ import java.util.concurrent.TimeUnit;
 
 import static example.data.enums.OS.*;
 import static helpers.Helpers.addQuotes;
-import static java.lang.System.getProperty;
 
 public class ChromeDriverProvider {
-
-    private final String pathToConfig;
     private final ChromeOptions options = new ChromeOptions();
-
 
     public ChromeDriverProvider(OS os) {
         System.setProperty("current_os", os.name().toLowerCase());
-        this.pathToConfig = getProperty("config");
         System.setProperty("webdriver.chrome.driver", getBinaryPath());
     }
 
     public ChromeDriverProvider() {
-        this.pathToConfig = getProperty("config");
         System.setProperty("webdriver.chrome.driver", getBinaryPath());
-    }
-
-    public static Map<String, Object> getSettings() {
-        return new YamlReader().read();
     }
 
     private static String getBinaryPath() {
@@ -43,6 +33,10 @@ public class ChromeDriverProvider {
         } else throw new NoSuchElementException("Unsupported OS type: " + addQuotes(getCurrentOS()));
     }
 
+    public Map<String, Object> getSettings() {
+        String config = "src/main/resources/chromeSettings/chrome.yaml";
+        return new YamlReader(config).read();
+    }
 
     public void setCapabilities(Map<String, Object> settings) {
         Map<String, Object> capabilities = (Map) settings.get("capabilities");
