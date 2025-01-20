@@ -11,8 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 import static example.data.enums.OS.MAC;
-import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class BaseActions {
 
@@ -102,12 +102,10 @@ public class BaseActions {
 
     public void shouldSee(WebElement element) {
         log.trace("Checking if element is visible: " + element);
-
-
         setTimeoutsToMin(driver);
         wait.until(driver -> {
             try {
-                return element.isDisplayed();
+                return isInView(element);
             } catch (Exception e) {
                 return false;
             }
@@ -115,7 +113,7 @@ public class BaseActions {
         setDefaultTimeouts(driver);
     }
 
-    public void shouldNotSee(WebElement element) {
+    public void shouldNotBeDisplayed(WebElement element) {
         log.trace("Checking if element is not visible: " + element);
         setTimeoutsToMin(driver);
         wait.until(d -> {
@@ -149,8 +147,7 @@ public class BaseActions {
             throw new TimeoutException("Element is not displayed: " + element, e);
         }
     }
-
-
+    
     public boolean isInView(WebElement element) {
         return (boolean) executeScript("""
                 if (!arguments[0].getBoundingClientRect) {
@@ -208,7 +205,6 @@ public class BaseActions {
     public void waitForNumberOfElements(By locator, int count) {
         wait.until(ExpectedConditions.numberOfElementsToBe(locator, count));
     }
-
 
     public void hover(WebElement element) {
         log.trace("Hovering over element: " + element);
