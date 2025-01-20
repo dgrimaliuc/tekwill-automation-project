@@ -1,5 +1,6 @@
 package internal;
 
+import example.data.enums.OS;
 import helpers.YamlReader;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -19,13 +20,19 @@ public class ChromeDriverProvider {
     private final ChromeOptions options = new ChromeOptions();
 
 
+    public ChromeDriverProvider(OS os) {
+        System.setProperty("current_os", os.name().toLowerCase());
+        this.pathToConfig = getProperty("config");
+        System.setProperty("webdriver.chrome.driver", getBinaryPath());
+    }
+
     public ChromeDriverProvider() {
         this.pathToConfig = getProperty("config");
         System.setProperty("webdriver.chrome.driver", getBinaryPath());
     }
 
-    public static Map<String, Object> getSettings(String pathToConfig) {
-        return new YamlReader(pathToConfig).read();
+    public static Map<String, Object> getSettings() {
+        return new YamlReader().read();
     }
 
     private static String getBinaryPath() {
@@ -62,7 +69,7 @@ public class ChromeDriverProvider {
     }
 
     public ChromeDriver getDriver() {
-        Map<String, Object> settings = getSettings(pathToConfig);
+        Map<String, Object> settings = getSettings();
         setArguments(settings);
         setCapabilities(settings);
         ChromeDriver driver = createDriver();

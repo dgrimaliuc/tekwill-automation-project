@@ -40,7 +40,6 @@ public class UIStepDefinition {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized", "--disable-search-engine-choice-screen");
         driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
@@ -404,4 +403,5 @@ public class UIStepDefinition {
         assertThat(alertText, equalTo("Order has been placed!"));
         alert.accept();
     }
+
 }
