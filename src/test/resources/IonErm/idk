@@ -40,3 +40,4 @@ Automate the following scenarios:
       | email | john@example.com |
     When I retrieve the value for the key “email”
     Then the value should be “john@example.com”
+
