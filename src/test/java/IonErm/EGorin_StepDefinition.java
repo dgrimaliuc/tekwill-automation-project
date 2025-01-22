@@ -3,16 +3,17 @@ package IonErm;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.hamcrest.CoreMatchers;
+import org.apache.log4j.Logger;
 
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class StepDefinition {
+public class EGorin_StepDefinition {
 
     Map<String, Object> context = new HashMap<>();
+    Logger log = Logger.getLogger(EGorin_StepDefinition.class);
 
     @Given("I have a string {string}")
     public void iHaveAString(String string) {
@@ -85,12 +86,14 @@ public class StepDefinition {
 
     @Given("I have the numbers {int} and {int}")
     public void i_have_the_numbers_and(Integer int1, Integer int2) {
+        log.info("Begin with 2 number: " + int1 + " and " + int2);
         context.put("int1", int1);
         context.put("int2", int2);
     }
 
     @When("I subtract the second number from the first")
     public void i_subtract_the_second_number_from_the_first() {
+        log.info("I subtract the second number from the first");
         Integer int1 = (int) context.get("int1");
         Integer int2 = (int) context.get("int2");
         Integer result = int1 - int2;
@@ -99,6 +102,7 @@ public class StepDefinition {
 
     @Then("the result should be {int}")
     public void the_result_should_be(Integer result) {
+        log.info("The result should be: " + result);
         Integer actualResult = (Integer) context.get("result");
         assertThat(actualResult, equalTo(result));
     }
@@ -154,7 +158,6 @@ public class StepDefinition {
         Map<String, String> map = (Map<String, String>) context.get("map");
         String retrievedValue = map.get(key);
         context.put("retrievedValue", retrievedValue);
-
     }
 
     @Then("the value should be {string}")
