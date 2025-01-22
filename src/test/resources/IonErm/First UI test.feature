@@ -14,7 +14,6 @@ Feature: Simple UI test
     Given Open the PetStore
     Given Change location on "<town>"
     Then Add pet in your town
-#    Then Choose '<pet>'
     Then Adopt the selected pet
 #    Then Approve your pet 🦮
     Examples:
@@ -22,7 +21,6 @@ Feature: Simple UI test
       | Kiki | New York |
 
     #HomeWork
-
   Scenario: Verify text in "The game" section
     Given Open the PetStore in Chisinau
     Then Verify the Pets in Chisinau: 5

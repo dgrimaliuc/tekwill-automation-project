@@ -10,8 +10,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -56,7 +54,6 @@ public class EGorin_TestUI {
         newWindow.click();
     }
 
-
     @Given("Change location on {string}")
     public void change_location_on(String string) {
         var location = driver.findElement(By.xpath("//div[@class='flex']//input[@id='location-input']"));
@@ -70,23 +67,10 @@ public class EGorin_TestUI {
         addPet.click();
     }
 
-    @Then("Choose {string}")
-    public void chooseCheckbox(String string) {
-        var petCheckbox = driver.findElement(By.xpath("//div[text()='Kiki']"));
-        petCheckbox.click();
-    }
-
-
     @Then("Adopt the selected pet")
     public void adoptPet() {
         var adopt = driver.findElement(By.xpath("//button[@data-t='adopt-button']"));
         adopt.click();
-    }
-
-    @Then("Approve your pet \uD83E\uDDAE")
-    public void approvePet() {
-        var petName = driver.findElement(By.xpath("//div[@data-t='single-adoption']//div[text()='Kiki']"));
-        String petText = petName.getText();
     }
 
     //Homework
@@ -100,8 +84,7 @@ public class EGorin_TestUI {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         boolean isTextCorrect = wait.until(ExpectedConditions.textToBePresentInElementLocated(
                 By.xpath("//p[@data-t='pets-count']//span"),
-                "Pets in Chisinau: 5"
-        ));
+                "Pets in Chisinau: 5"));
         assertThat("Text did not match after waiting", isTextCorrect, equalTo(true));
     }
 
@@ -110,26 +93,8 @@ public class EGorin_TestUI {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         boolean isTextCorrect = wait.until(ExpectedConditions.textToBePresentInElementLocated(
                 By.xpath("//p[@data-t='adoptions-count']//span"),
-                "Adoptions in Chisinau: 2"
-        ));
+                "Adoptions in Chisinau: 2"));
         assertThat("Text did not match after waiting", isTextCorrect, equalTo(true));
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
