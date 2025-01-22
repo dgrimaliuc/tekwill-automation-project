@@ -15,7 +15,7 @@ public class NeonStreamSmokeTests extends NeonStreamBaseTest {
 
     @BeforeEach
     public void waitForPageToLoad() {
-        actions.shouldNotSee(neonStreamPage.heroCarousel.placeholder);
+        actions.shouldNotBeDisplayed(neonStreamPage.heroCarousel.placeholder);
         actions.shouldSee(carousel);
     }
 

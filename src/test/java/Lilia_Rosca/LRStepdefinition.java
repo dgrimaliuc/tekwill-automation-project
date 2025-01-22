@@ -104,5 +104,4 @@ public class LRStepdefinition {
         List<String> list = (List<String>) context.get("my_list");
         assertThat(list, hasItem(fruit));
     }
-
 }
