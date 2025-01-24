@@ -141,6 +141,4 @@ public class EGorin_TestUI {
         page.clickAdoptSelectedPetsBtn.click();
         actions.waitUntilPageToLoad();
     }
-
-
 }
