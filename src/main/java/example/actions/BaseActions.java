@@ -147,7 +147,7 @@ public class BaseActions {
             throw new TimeoutException("Element is not displayed: " + element, e);
         }
     }
-    
+
     public boolean isInView(WebElement element) {
         return (boolean) executeScript("""
                 if (!arguments[0].getBoundingClientRect) {
@@ -204,6 +204,10 @@ public class BaseActions {
 
     public void waitForNumberOfElements(By locator, int count) {
         wait.until(ExpectedConditions.numberOfElementsToBe(locator, count));
+    }
+
+    public void waitForNumberOfElementsToBeMoreThan(By locator, int count) {
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, count));
     }
 
     public void hover(WebElement element) {

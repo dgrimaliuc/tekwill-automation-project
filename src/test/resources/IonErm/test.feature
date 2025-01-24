@@ -51,11 +51,14 @@ Feature: My first test
     When I check the size of the list
     Then the size of the list should be 4
 
-  Scenario: Retrieve value from a map
+  Scenario Outline: Retrieve value from a map
     Given I have a map with the following key-value pairs:
-      | key   | value            |
-      | name  | John             |
-      | age   | 30               |
-      | email | john@example.com |
+      | key   | value   |
+      | name  | John    |
+      | age   | 30      |
+      | email | <email> |
     When I retrieve the value for the key "email"
-    Then the value should be "john@example.com"
+    Then the value should be "<email>"
+    Examples:
+      | email            |
+      | john@example.com |
