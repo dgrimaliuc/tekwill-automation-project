@@ -28,7 +28,7 @@ Feature: Simple UI test
 
    #Classwork 22
   Scenario Outline: Verify text
-    Given Open the App "Chisinau"
+    Given Open the App "<title>"
     Then Validate the info section in "<title>"
     Examples:
       | title    |
