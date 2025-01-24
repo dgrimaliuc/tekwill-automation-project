@@ -115,11 +115,11 @@ public class EGorin_TestUI {
     public void validateTheInfoSectionIn(String location) {
 //        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//tr[@data-t='single-pet']"), 0));
         actions.waitForNumberOfElementsToBeMoreThan(By.xpath("//tr[@data-t='single-pet']"), 0);
+        waitFor(3);
         var petsText = page.petsText.getText();
         var adoptionText = page.adoptionText.getText();
         var petsCount = driver.findElements(By.xpath("//tr[@data-t='single-pet']")).size();
         var adoptionsCount = driver.findElements(By.xpath("//div[@data-t='single-adoption']")).size();
-        waitFor(2);
         assertThat(petsText, equalTo("Pets in " + location + ": " + petsCount));
         assertThat(adoptionText, equalTo("Adoptions in " + location + ": " + adoptionsCount));
     }
