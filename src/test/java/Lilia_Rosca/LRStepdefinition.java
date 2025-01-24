@@ -104,4 +104,79 @@ public class LRStepdefinition {
         List<String> list = (List<String>) context.get("my_list");
         assertThat(list, hasItem(fruit));
     }
+
+ // HW 17.01
+ // EX 1 Given si Then este mai sus
+    @When("I count the length of string")
+    public void i_count_the_length_of_string() {
+        String myString = (String) context.get("paragrath").toString();
+        int len = myString.length();
+        context.put("length_of_string", len);
+    }
+  // Ex 2
+    @Given("I have the numbers {int} and {int}")
+    public void i_have_the_numbers_and(Integer int1, Integer int2) {
+        context.put("num_1", int1);
+        context.put("num_2", int2);
+    }
+    @When("I subtract the second number from the first")
+    public void i_subtract_the_second_number_from_the_first() {
+        int firstNum = (int) context.get("num_1");
+        int secondNum = (int) context.get("num_2");
+        int result = firstNum - secondNum;
+        context.put("myResult", result);
+    }
+    @Then("the result should be {int}")
+    public void the_result_should_be(Integer int1) {
+        int result = (int) context.get("myResult");
+        assertThat(result, equalTo(int1));
+    }
+  // Ex 3
+    @Given("I have a number {int}")
+    public void i_have_a_number(Integer int1) {
+        context.put("num_1", int1);
+    }
+    @Then("the number should be even")
+    public void the_number_should_be_even() {
+        int num =(int) context.get("num_1");
+        int evenNum = num % 2;
+        assertThat(evenNum, equalTo(0));
+        // Denis - assertThat(evenNum % 2, equalTo(true));
+        }
+ // Ex 4 Given and Then sunt mai sus
+     @When("I add the numbers")
+     public void i_add_the_numbers() {
+         int firstNum = (int) context.get("num_1");
+         int secondNum = (int) context.get("num_2");
+         int result = firstNum + secondNum;
+         context.put("myResult", result);
+     }
+ // Ex 5 Given este mai sus
+     @When("I check the size of the list")
+     public void i_check_the_size_of_the_list() {
+         List<String> list = (List<String>) context.get("my_list");
+         int lengthList = list.size();
+         context.put("myLength", lengthList);
+     }
+    @Then("the size of the list should be {int}")
+    public void the_size_of_the_list_should_be(Integer int1) {
+        int length = (int) context.get("myLength");
+         assertThat(length, equalTo(int1));
+    }
+ // Ex 6
+     @Given("I have a map with the following key-value pairs:")
+     public void i_have_a_map_with_the_following_key_value_pairs(Map<String, String> map) {
+        context.put("my_map", map);
+     }
+    @When("I retrieve the value for the key {string}")
+    public void i_retrieve_the_value_for_the_key(String key) {
+        Map<String, String> myMap = (Map<String, String>) context.get("my_map");
+        String value = myMap.get(key);
+        context.put("value", value);
+    }
+    @Then("the value should be {string}")
+    public void the_value_should_be(String expectedValue) {
+        String actualValue = (String) context.get("value");
+        assertThat(actualValue, equalTo(expectedValue));
+    }
 }
