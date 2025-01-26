@@ -5,6 +5,7 @@ import example.actions.BaseActions;
 import example.data.enums.OS;
 import internal.ChromeDriverProvider;
 import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -13,6 +14,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.STIconSetType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -156,5 +158,42 @@ public class LR_UIStepDefinition {
         actions.waitForNumberOfElements(page.pets, 1);
         String petStatus = page.pets.getFirst().status.getText();
         assertThat(petStatus, equalTo("AVAILABLE"));
+    }
+
+    @When("Add a pet with name")
+    public void addAPetWithName() {
+        String petName = "Fluffy";
+        log.info("Adding a pet with name " + petName);
+        actions.clear(page.petNameInput);
+        page.petNameInput.sendKeys(petName);
+/*        page.addPetButton.click();
+        actions.waitForNumberOfElements(page.pets, 1);*/ // sau
+        addAPet(); // reutilizam metoda de mai sus pentru a elimina dublarile de cod
+        context.put("pet_name", petName);
+
+    }
+
+    @Then("I see the pet with name added")
+    public void iSeeThePetWithNameAdded() {
+        String petName = context.get("pet_name");
+        actions.shouldHaveTextToBe(page.pets.getFirst().name, petName);
+    }
+
+    @And("Create adoption")
+    public void createAdoption() {
+        page.pets.getFirst().click();
+        page.adoptSelectedButton.click();
+        actions.waitForNumberOfElements(page.adoptions, 1);
+        String adoptionStatus = page.adoptions.getFirst().status.getText();
+    }
+
+    @Then("I see the pet with name adopted")
+    public void iSeeThePetWithNameAdopted() {
+        String petName = context.get("pet_name");
+        String actualAdoptedPetName = page.adoptions.getFirst().pets.getFirst().getText();
+        assertThat(actualAdoptedPetName, equalTo(petName));
+
+        String newPetStatus = page.pets.getFirst().status.getText();
+        assertThat(newPetStatus, equalTo("ONHOLD"));
     }
 }

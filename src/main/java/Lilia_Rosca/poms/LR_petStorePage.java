@@ -1,5 +1,6 @@
 package Lilia_Rosca.poms;
 
+import example.ui.petstore.components.Adoption;
 import example.ui.petstore.components.Pet;
 import helpers.BasePage;
 import helpers.customElements.Components;
@@ -40,8 +41,17 @@ public class LR_petStorePage extends BasePage {
     @FindBy(xpath = "//button [@data-t = 'add-pet-button']")
     public WebElement addPetButton;
 
+    @FindBy(xpath = "//*[@data-t='pet-name-input']")
+    public WebElement petNameInput;
+
+    @FindBy(xpath = "//button[@data-t='adopt-button']")
+    public WebElement adoptSelectedButton;
+
     @FindBy(xpath = "//*[@data-t='single-pet']")
     public Components<Pet> pets; //public List<WebElement> pets; - modificat dupa ce a fost creat fisierul cu componente
+
+    @FindBy(xpath = "//*[@data-t='single-adoption']")
+    public Components<Adoption> adoptions;
 
     public LR_petStorePage(WebDriver driver) {
         super(driver);
