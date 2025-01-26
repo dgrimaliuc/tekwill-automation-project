@@ -1,10 +1,14 @@
 package Lilia_Rosca.poms;
 
+import example.ui.petstore.components.Pet;
 import helpers.BasePage;
+import helpers.customElements.Components;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 public class LR_petStorePage extends BasePage {
 
@@ -32,6 +36,12 @@ public class LR_petStorePage extends BasePage {
 
     @FindBy(xpath = "//p[@data-t ='adoptions-count']")
     public  WebElement adoptionCount;
+
+    @FindBy(xpath = "//button [@data-t = 'add-pet-button']")
+    public WebElement addPetButton;
+
+    @FindBy(xpath = "//*[@data-t='single-pet']")
+    public Components<Pet> pets; //public List<WebElement> pets; - modificat dupa ce a fost creat fisierul cu componente
 
     public LR_petStorePage(WebDriver driver) {
         super(driver);

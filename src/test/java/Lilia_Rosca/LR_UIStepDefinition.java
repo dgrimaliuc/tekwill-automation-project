@@ -8,14 +8,18 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import org.apache.commons.lang.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import static Lilia_Rosca.poms.LR_petStorePage.allAdoptions;
 import static denis_grimaliuc.poms.DGPetStorePage.allPets;
-import static example.actions.BaseActions.waitFor;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -25,9 +29,14 @@ public class LR_UIStepDefinition {
     WebDriverWait wait = null;
     BaseActions actions = null;
     LR_petStorePage page = null;
+    Map<String, String> context = null;
+
+    Logger log = Logger.getLogger(String.valueOf(LR_UIStepDefinition.class));
+    //  !! nu merge!! Logger log = Logger.getLogger(LR_UIStepDefinition.class);
 
     @Before
     public void before() {
+        context = new HashMap<>();
         driver = new ChromeDriverProvider(OS.WINDOWS).getDriver();
         actions = new BaseActions(driver);
         wait = new WebDriverWait(driver, 10);
@@ -95,4 +104,57 @@ public class LR_UIStepDefinition {
         actions.waitUntilPageToLoad(); // asteapta pina se incarca pagina
     }
 
+    @When("Open a random location")
+    public void open_a_random_location() {
+        String locationName = RandomStringUtils.randomAlphanumeric(9);
+        log.info("Opening a random location with name " + locationName);
+        openPetstoreLocation(locationName);
+        context.put("location_name", locationName);
+    }
+
+    @Then("I see correct location name in location input")
+    public void i_see_correct_location_name_in_location_input() {
+        String location = context.get("location_name");
+        i_see_in_location_input(location);
+    }
+
+    @Then("I see correct location name in Pets Section title")
+    public void i_see_correct_location_name_in_pets_section_title() {
+        String location = context.get("location_name");
+        i_see_in_pets_section_title(location);
+    }
+
+    @Then("I see correct location name in Adoption Section title")
+    public void i_see_correct_location_name_in_adoption_section_title() {
+        String location = context.get("location_name");
+        i_see_in_adoption_section_title(location);
+    }
+
+/*    @When("I open a random location in new tab") - atunci cinda va lucra - introduci locatia, apesi butonul, se deschide pagina
+    public void iOpenARandomLocationInNewTab() {
+        String locationName = RandomStringUtils.randomAlphanumeric(9);
+        actions.clear(page.locationInput);
+        page.locationInput.sendKeys(locationName);
+        page.buttonOpenInNewTab.click();
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2)); // va astepta pina se deschide a doua pagina
+        String newTabId = driver.getWindowHandles().toArray()[1].toString();
+        driver.switchTo().window(newTabId); // driver.getWindowHandles() - in debug arata id la toate paginile deschise
+        context.put("location_name", locationName);
+    }*/
+    @When("I open a random location in new tab")
+    public void iOpenARandomLocationInNewTab() {
+        page.buttonOpenInNewTab.click();
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2)); // va astepta pina se deschide a doua pagina
+        String newTabId = driver.getWindowHandles().toArray()[1].toString();
+        driver.switchTo().window(newTabId); // driver.getWindowHandles() - in debug arata id la toate paginile deschise
+    }
+
+    @Given("Add a pet")
+    public void addAPet() {
+        log.info("Adding a pet");
+        page.addPetButton.click();
+        actions.waitForNumberOfElements(page.pets, 1);
+        String petStatus = page.pets.getFirst().status.getText();
+        assertThat(petStatus, equalTo("AVAILABLE"));
+    }
 }

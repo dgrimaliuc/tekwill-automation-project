@@ -15,14 +15,4 @@ Feature: My first UI test
     Given Open Petstore location "Chisinau"
     Then I validate the Info Section
 
-# class 22.01
-  Scenario Outline: Change location button test
-    Given Open Petstore
-#    When Change location to a random
-    When Change location to "<title>"
-    Then I see "<title>" in location input
-    Then I see "<title>" in Pets Section title
-    Then I see "<title>" in Adoption Section title
-    Examples:
-      | title |
-      | RandomCity |
+# moved to LR_Location Tests.feature
