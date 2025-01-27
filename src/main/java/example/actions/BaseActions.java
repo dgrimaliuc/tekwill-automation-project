@@ -68,7 +68,10 @@ public class BaseActions {
 
     public void shouldNotHaveAttribute(WebElement element, String attribute, String value) {
         wait.until(not(attributeToBe(element, attribute, value)));
-        // driver -> element.getCssValue("background-color").equals(color)
+    }
+
+    public void shouldHaveAttribute(WebElement element, String attribute, String value) {
+        wait.until(attributeToBe(element, attribute, value));
     }
 
     public void shouldHaveAttributeContains(WebElement element, String attribute, String value) {
@@ -88,6 +91,11 @@ public class BaseActions {
     public void shouldHaveTextToBe(WebElement element, String text) {
         log.trace("Checking if element has text: " + element);
         wait.until(textToBePresentInElement(element, text));
+    }
+
+    public void shouldBeDisabled(WebElement element) {
+        log.trace("Checking if element is disabled: " + element);
+        wait.until(ExpectedConditions.attributeToBe(element, "disabled", "true"));
     }
 
     public void shouldNotHaveTextToBe(WebElement element, String text) {
@@ -127,7 +135,6 @@ public class BaseActions {
         });
         setDefaultTimeouts(driver);
     }
-
 
     public void waitUntilPageToLoad() {
         log.trace("Waiting for page to load");
