@@ -12,7 +12,6 @@ public class Pet extends Component {
     @FindBy(xpath = ".//span[@data-t='pet-status']")
     public WebElement status;
 
-
     public Pet(WebElement parent) {
         super(parent);
     }

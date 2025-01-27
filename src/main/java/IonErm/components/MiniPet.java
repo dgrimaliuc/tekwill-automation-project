@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class MiniPet extends Component {
 
-    @FindBy(xpath = "//*[@data-t='error-reason']")
+    @FindBy(xpath = ".//*[@data-t='error-reason']")
     public WebElement errorReason;
 
     public MiniPet(WebElement parent) {

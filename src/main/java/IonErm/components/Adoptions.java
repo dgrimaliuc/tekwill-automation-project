@@ -9,21 +9,20 @@ import java.util.List;
 
 public class Adoptions extends Component {
 
-    @FindBy(xpath = "//*[@data-t='status-text']")
+    @FindBy(xpath = ".//*[@data-t='status-text']")
     public WebElement status;
 
-    @FindBy(xpath = "//*[@data-t='pet-name']")
+    @FindBy(xpath = ".//*[@data-t='pet-name']")
     public Components<MiniPet> pets;
 
-    @FindBy(xpath = "//*[@data-t='approve-button']")
+    @FindBy(xpath = ".//*[@data-t='approve-button']")
     public WebElement clickApproveBtn;
 
-    @FindBy(xpath = "//*[@data-t='deny-button']")
+    @FindBy(xpath = ".//*[@data-t='deny-button']")
     public WebElement clickDenyBtn;
 
-    @FindBy(xpath = "//*[@data-t='error-message']")
+    @FindBy(xpath = ".//*[@data-t='error-message']")
     public WebElement errorMessage;
-
 
     public Adoptions(WebElement parent) {
         super(parent);
