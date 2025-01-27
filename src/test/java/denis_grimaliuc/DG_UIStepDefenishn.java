@@ -155,7 +155,6 @@ public class DG_UIStepDefenishn {
         addAPet();
 
         context.put("pet_name", petName);
-
     }
 
 
@@ -183,5 +182,99 @@ public class DG_UIStepDefenishn {
         var adoption = page.adoptions.getFirst();
         String actualAdoptedPetName = adoption.pets.getFirst().getText();
         assertThat(actualAdoptedPetName, equalTo(petName));
+    }
+
+    @Then("I hover Add pet button it is highlighted")
+    public void iHoverAddPetButtonItIsHighlighted() {
+        actions.hover(page.addPetButton);
+        String backColor = page.addPetButton.getCssValue("background-color");
+        assertThat(backColor, equalTo("rgba(29, 79, 217, 1)"));
+    }
+
+    @And("Approve first adoption")
+    public void approveFirstAdoption() {
+        var adoption = page.adoptions.getFirst();
+        adoption.approveBtn.click();
+    }
+
+    @Then("I see pet adopted")
+    public void iSeePetAdopted() {
+        var adoption = page.adoptions.getFirst();
+        actions.shouldHaveTextToBe(adoption.status, "APPROVED");
+        actions.shouldHaveTextToBe(page.pets.getFirst().status, "ADOPTED");
+    }
+
+    @When("I reload page")
+    public void iReloadPage() {
+        driver.navigate().refresh();
+        actions.waitUntilPageToLoad();
+    }
+
+    @Then("Pet and Adoptions sections are empty")
+    public void petAndAdoptionsSectionsAreEmpty() {
+        actions.shouldSee(page.emptyPetsMessage);
+        adoptionsSectionsIsEmpty();
+    }
+
+    @When("I select a pet")
+    public void iSelectAPet() {
+        page.pets.getFirst().click();
+    }
+
+    @Then("Button is enabled and pets are selected")
+    public void buttonIsEnabledAndPetsAreSelected() {
+        assertThat(page.deselectButton.getAttribute("disabled"), equalTo(null));
+        assertThat(page.pets.getFirst().checkedIcon.isDisplayed(), equalTo(true));
+    }
+
+    @Then("When I deselect the same pet")
+    public void when_i_deselect_the_same_pet() {
+        page.pets.getFirst().click();
+    }
+
+    @Then("Button is disabled and pets are not selected")
+    public void button_is_disabled_and_pets_are_not_selected() {
+        assertThat(page.deselectButton.getAttribute("disabled"), equalTo("true"));
+        actions.shouldNotBeDisplayed(page.pets.getFirst().checkedIcon);
+    }
+
+    @And("Deny first adoption")
+    public void denyFirstAdoption() {
+        var adoption = page.adoptions.getFirst();
+        adoption.denyBtn.click();
+        actions.shouldHaveTextToBe(adoption.status, "DENIED");
+    }
+
+    @Then("I see pet not adopted")
+    public void iSeePetNotAdopted() {
+        actions.shouldHaveTextToBe(page.pets.getFirst().status, "AVAILABLE");
+    }
+
+    @Then("Adoptions sections is empty")
+    public void adoptionsSectionsIsEmpty() {
+        actions.waitForNumberOfElements(page.adoptions, 0);
+    }
+
+    @And("Adopt the firs Pet")
+    public void adoptTheFirsPet() {
+        page.pets.getFirst().click();
+        page.adoptSelectedButton.click();
+    }
+
+    @Then("Adoption with rejected status is displayed")
+    public void adoptionWithRejectedStatusIsDisplayed() {
+        actions.waitForNumberOfElements(page.adoptions, 2);
+        var adoption = page.adoptions.getFirst();
+        actions.shouldHaveTextToBe(adoption.status, "REJECTED");
+        actions.shouldHaveTextToBe(adoption.pets.getFirst().errorReason, "ONHOLD");
+        actions.shouldHaveTextToBe(adoption.error, "Some of the pets could not be adopted");
+        actions.shouldBeDisabled(adoption.approveBtn);
+        actions.shouldBeDisabled(adoption.denyBtn);
+    }
+
+    @Then("Rejected adoption is not displayed")
+    public void rejectedAdoptionIsNotDisplayed() {
+        actions.waitForNumberOfElements(page.adoptions, 1);
+        actions.shouldHaveTextToBe(page.adoptions.getFirst().status, "AVAILABLE");
     }
 }
