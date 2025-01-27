@@ -1,6 +1,9 @@
 package denis_grimaliuc.poms;
 
+import denis_grimaliuc.components.Adoption;
+import denis_grimaliuc.components.Pet;
 import helpers.BasePage;
+import helpers.customElements.Components;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,6 +29,18 @@ public class DGPetStorePage extends BasePage {
     public WebElement petsCount;
     @FindBy(xpath = "//p[@data-t='adoptions-count']")
     public WebElement adoptionsCount;
+    @FindBy(xpath = "//*[@data-t='pet-name-input']")
+    public WebElement petNameInput;
+    @FindBy(xpath = "//button[@data-t='add-pet-button']")
+    public WebElement addPetButton;
+    @FindBy(xpath = "//button[@data-t='adopt-button']")
+    public WebElement adoptSelectedButton;
+
+    @FindBy(xpath = "//*[@data-t='single-pet']")
+    public Components<Pet> pets;
+
+    @FindBy(xpath = "//*[@data-t='single-adoption']")
+    public Components<Adoption> adoptions;
 
     public DGPetStorePage(WebDriver driver) {
         super(driver);
