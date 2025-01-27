@@ -21,9 +21,7 @@ public class LR_2025_01_15_17 {
 // 22.01 Implicit/Explicit wait,
     // ExpectedCondition - metode,
     // POM - page object model in selenium, Java class pentru o pagina, must have in auto testing
-    //
 
-
-
+// 24.01  Location, Adoption Section tests
 
 }
