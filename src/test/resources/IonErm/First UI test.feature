@@ -20,31 +20,17 @@ Feature: Simple UI test
       | pet  | town     |
       | Kiki | New York |
 
-    #HomeWork
   Scenario: Verify text in "The game" section
     Given Open the PetStore in "Chisinau"
     Then Verify the Pets in Chisinau: 5
     Then Verify the Adoptions in Chisinau: 2
 
-   #Classwork 22
   Scenario Outline: Verify text
     Given Open the App "<title>"
     Then Validate the info section in "<title>"
     Examples:
       | title    |
       | Chisinau |
-
-  Scenario Outline: Change location button test
-    Given Open the PetStore
-    Then Change location to "<title>"
-    Then I see "<title>" in location input
-    Then I see "<title>" Pet section title
-    Then I see "<title>" in Adoptions Section title
-    Examples:
-      | title   |
-      | Chicago |
-
-    #HomeWork
 
   Scenario Outline: Add Pets button test
     Given Open the PetStore

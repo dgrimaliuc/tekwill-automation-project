@@ -7,10 +7,15 @@ import internal.ChromeDriverProvider;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static example.actions.BaseActions.waitFor;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,9 +27,12 @@ public class EGorin_TestUI {
     WebDriverWait wait = null;
     BaseActions actions = null;
     IonErm_PetStorePage page = null;
+    Map<String, String> context = null;
+    Logger log = Logger.getLogger(EGorin_TestUI.class);
 
     @Before
     public void before() {
+        context = new HashMap<>();
         driver = new ChromeDriverProvider(OS.WINDOWS).getDriver();
         wait = new WebDriverWait(driver, 10);
         actions = new BaseActions(driver);
@@ -34,7 +42,7 @@ public class EGorin_TestUI {
     @Given("Open the PetStore")
     public void open_the_pet_store() {
         openTheApp("");
-        waitFor(2);
+        actions.waitUntilPageToLoad();
     }
 
     @Then("I see {string} in location input")
@@ -109,13 +117,12 @@ public class EGorin_TestUI {
     @Given("Open the App {string}")
     public void openTheApp(String location) {
         driver.get("https://petstore-eb41f.web.app/?location=" + location);
+        actions.waitUntilPageToLoad();
     }
 
     @Then("Validate the info section in {string}")
     public void validateTheInfoSectionIn(String location) {
-//        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//tr[@data-t='single-pet']"), 0));
         actions.waitForNumberOfElementsToBeMoreThan(By.xpath("//tr[@data-t='single-pet']"), 0);
-        waitFor(3);
         var petsText = page.petsText.getText();
         var adoptionText = page.adoptionText.getText();
         var petsCount = driver.findElements(By.xpath("//tr[@data-t='single-pet']")).size();
@@ -140,5 +147,85 @@ public class EGorin_TestUI {
         page.petsCount.click();
         page.clickAdoptSelectedPetsBtn.click();
         actions.waitUntilPageToLoad();
+    }
+
+    //Classwork
+
+    @Then("Open random location")
+    public void openRandomLocation() {
+        String locationName = RandomStringUtils.randomAlphanumeric(16);
+        log.info("Open Random Location With Name: " + locationName);
+        openTheApp(locationName);
+        context.put("location_name", locationName);
+    }
+
+    @Then("I see the correct location name in location input")
+    public void iSeeTheCorrectLocationNameInLocationInput() {
+        String location = context.get("location_name");
+        i_see_in_location_input(location);
+    }
+
+    @Then("I see the correct location name inPet section title")
+    public void iSeeTheCorrectLocationNameInPetSectionTitle() {
+        String location = context.get("location_name");
+        i_see_pet_section_title(location);
+    }
+
+    @Then("I see the correct location name in in Adoptions Section title")
+    public void iSeeTheCorrectLocationNameInInAdoptionsSectionTitle() {
+        String location = context.get("location_name");
+        i_see_in_adoptions_section_title(location);
+    }
+
+    @Then("I open random location in new tab")
+    public void iOpenRandomLocationInNewTab() {
+        page.clickOpenNewTabBtn.click();
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+        String newTAbId = driver.getWindowHandles().toArray()[1].toString();
+        driver.switchTo().window(newTAbId);
+    }
+
+    @Given("Add a pet")
+    public void addAPet() {
+        log.info("Adding a pet");
+        page.clickAddPetsBtn.click();
+        actions.waitForNumberOfElements(page.pets, 1);
+        String petStatus = page.pets.getFirst().status.getText();
+        assertThat(petStatus, equalTo("AVAILABLE"));
+    }
+
+    @Given("Add a pet with name")
+    public void addAPetWithName() {
+        String petName = "Uri";
+        log.info("Adding a pet name: " + petName);
+        actions.clear(page.petNameInput);
+        page.petNameInput.sendKeys(petName);
+        addAPet();
+        context.put("pet_name", petName);
+    }
+
+    @Given("I see the pet with name")
+    public void iSeeThePetWithName() {
+        String petName = context.get("pet_name");
+        actions.shouldHaveTextToBe(page.pets.getFirst().name, petName);
+    }
+
+    @Given("Create adoption")
+    public void createAdoption() {
+        log.info("Create adoption");
+        page.pets.getFirst().click();
+        page.clickAdoptSelectedPetsBtn.click();
+        actions.waitForNumberOfElements(page.adoptions, 1);
+        String adoptionStatus = page.adoptions.getFirst().status.getText();
+        assertThat(adoptionStatus, equalTo("AVAILABLE"));
+    }
+
+    @Then("I see the pet with name adopted")
+    public void iSeeThePetWithNameAdopted() {
+        String petName = context.get("pet_name");
+        String newPetStatus = page.pets.getFirst().status.getText();
+        assertThat(newPetStatus, equalTo("ONHOLD"));
+        String actualAdoptedPetName = page.adoptions.getFirst().pets.getFirst().getText();
+        assertThat(actualAdoptedPetName, equalTo(petName));
     }
 }

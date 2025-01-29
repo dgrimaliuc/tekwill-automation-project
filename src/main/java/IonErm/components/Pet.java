@@ -1,4 +1,4 @@
-package denis_grimaliuc.components;
+package IonErm.components;
 
 import helpers.customElements.Component;
 import org.openqa.selenium.WebElement;
@@ -9,10 +9,8 @@ public class Pet extends Component {
     @FindBy(xpath = ".//div[@data-t='pet-name']")
     public WebElement name;
 
-    @FindBy(xpath = ".//*[@data-t='pet-status']")
+    @FindBy(xpath = ".//span[@data-t='pet-status']")
     public WebElement status;
-    @FindBy(xpath = ".//*[@data-t='checked-icon']")
-    public WebElement checkedIcon;
 
     public Pet(WebElement parent) {
         super(parent);

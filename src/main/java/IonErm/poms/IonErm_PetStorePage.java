@@ -1,9 +1,14 @@
 package IonErm.poms;
 
+import IonErm.components.Adoptions;
+import IonErm.components.Pet;
 import helpers.BasePage;
+import helpers.customElements.Components;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 public class IonErm_PetStorePage extends BasePage {
 
@@ -39,6 +44,15 @@ public class IonErm_PetStorePage extends BasePage {
 
     @FindBy(xpath = "//button[@data-t='adopt-button']")
     public WebElement clickAdoptSelectedPetsBtn;
+
+    @FindBy(xpath = "//*[@data-t='pet-name-input']")
+    public WebElement petNameInput;
+
+    @FindBy(xpath = "//tr[@data-t='single-pet']")
+    public Components<Pet> pets;
+
+    @FindBy(xpath = "//*[@data-t='single-adoption']")
+    public Components<Adoptions> adoptions;
 
     public IonErm_PetStorePage(WebDriver driver) {
         super(driver);

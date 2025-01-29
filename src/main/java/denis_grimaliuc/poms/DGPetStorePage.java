@@ -42,6 +42,11 @@ public class DGPetStorePage extends BasePage {
     @FindBy(xpath = "//*[@data-t='single-adoption']")
     public Components<Adoption> adoptions;
 
+    @FindBy(xpath = "//*[@id='pets-table']//div[contains(@class,'items-center')]")
+    public WebElement emptyPetsMessage;
+    @FindBy(xpath = "//button[@data-t='deselect-button']")
+    public WebElement deselectButton;
+
     public DGPetStorePage(WebDriver driver) {
         super(driver);
     }
