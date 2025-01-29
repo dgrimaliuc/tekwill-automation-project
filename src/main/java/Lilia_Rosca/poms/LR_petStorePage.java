@@ -1,17 +1,13 @@
 package Lilia_Rosca.poms;
 
-import Lilia_Rosca.components.LR_adoption;
-import Lilia_Rosca.components.LR_pet;
-import example.ui.petstore.components.Adoption;
-import example.ui.petstore.components.Pet;
+import Lilia_Rosca.components.LR_pets.LR_adoption;
+import Lilia_Rosca.components.LR_pets.LR_pet;
 import helpers.BasePage;
 import helpers.customElements.Components;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 public class LR_petStorePage extends BasePage {
 

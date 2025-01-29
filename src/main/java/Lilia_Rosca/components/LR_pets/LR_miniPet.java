@@ -1,10 +1,8 @@
-package Lilia_Rosca.components;
+package Lilia_Rosca.components.LR_pets;
 
 import helpers.customElements.Component;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 public class LR_miniPet extends Component {
 

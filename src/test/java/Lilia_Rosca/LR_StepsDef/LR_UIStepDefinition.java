@@ -1,4 +1,4 @@
-package Lilia_Rosca;
+package Lilia_Rosca.LR_StepsDef;
 
 import Lilia_Rosca.poms.LR_petStorePage;
 import example.actions.BaseActions;
@@ -12,7 +12,6 @@ import io.cucumber.java.en.Then;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -293,11 +292,11 @@ public void shouldHaveAttribute(WebElement element, String attribute, String val
         page.pets.getFirst().click();
         page.adoptSelectedButton.click();
     }
-    // dupa git pull de sters
+/*    // dupa git pull de sters
     public void shouldBeDisabled(WebElement element) {
         log.trace("Check if element is disabled " + element);
         wait.until(ExpectedConditions.attributeToBe(element, "disabled", "true"));
-    }
+    }*/
 
     @Then("Adoption with rejected status is displayed")
     public void adoptionWithRejectedStatusIsDisplayed() {
@@ -306,8 +305,8 @@ public void shouldHaveAttribute(WebElement element, String attribute, String val
         actions.shouldHaveTextToBe(adoption.status, "REJECTED");
         actions.shouldHaveTextToBe(adoption.pets.getFirst().errorReason, "ONHOLD");
         actions.shouldHaveTextToBe(adoption.error, "Some of the pets could not be adopted");
-        shouldBeDisabled(adoption.approveButton);
-        shouldBeDisabled(adoption.denyButton);
+        actions.shouldBeDisabled(adoption.approveButton);
+        actions.shouldBeDisabled(adoption.denyButton);
     }
 
     @Then("Rejected adoption is not displayed")
