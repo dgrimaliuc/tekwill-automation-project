@@ -11,6 +11,9 @@ public class LR_pet extends Component {
     @FindBy(xpath = ".//*[@data-t='pet-status']")
     public WebElement status;
 
+    @FindBy(xpath = ".//*[@data-t='checked-icon']")
+    public WebElement checkedIcon;
+
     public LR_pet(WebElement parent) {
         super(parent);
     }

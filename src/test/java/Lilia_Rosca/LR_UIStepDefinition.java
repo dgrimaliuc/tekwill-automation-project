@@ -10,20 +10,22 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.STIconSetType;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import static Lilia_Rosca.poms.LR_petStorePage.allAdoptions;
 import static denis_grimaliuc.poms.DGPetStorePage.allPets;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+// de sters dupa git pull 29.01
+import static org.openqa.selenium.support.ui.ExpectedConditions.attributeToBe;
 
 public class LR_UIStepDefinition {
 
@@ -33,8 +35,7 @@ public class LR_UIStepDefinition {
     LR_petStorePage page = null;
     Map<String, String> context = null;
 
-    Logger log = Logger.getLogger(String.valueOf(LR_UIStepDefinition.class));
-    //  !! nu merge!! Logger log = Logger.getLogger(LR_UIStepDefinition.class);
+    Logger log = Logger.getLogger(LR_UIStepDefinition.class);
 
     @Before
     public void before() {
@@ -195,5 +196,123 @@ public class LR_UIStepDefinition {
 
         String newPetStatus = page.pets.getFirst().status.getText();
         assertThat(newPetStatus, equalTo("ONHOLD"));
+    }
+// 27.01
+    @Then("I hover the Add pet button it is highlighted")
+    public void iHoverTheAddPetButtonItIsHighlighted() {
+    //    System.out.println("Before: " + page.addPetButton.getCssValue("background-color")); - culoare butonului
+        actions.hover(page.addPetButton);
+    //    System.out.println("After: " + page.addPetButton.getCssValue("background-color")); - culoare  butonului cu mouse pe el
+        String backColour = page.addPetButton.getCssValue("background-color");
+        assertThat(backColour, equalTo("rgba(29, 78, 216, 1)"));
+    }
+// HW 27.01 ex 1
+    @Then("I hover the Adopt Selected pets button it is highlighted")
+    public void iHoverTheAdoptSelectedPetsButtonItIsHighlighted() {
+        actions.hover(page.adoptSelectedButton);
+        String backColour = page.adoptSelectedButton.getCssValue("background-color");
+        assertThat(backColour, equalTo("rgba(209, 213, 219, 1)"));
+    }
+// 27.01 - continuare
+    @And("Approve first adoption")
+    public void approveFirstAdoption() {
+        var adoption = page.adoptions.getFirst();
+        adoption.approveButton.click();
+    }
+
+    @Then("I see the pet adopted")
+    public void iSeeThePetAdopted() {
+        var adoption = page.adoptions.getFirst();
+        actions.shouldHaveTextToBe(adoption.status, "APPROVED");
+        actions.shouldHaveTextToBe(page.pets.getFirst().status, "ADOPTED");
+    }
+
+    @When("I reload page")
+    public void iReloadPage() {
+        driver.navigate().refresh();
+        actions.waitUntilPageToLoad();
+    }
+
+    @Then("Pets and Adoptions are empty")
+    public void petsAndAdoptionsAreEmpty() {
+        actions.shouldSee(page.emptyPageMessage);
+        adoptionSectionIsEmpty(); // modificat 27.01
+    }
+
+    @When("I select a pet")
+    public void iSelectAPet() {
+        page.pets.getFirst().click();
+    }
+
+/*  nu este necesar
+public void shouldHaveAttribute(WebElement element, String attribute, String value) {
+        wait.until(attributeToBe(element, attribute, value));
+}*/
+
+    @Then("Button is enabled and pet is selected")
+    public void buttonIsEnabledAndPetIsSelected() {
+        page.deselectButton.getAttribute("disabled");
+        // dupa git pull de modificat in - actions.shouldHaveAttribute(page.deselectButton, "disabled", null);
+        // ceva nu e bine shouldHaveAttribute(page.deselectButton, "disabled", null);
+        assertThat(page.deselectButton.getAttribute("disabled"), equalTo(null));
+        assertThat(page.pets.getFirst().checkedIcon.isDisplayed(), equalTo(true));
+    }
+
+    @When("I deselect the same pet")
+    public void iDeselectTheSamePet() {
+        page.pets.getFirst().click();
+    }
+
+    @Then("Button is disabled and pet is not selected")
+    public void buttonIsDisabledAndPetIsNotSelected() {
+        assertThat(page.deselectButton.getAttribute("disabled"), equalTo("true"));
+        actions.shouldNotBeDisplayed(page.pets.getFirst().checkedIcon);
+ //       assertThat(page.pets.getFirst().checkedIcon.isDisplayed(), equalTo(true));
+ //       driver.findElements(null).size() == 0; // verifica daca elementul cu xpath indicat este
+    }
+
+    @And("Deny first adoption")
+    public void denyFirstAdoption() {
+        var adoption = page.adoptions.getFirst();
+        adoption.denyButton.click();
+        actions.shouldHaveTextToBe(adoption.status, "DENIED");
+    }
+
+    @Then("I see pet not adopted")
+    public void iSeePetNotAdopted() {
+        actions.shouldHaveTextToBe(page.pets.getFirst().status, "AVAILABLE");
+    }
+
+    @Then("Adoption section is empty")
+    public void adoptionSectionIsEmpty() {
+        actions.waitForNumberOfElements(page.adoptions, 0);
+    }
+
+    @And("Adopt first pet")
+    public void adoptFirstPet() {
+        page.pets.getFirst().click();
+        page.adoptSelectedButton.click();
+    }
+    // dupa git pull de sters
+    public void shouldBeDisabled(WebElement element) {
+        log.trace("Check if element is disabled " + element);
+        wait.until(ExpectedConditions.attributeToBe(element, "disabled", "true"));
+    }
+
+    @Then("Adoption with rejected status is displayed")
+    public void adoptionWithRejectedStatusIsDisplayed() {
+        actions.waitForNumberOfElements(page.adoptions, 2);
+        var adoption = page.adoptions.getFirst();
+        actions.shouldHaveTextToBe(adoption.status, "REJECTED");
+        actions.shouldHaveTextToBe(adoption.pets.getFirst().errorReason, "ONHOLD");
+        actions.shouldHaveTextToBe(adoption.error, "Some of the pets could not be adopted");
+        shouldBeDisabled(adoption.approveButton);
+        shouldBeDisabled(adoption.denyButton);
+    }
+
+    @Then("Rejected adoption is not displayed")
+    public void rejectedAdoptionIsNotDisplayed() {
+        actions.waitForNumberOfElements(page.adoptions, 1);
+        actions.shouldHaveTextToBe(page.adoptions.getFirst().status, "AVAILABLE");
     }
 }
