@@ -48,6 +48,12 @@ public class IonErm_PetStorePage extends BasePage {
     @FindBy(xpath = "//*[@data-t='pet-name-input']")
     public WebElement petNameInput;
 
+    @FindBy(xpath = "//*[@id='pets-table']//div[contains(@class, 'items-center')]")
+    public WebElement emptyPetSection;
+
+    @FindBy(xpath = "//button[@data-t='deselect-button']")
+    public WebElement clickDiselectBtn;
+
     @FindBy(xpath = "//tr[@data-t='single-pet']")
     public Components<Pet> pets;
 

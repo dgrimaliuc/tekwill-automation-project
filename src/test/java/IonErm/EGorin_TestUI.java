@@ -5,8 +5,10 @@ import example.actions.BaseActions;
 import example.data.enums.OS;
 import internal.ChromeDriverProvider;
 import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -181,8 +183,8 @@ public class EGorin_TestUI {
     public void iOpenRandomLocationInNewTab() {
         page.clickOpenNewTabBtn.click();
         wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        String newTAbId = driver.getWindowHandles().toArray()[1].toString();
-        driver.switchTo().window(newTAbId);
+        String newTabId = driver.getWindowHandles().toArray()[1].toString();
+        driver.switchTo().window(newTabId);
     }
 
     @Given("Add a pet")
@@ -227,5 +229,108 @@ public class EGorin_TestUI {
         assertThat(newPetStatus, equalTo("ONHOLD"));
         String actualAdoptedPetName = page.adoptions.getFirst().pets.getFirst().getText();
         assertThat(actualAdoptedPetName, equalTo(petName));
+    }
+
+    @Then("I hover add pet button is highlighted")
+    public void iHoverAddPetButtonIsHighlighted() {
+        actions.hover(page.clickAddPetsBtn);
+        String backColor = page.clickAddPetsBtn.getCssValue("background-color");
+        log.info("The background-color is: " + backColor);
+        assertThat(backColor, equalTo("rgba(29, 78, 216, 1)"));
+    }
+
+    @And("Approve first adoption pet")
+    public void approveFirstAdoptionPet() {
+        var adoption = page.adoptions.getFirst();
+        adoption.clickApproveBtn.click();
+    }
+
+    @Then("I see pet adopted")
+    public void i_see_pet_adopted() {
+        var adoption = page.adoptions.getFirst();
+        actions.shouldHaveTextToBe(adoption.status, "APPROVED");
+        actions.shouldHaveTextToBe(page.pets.getFirst().status, "ADOPTED");
+    }
+
+    @When("I reload page")
+    public void i_reload_page() {
+        driver.navigate().refresh();
+        actions.waitUntilPageToLoad();
+    }
+
+    @Then("Pet and Adoption sections are empty")
+    public void pet_and_adoption_sections_are_empty() {
+        actions.shouldSee(page.emptyPetSection);
+        actions.waitForNumberOfElements(page.adoptions, 0);
+    }
+
+    @When("I select a pet")
+    public void i_select_a_pet() {
+        page.pets.getFirst().click();
+    }
+
+    @Then("Button is enabled and Pets are selected")
+    public void buttonIsEnabledAndPetsAreSelected() {
+        assertThat(page.clickDiselectBtn.getAttribute("disabled"), equalTo(null));
+        assertThat(page.pets.getFirst().checkedIcon.isDisplayed(), equalTo(true));
+    }
+
+    @When("When I deselect the same pet")
+    public void when_i_deselect_the_same_pet() {
+        page.pets.getFirst().click();
+    }
+
+    @Then("Button is disabled and pets are not selected")
+    public void button_is_disabled_and_pets_are_not_selected() {
+        assertThat(page.clickDiselectBtn.getAttribute("disabled"), equalTo("true"));
+        actions.shouldNotBeDisplayed(page.pets.getFirst().checkedIcon);
+    }
+
+    @When("Deny first adoption")
+    public void deny_first_adoption() {
+        var adoption = page.adoptions.getFirst();
+        adoption.clickDenyBtn.click();
+        actions.shouldHaveTextToBe(adoption.status, "DENIED");
+    }
+
+    @When("I see pet not adopted")
+    public void i_see_pet_not_adopted() {
+        actions.shouldHaveTextToBe(page.pets.getFirst().status, "AVAILABLE");
+    }
+
+    @When("Adoptions sections is empty")
+    public void adoptions_sections_is_empty() {
+        actions.waitForNumberOfElements(page.adoptions, 1);
+    }
+
+    @Given("Adopt the firs Pet")
+    public void adopt_the_firs_pet() {
+        page.pets.getFirst().click();
+        page.clickAdoptSelectedPetsBtn.click();
+    }
+
+    @Then("Adoption with rejected status is displayed")
+    public void adoption_with_rejected_status_is_displayed() {
+        actions.waitForNumberOfElements(page.adoptions, 2);
+        var adoption = page.adoptions.getFirst();
+        actions.shouldHaveTextToBe(adoption.status, "REJECTED");
+        actions.shouldHaveTextToBe(adoption.pets.getFirst().errorReason, "ONHOLD");
+        actions.shouldHaveTextToBe(adoption.errorMessage, "Some of the pets could not be adopted");
+        actions.shouldBeDisplayed(adoption.clickApproveBtn);
+        actions.shouldBeDisplayed(adoption.clickDenyBtn);
+    }
+
+    @Then("Rejected adoption is Not displayed")
+    public void rejectedAdoptionIsNotDisplayed() {
+        actions.waitForNumberOfElements(page.adoptions, 1);
+        actions.shouldHaveTextToBe(page.adoptions.getFirst().status, "AVAILABLE");
+    }
+
+    @Then("I hover adopt selected pets button is highlighted")
+    public void iHoverAdoptSelectedPetsButtonIsHighlighted() {
+        actions.hover(page.clickAdoptSelectedPetsBtn);
+        String backColor = page.clickAdoptSelectedPetsBtn.getCssValue("background-color");
+        log.info("The background-color is: " + backColor);
+        assertThat(backColor, equalTo("rgba(234, 88, 12, 1)"));
     }
 }
