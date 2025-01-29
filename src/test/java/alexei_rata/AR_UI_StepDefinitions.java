@@ -8,8 +8,8 @@ import io.cucumber.java.en.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static example.actions.BaseActions.waitFor;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
@@ -49,4 +49,22 @@ public class AR_UI_StepDefinitions {
         assertThat(titleText, equalTo("Adoptions in " + string));
     }
 
+    @Given("Open PetStore in {string}")
+    public void openPetStoreIn(String arg0) {
+        driver.get("https://petstore-eb41f.web.app/?location=" + arg0 + "");
+    }
+
+    @Then("I see Pets in {string} {int}")
+    public void iSeePetsIn(String string, int arg1) {
+        waitFor(3);
+        var infoPets = driver.findElement(By.xpath("//div[@data-t='info-section']//p[@data-t='pets-count']")).getText();
+        assertThat(infoPets, containsString(string + ": " + arg1));
+    }
+
+    @Then("I see Adoption in {string} {int}")
+    public void iSeeAdoptionIn(String string, int arg1) {
+        waitFor(3);
+        var infoAdoptions = driver.findElement(By.xpath("//div[@data-t='info-section']//p[@data-t='adoptions-count']")).getText();
+        assertThat(infoAdoptions, not(string + ": " + arg1));
+    }
 }
