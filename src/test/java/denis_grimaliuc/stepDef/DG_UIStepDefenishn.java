@@ -1,4 +1,4 @@
-package denis_grimaliuc;
+package denis_grimaliuc.stepDef;
 
 import denis_grimaliuc.poms.DGPetStorePage;
 import example.actions.BaseActions;

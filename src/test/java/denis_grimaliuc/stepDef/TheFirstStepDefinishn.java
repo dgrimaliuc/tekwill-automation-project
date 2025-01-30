@@ -1,4 +1,4 @@
-package denis_grimaliuc;
+package denis_grimaliuc.stepDef;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
