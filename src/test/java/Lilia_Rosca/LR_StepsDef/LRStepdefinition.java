@@ -1,9 +1,8 @@
-package Lilia_Rosca;
+package Lilia_Rosca.LR_StepsDef;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.ro.Si;
 
 import java.util.HashMap;
 import java.util.List;

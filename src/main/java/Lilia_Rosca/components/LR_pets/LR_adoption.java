@@ -1,12 +1,9 @@
-package Lilia_Rosca.components;
+package Lilia_Rosca.components.LR_pets;
 
-import example.ui.petstore.components.Adoption;
 import helpers.customElements.Component;
 import helpers.customElements.Components;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 public class LR_adoption extends Component {
 
