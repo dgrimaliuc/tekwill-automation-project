@@ -217,6 +217,14 @@ public class BaseActions {
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, count));
     }
 
+    public void waitForNumberOfElementsToBeMoreThan(Components<?> elements, int count) {
+        wait.until(driver -> elements.size() > count);
+    }
+
+    public void waitForNumberOfElementsToBeMoreThan(List<?> elements, int count) {
+        wait.until(driver -> elements.size() > count);
+    }
+
     public void hover(WebElement element) {
         log.trace("Hovering over element: " + element);
         Actions actions = new Actions(driver);
