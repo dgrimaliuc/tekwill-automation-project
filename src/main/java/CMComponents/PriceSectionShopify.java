@@ -11,6 +11,7 @@ public class PriceSectionShopify extends Component {
     public WebElement under25;
 
     @FindBy (css = "[value='$25 to $50']" )
+
     public WebElement _25to50;
 
     @FindBy (css = "[value='$50 to $100']" )

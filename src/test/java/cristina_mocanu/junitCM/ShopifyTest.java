@@ -37,6 +37,7 @@ public void under25FilterTest () {
 
     page.priceSection.under25.click();
 
+
    for (var card: page.cards) {
        String priceString = card.price.getText().replace ("$", "");
    Integer price = Integer.parseInt(priceString);
