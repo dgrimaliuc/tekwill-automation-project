@@ -1,4 +1,4 @@
-package IonErm;
+package IonErm.stepDefs;
 
 import IonErm.poms.IonErm_PetStorePage;
 import example.actions.BaseActions;
@@ -19,7 +19,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.HashMap;
 import java.util.Map;
 
-import static example.actions.BaseActions.waitFor;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 

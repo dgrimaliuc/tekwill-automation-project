@@ -1,4 +1,4 @@
-package IonErm.components;
+package IonErm.components.pet_store;
 
 import helpers.customElements.Component;
 import org.openqa.selenium.WebElement;

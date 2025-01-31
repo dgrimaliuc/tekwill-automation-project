@@ -1,11 +1,9 @@
-package IonErm.components;
+package IonErm.components.pet_store;
 
 import helpers.customElements.Component;
 import helpers.customElements.Components;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 public class Adoptions extends Component {
 

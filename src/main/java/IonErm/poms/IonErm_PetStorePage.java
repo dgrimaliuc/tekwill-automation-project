@@ -1,14 +1,12 @@
 package IonErm.poms;
 
-import IonErm.components.Adoptions;
-import IonErm.components.Pet;
+import IonErm.components.pet_store.Adoptions;
+import IonErm.components.pet_store.Pet;
 import helpers.BasePage;
 import helpers.customElements.Components;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
 
 public class IonErm_PetStorePage extends BasePage {
 
