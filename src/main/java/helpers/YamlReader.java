@@ -13,6 +13,7 @@ public class YamlReader {
         this.pathToFile = pathToFile;
     }
 
+
     public Map<String, Object> read() {
         Yaml yaml = new Yaml();
         try (FileInputStream in = new FileInputStream(pathToFile)) {

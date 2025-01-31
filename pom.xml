@@ -14,8 +14,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <cucumber.version>7.11.1</cucumber.version>
         <parallelCount>1</parallelCount>
-        <chrome.config>src/main/resources/chromeSettings/chrome.yaml</chrome.config>
-        <current_os>windows</current_os>
+        <current_os>unselected</current_os>
 
     </properties>
 
@@ -39,10 +38,7 @@
                         </junit.jupiter.execution.parallel.mode.default>
                         <junit.jupiter.execution.parallel.mode.classes.default>concurrent
                         </junit.jupiter.execution.parallel.mode.classes.default>
-
-                        <config>${chrome.config}</config>
                         <current_os>${current_os}</current_os>
-
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
@@ -228,12 +224,12 @@
                 <current_os>windows</current_os>
             </properties>
         </profile>
-        <!--        <profile>-->
-        <!--            <id>headless</id>-->
-        <!--            <properties>-->
-        <!--                <chrome.config>src/main/resources/chromeSettings/headless.yaml</chrome.config>-->
-        <!--            </properties>-->
-        <!--        </profile>-->
+        <profile>
+            <id>linux</id>
+            <properties>
+                <current_os>linux</current_os>
+            </properties>
+        </profile>
     </profiles>
 
 </project>

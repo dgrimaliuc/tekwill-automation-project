@@ -11,8 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 import static example.data.enums.OS.MAC;
-import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class BaseActions {
 
@@ -68,7 +68,10 @@ public class BaseActions {
 
     public void shouldNotHaveAttribute(WebElement element, String attribute, String value) {
         wait.until(not(attributeToBe(element, attribute, value)));
-        // driver -> element.getCssValue("background-color").equals(color)
+    }
+
+    public void shouldHaveAttribute(WebElement element, String attribute, String value) {
+        wait.until(attributeToBe(element, attribute, value));
     }
 
     public void shouldHaveAttributeContains(WebElement element, String attribute, String value) {
@@ -90,6 +93,11 @@ public class BaseActions {
         wait.until(textToBePresentInElement(element, text));
     }
 
+    public void shouldBeDisabled(WebElement element) {
+        log.trace("Checking if element is disabled: " + element);
+        wait.until(ExpectedConditions.attributeToBe(element, "disabled", "true"));
+    }
+
     public void shouldNotHaveTextToBe(WebElement element, String text) {
         log.trace("Checking if element has text: " + element);
         wait.until(not(textToBePresentInElement(element, text)));
@@ -102,12 +110,10 @@ public class BaseActions {
 
     public void shouldSee(WebElement element) {
         log.trace("Checking if element is visible: " + element);
-
-
         setTimeoutsToMin(driver);
         wait.until(driver -> {
             try {
-                return element.isDisplayed();
+                return isInView(element);
             } catch (Exception e) {
                 return false;
             }
@@ -115,7 +121,7 @@ public class BaseActions {
         setDefaultTimeouts(driver);
     }
 
-    public void shouldNotSee(WebElement element) {
+    public void shouldNotBeDisplayed(WebElement element) {
         log.trace("Checking if element is not visible: " + element);
         setTimeoutsToMin(driver);
         wait.until(d -> {
@@ -129,7 +135,6 @@ public class BaseActions {
         });
         setDefaultTimeouts(driver);
     }
-
 
     public void waitUntilPageToLoad() {
         log.trace("Waiting for page to load");
@@ -149,7 +154,6 @@ public class BaseActions {
             throw new TimeoutException("Element is not displayed: " + element, e);
         }
     }
-
 
     public boolean isInView(WebElement element) {
         return (boolean) executeScript("""
@@ -209,6 +213,17 @@ public class BaseActions {
         wait.until(ExpectedConditions.numberOfElementsToBe(locator, count));
     }
 
+    public void waitForNumberOfElementsToBeMoreThan(By locator, int count) {
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, count));
+    }
+
+    public void waitForNumberOfElementsToBeMoreThan(Components<?> elements, int count) {
+        wait.until(driver -> elements.size() > count);
+    }
+
+    public void waitForNumberOfElementsToBeMoreThan(List<?> elements, int count) {
+        wait.until(driver -> elements.size() > count);
+    }
 
     public void hover(WebElement element) {
         log.trace("Hovering over element: " + element);
