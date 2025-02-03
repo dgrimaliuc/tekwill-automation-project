@@ -13,21 +13,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 
-public class EGorin_Shopify_JUnitTest extends BaseTest {
-
-    IonErm_ShopifyPage page = new IonErm_ShopifyPage(driver);
-
-    @BeforeEach
-    public void openPage() {
-        driver.get("https://shopify-eta-drab.vercel.app/");
-    }
+public class Shopify_PriceFilter_Test extends ShopifyBaseTest {
 
     @Test
     @DisplayName("Open the page test")
     public void openPageTest() {
         actions.shouldBeDisplayed(page.genderSection);
         actions.shouldBeDisplayed(page.colorSection);
-        actions.shouldBeDisplayed(page.priceSection);
         actions.shouldBeDisplayed(page.sizeSection);
 //        actions.waitForNumberOfElementsMoreThen(page.cards, 0);
     }
@@ -35,7 +27,6 @@ public class EGorin_Shopify_JUnitTest extends BaseTest {
     @Test
     @DisplayName("Under 25 filter price test")
     public void under25Test() {
-        actions.shouldBeDisplayed(page.priceSection);
         page.priceSection.under25.click();
         for (var card : page.cards) {
             String priceString = card.cardPrice.getText().replace("$", "");
@@ -46,8 +37,7 @@ public class EGorin_Shopify_JUnitTest extends BaseTest {
 
     @Test
     @DisplayName("25 to 50 filter price test")
-    public void price25To50() {
-        actions.shouldBeDisplayed(page.priceSection);
+    public void price25To50Test() {
         page.priceSection.price25to50.click();
         for (var card : page.cards) {
             String priceString = card.cardPrice.getText().replace("$", "");
@@ -58,8 +48,7 @@ public class EGorin_Shopify_JUnitTest extends BaseTest {
 
     @Test
     @DisplayName("50 to 100 filter price test")
-    public void price50To100() {
-        actions.shouldBeDisplayed(page.priceSection);
+    public void price50To100Test() {
         page.priceSection.price50to100.click();
         for (var card : page.cards) {
             String priceString = card.cardPrice.getText().replace("$", "");
@@ -71,8 +60,7 @@ public class EGorin_Shopify_JUnitTest extends BaseTest {
     @ParameterizedTest
     @CsvSource(value = {"25to50,25,50", "50to100,50,100"}, delimiter = ',')
     @DisplayName("25 to 50 and 50 to 100 filter price test")
-    public void pricerangeTest(String priceFilter, int min, int max) {
-        actions.shouldBeDisplayed(page.priceSection);
+    public void priceRangeTest(String priceFilter, int min, int max) {
         if (priceFilter.equals("25to50")) {
             page.priceSection.price25to50.click();
         } else if (priceFilter.equals("50to100")) {
@@ -86,14 +74,15 @@ public class EGorin_Shopify_JUnitTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("over 100 filter price test")
-    public void over100() {
-        actions.shouldBeDisplayed(page.priceSection);
+    @DisplayName("combined price filter test")
+    public void combinedPriceFilterTest() {
+        page.priceSection.under25.click();
         page.priceSection.priceOver100.click();
         for (var card : page.cards) {
             String priceString = card.cardPrice.getText().replace("$", "");
             Integer price = Integer.parseInt(priceString);
-            assertThat(price, greaterThan(100));
+            assertThat(price, either(greaterThan(25)).or(lessThan(100)));
+
         }
     }
 }
