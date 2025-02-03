@@ -1,7 +1,6 @@
 package Lilia_Rosca.poms;
 
-import Lilia_Rosca.components.LR_shopify.LR_Card;
-import Lilia_Rosca.components.LR_shopify.LR_PriceSection;
+import Lilia_Rosca.components.LR_shopify.*;
 import helpers.BasePage;
 import helpers.customElements.Components;
 import org.openqa.selenium.WebDriver;
@@ -23,17 +22,23 @@ public class LR_shopifyPage extends BasePage {
     public LR_PriceSection priceSection;
 
     @FindBy(css = "[data-t = color-section]")
-    public LR_PriceSection colorSection;
+    public LR_ColorSection colorSection; // modified 31.01
 
-    @FindBy(css = "[data-t = size-section]")
-    public LR_PriceSection sizeSection;
+    @FindBy(css = "[data-t =    size-section]")
+    public LR_SizeSection sizeSection; // modified 31.01
 
     @FindBy(css = "[data-t = gender-section]")
-    public LR_PriceSection genderSection;
+    public LR_GenderSection genderSection; // modified 31.01
 
     @FindBy(css = ".card")
     public Components<LR_Card> cards;
 
+// 31.01
+    @FindBy(css = ".cart-button")
+    public WebElement cartButton;
+
+    @FindBy(css = ".cart-cards-wrapper")
+    public LR_Cart cart;
 
     public LR_shopifyPage(WebDriver driver) {
         super(driver);

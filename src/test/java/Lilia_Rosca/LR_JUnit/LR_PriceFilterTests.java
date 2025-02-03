@@ -1,20 +1,15 @@
 package Lilia_Rosca.LR_JUnit;
 
-
 import Lilia_Rosca.poms.LR_shopifyPage;
-import example.ui.shopify.pages.Shopify;
-import helpers.customElements.Components;
 import internal.BaseTest;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class LR_ShopifyTests extends BaseTest {
+public class LR_PriceFilterTests extends LR_ShopifyBaseTests {
 /*     @Test
     // @Disabled - testul nu va rulat
     @Tags({@Tag("smoke"), @Tag("regression")}) // ajuta la rularea doar testelor cu tag-uri specificate
@@ -22,12 +17,6 @@ public class LR_ShopifyTests extends BaseTest {
     public void dfgdghukgityutyh() {
         System.out.println("JUnit!!!");*/
 
-    LR_shopifyPage page = new LR_shopifyPage(driver);
-
-    @BeforeEach
-    public void openPage() {
-        driver.get("https://shopify-eta-drab.vercel.app/#");
-    }
 // 29.01
     @Test
     @DisplayName("Open Shopify page test")
@@ -37,12 +26,12 @@ public class LR_ShopifyTests extends BaseTest {
         actions.shouldBeDisplayed(page.colorSection);
         actions.shouldBeDisplayed(page.sizeSection);
         actions.shouldBeDisplayed(page.genderSection);
-        /*actions.*/waitForNumberOfElementsToBeMoreThan(page.cards, 0);
+        actions.waitForNumberOfElementsToBeMoreThan(page.cards, 0);
     }
-    public void waitForNumberOfElementsToBeMoreThan(Components<?> elements, int count) {
+/*  public void waitForNumberOfElementsToBeMoreThan(Components<?> elements, int count) {
         wait.until(driver -> elements.size() > count);
     } // de sters dupa git pull
-
+*/
     @Test
     @DisplayName("Under 25 filter price test")
     public void under25FilterTest() {
@@ -55,21 +44,6 @@ public class LR_ShopifyTests extends BaseTest {
             assertThat(price, lessThan(26));
         }
     }
-
-/*    @Test
-    @DisplayName("Price 50 to 100 test")
-    public void price50To100Test() {
-        actions.shouldBeDisplayed(page.priceSection);
-        page.priceSection.p50To100.click();
-
-        for (var card : page.cards) {
-            String priceString = card.price.getText().replace("$", ""); //stergem $ din pret
-            Integer price = Integer.parseInt(priceString); // transformam string in cifra
-            assertThat(price,
-                    both(greaterThan(50))
-                            .and(lessThan(100)));
-        }
-    }*/
 
     // sau pentru 25 - 50 si 50 - 100
     @ParameterizedTest
@@ -84,8 +58,8 @@ public class LR_ShopifyTests extends BaseTest {
         }
 
         for (var card : page.cards) {
-            String priceString = card.price.getText().replace("$", ""); //stergem $ din pret
-            Integer price = Integer.parseInt(priceString); // transformam string in cifra
+            String priceString = card.price.getText().replace("$", "");
+            Integer price = Integer.parseInt(priceString);
             assertThat(price,
                     both(greaterThan(min))
                             .and(lessThan(max)));
@@ -99,11 +73,26 @@ public class LR_ShopifyTests extends BaseTest {
         page.priceSection.over100.click();
 
         for (var card : page.cards) {
-            String priceString = card.price.getText().replace("$", ""); //stergem $ din pret
-            Integer price = Integer.parseInt(priceString); // transformam string in cifra
+            String priceString = card.price.getText().replace("$", "");
+            Integer price = Integer.parseInt(priceString);
             assertThat(price, greaterThan(100));
         }
     }
 
+// 31.01
+    @Test
+    @DisplayName("Combined price filter test")
+    public void combinedPriceFilterTest() {
+        actions.shouldBeDisplayed(page.priceSection); // nu este necesar
+        page.priceSection.under25.click();
+        page.priceSection.over100.click();
+
+        for (var card : page.cards) {
+            String priceString = card.price.getText().replace("$", "");
+            Integer price = Integer.parseInt(priceString);
+            assertThat(price, either(lessThan(25))
+                                 .or(greaterThan(100)));
+        }
+    }
 
 }

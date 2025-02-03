@@ -24,6 +24,10 @@ public class LR_Card extends Component {
     @FindBy(css = "#add_to_cart_button")
     public WebElement addToCart;
 
+// 31.01
+    @FindBy(css = "#card-gender")
+    public WebElement gender;
+
     public LR_Card(WebElement parent) {
         super(parent);
     }
