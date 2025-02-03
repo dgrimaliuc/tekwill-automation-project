@@ -12,6 +12,9 @@ public class Card extends Component {
     @FindBy(css = "#card-title")
     public WebElement title;
 
+    @FindBy(id = "card-gender")
+    public WebElement gender;
+
     @FindBy(css = "#card-price")
     public WebElement price;
 

@@ -10,4 +10,4 @@ capabilities:
 args:
   - --start-maximized
   - --disable-search-engine-choice-screen
-  - --headless
+#  - --headless

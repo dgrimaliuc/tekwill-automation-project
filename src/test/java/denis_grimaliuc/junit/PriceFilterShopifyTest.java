@@ -1,33 +1,24 @@
 package denis_grimaliuc.junit;
 
-import denis_grimaliuc.poms.ShopifyPage;
-import internal.BaseTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.hamcrest.CoreMatchers.both;
+import static org.hamcrest.CoreMatchers.either;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
 import static org.hamcrest.number.OrderingComparison.lessThan;
 
 
-public class ShopifyTest extends BaseTest {
-    ShopifyPage page = new ShopifyPage(driver);
+public class PriceFilterShopifyTest extends ShopifyBaseTest {
 
-
-    @BeforeEach
-    public void openPage() {
-        driver.get("https://shopify-eta-drab.vercel.app/");
-        actions.shouldBeDisplayed(page.priceSection);
-    }
 
     @Test
     @DisplayName("Open Shopify page test")
     public void openPageTest() {
-        actions.shouldBeDisplayed(page.colorSection);
+        actions.shouldBeDisplayed(page.colorsSection);
         actions.shouldBeDisplayed(page.sizeSection);
         actions.shouldBeDisplayed(page.genderSection);
         actions.waitForNumberOfElementsToBeMoreThan(page.cards, 0);
@@ -92,6 +83,20 @@ public class ShopifyTest extends BaseTest {
             String priceString = card.price.getText().replace("$", "");
             Integer price = Integer.parseInt(priceString);
             assertThat(price, greaterThan(100));
+        }
+    }
+
+    @Test
+    @DisplayName("Combined price filter test")
+    public void combinedPriceFilterTest() {
+        page.priceSection.under25.click();
+        page.priceSection.over100.click();
+
+        for (var card : page.cards) {
+            String priceString = card.price.getText().replace("$", "");
+            Integer price = Integer.parseInt(priceString);
+            assertThat(price, either(lessThan(25))
+                    .or(greaterThan(100)));
         }
     }
 
