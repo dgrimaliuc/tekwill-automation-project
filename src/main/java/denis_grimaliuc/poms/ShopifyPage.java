@@ -1,7 +1,6 @@
 package denis_grimaliuc.poms;
 
-import denis_grimaliuc.components.shopify.Card;
-import denis_grimaliuc.components.shopify.PriceSection;
+import denis_grimaliuc.components.shopify.*;
 import helpers.BasePage;
 import helpers.customElements.Components;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +8,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class ShopifyPage extends BasePage {
+
+    @FindBy(css = ".cart-button")
+    public WebElement cartButton;
+
+    @FindBy(css = ".cart-cards-wrapper")
+    public Cart cart;
+
     @FindBy(css = "#dropdownButton")
     public WebElement dropdownButton;
     @FindBy(css = "#dropdownList li:nth-child(1)")
@@ -18,12 +24,14 @@ public class ShopifyPage extends BasePage {
 
     @FindBy(css = "[data-t=price-section]")
     public PriceSection priceSection;
+
     @FindBy(css = "[data-t=color-section]")
-    public WebElement colorSection;
+    public ColorsSection colorsSection;
     @FindBy(css = "[data-t=size-section]")
-    public WebElement sizeSection;
+    public SizeSection sizeSection;
+
     @FindBy(css = "[data-t=gender-section]")
-    public WebElement genderSection;
+    public GenderSection genderSection;
 
     @FindBy(css = ".card")
     public Components<Card> cards;
