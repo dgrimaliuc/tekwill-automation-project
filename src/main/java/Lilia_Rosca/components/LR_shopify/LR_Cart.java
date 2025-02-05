@@ -15,6 +15,9 @@ public class LR_Cart extends Component {
 
         @FindBy(css = ".order-button")
         public WebElement orderButton;
+// 03.02
+        @FindBy(css = ".empty-cart-title")
+        public WebElement emptyCartTitle;
 
         public LR_Cart(WebElement parent) {
             super(parent);
