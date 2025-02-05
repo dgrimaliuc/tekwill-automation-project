@@ -24,7 +24,7 @@ public class LR_shopifyPage extends BasePage {
     @FindBy(css = "[data-t = color-section]")
     public LR_ColorSection colorSection; // modified 31.01
 
-    @FindBy(css = "[data-t =    size-section]")
+    @FindBy(css = "[data-t = size-section]")
     public LR_SizeSection sizeSection; // modified 31.01
 
     @FindBy(css = "[data-t = gender-section]")
@@ -36,8 +36,8 @@ public class LR_shopifyPage extends BasePage {
 // 31.01
     @FindBy(css = ".cart-button")
     public WebElement cartButton;
-
-    @FindBy(css = ".cart-cards-wrapper")
+// 03.02
+    @FindBy(css = ".cart-wrapper")
     public LR_Cart cart;
 
     public LR_shopifyPage(WebDriver driver) {
