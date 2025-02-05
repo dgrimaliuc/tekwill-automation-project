@@ -12,7 +12,7 @@ public class IonErm_ShopifyPage extends BasePage {
     @FindBy(css = ".cart-button")
     public WebElement cartButton;
 
-    @FindBy(css = ".cart-cards-wrapper")
+    @FindBy(css = ".cart-wrapper")
     public Cart cart;
 
     @FindBy(css = "#dropdownButton")

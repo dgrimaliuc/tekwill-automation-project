@@ -10,6 +10,9 @@ public class Cart extends Component {
     @FindBy(css = ".total-price")
     public WebElement totalPrice;
 
+    @FindBy(css = ".empty-cart-title")
+    public WebElement emptyCartTitle;
+
     @FindBy(css = ".cart-card")
     public Components<CartItem> cartItems;
 
