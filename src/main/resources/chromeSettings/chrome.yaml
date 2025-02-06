@@ -1,7 +1,7 @@
 driver: "chrome"
 
 timeouts:
-  explicit: 10
+  explicit: 5
   implicit: 5
 
 capabilities:
