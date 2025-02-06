@@ -1,4 +1,4 @@
-package denis_grimaliuc.poms;
+package denis_grimaliuc.poms.base;
 
 import denis_grimaliuc.components.shopify.*;
 import helpers.BasePage;

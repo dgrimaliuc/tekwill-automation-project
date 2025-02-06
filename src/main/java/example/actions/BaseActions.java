@@ -22,7 +22,7 @@ public class BaseActions {
 
     public BaseActions(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, 10, 200);
+        wait = new WebDriverWait(driver, 5, 200);
     }
 
     public static void waitFor(int seconds) {
@@ -51,13 +51,25 @@ public class BaseActions {
         driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);
     }
 
+    public void leftClick(WebElement element) {
+        log.trace("Clicking element: " + element);
+        new Actions(driver).moveToElement(element).click(element).perform();
+    }
+
+    public void waitForCurrentURLContains(String url) {
+        log.trace("Waiting for current URL contains: " + url);
+        wait.until(ExpectedConditions.urlContains(url));
+    }
+
     public Object executeScript(String script, Object object) {
         return ((JavascriptExecutor) driver).executeScript(script, object);
     }
 
     public void waitForNumberOfElements(List<WebElement> elements, int count) {
         log.trace("Waiting for number of elements: " + count);
+        setTimeoutsToMin(driver);
         wait.until(driver -> elements.size() == count);
+        setDefaultTimeouts(driver);
     }
 
     public void waitForBackgroundColor(WebElement element, String color) {

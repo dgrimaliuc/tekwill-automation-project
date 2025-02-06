@@ -1,6 +1,6 @@
 package denis_grimaliuc.stepDef;
 
-import denis_grimaliuc.poms.DGPetStorePage;
+import denis_grimaliuc.poms.base.DGPetStorePage;
 import example.actions.BaseActions;
 import example.data.enums.OS;
 import internal.ChromeDriverProvider;
@@ -19,8 +19,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.HashMap;
 import java.util.Map;
 
-import static denis_grimaliuc.poms.DGPetStorePage.allAdoptions;
-import static denis_grimaliuc.poms.DGPetStorePage.allPets;
+import static denis_grimaliuc.poms.base.DGPetStorePage.allAdoptions;
+import static denis_grimaliuc.poms.base.DGPetStorePage.allPets;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 

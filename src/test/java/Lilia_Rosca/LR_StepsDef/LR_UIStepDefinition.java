@@ -7,8 +7,8 @@ import internal.ChromeDriverProvider;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -20,11 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static Lilia_Rosca.poms.LR_petStorePage.allAdoptions;
-import static denis_grimaliuc.poms.DGPetStorePage.allPets;
+import static denis_grimaliuc.poms.base.DGPetStorePage.allPets;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-// de sters dupa git pull 29.01
-import static org.openqa.selenium.support.ui.ExpectedConditions.attributeToBe;
 
 public class LR_UIStepDefinition {
 
@@ -74,8 +72,8 @@ public class LR_UIStepDefinition {
 
     @Then("I see {string} in Adoption Section title")
     public void i_see_in_adoption_section_title(String string) {
-       // var title = driver.findElement(By.xpath("//div[@data-t='adoptions-section']/h2"));
-       // String titleText = title.getText();
+        // var title = driver.findElement(By.xpath("//div[@data-t='adoptions-section']/h2"));
+        // String titleText = title.getText();
         String titleText = page.adoptionSectionTitle.getText();
         assertThat(titleText, equalTo("Adoptions in " + string));
     }
@@ -132,17 +130,17 @@ public class LR_UIStepDefinition {
         i_see_in_adoption_section_title(location);
     }
 
-/*    @When("I open a random location in new tab") - atunci cinda va lucra - introduci locatia, apesi butonul, se deschide pagina
-    public void iOpenARandomLocationInNewTab() {
-        String locationName = RandomStringUtils.randomAlphanumeric(9);
-        actions.clear(page.locationInput);
-        page.locationInput.sendKeys(locationName);
-        page.buttonOpenInNewTab.click();
-        wait.until(ExpectedConditions.numberOfWindowsToBe(2)); // va astepta pina se deschide a doua pagina
-        String newTabId = driver.getWindowHandles().toArray()[1].toString();
-        driver.switchTo().window(newTabId); // driver.getWindowHandles() - in debug arata id la toate paginile deschise
-        context.put("location_name", locationName);
-    }*/
+    /*    @When("I open a random location in new tab") - atunci cinda va lucra - introduci locatia, apesi butonul, se deschide pagina
+        public void iOpenARandomLocationInNewTab() {
+            String locationName = RandomStringUtils.randomAlphanumeric(9);
+            actions.clear(page.locationInput);
+            page.locationInput.sendKeys(locationName);
+            page.buttonOpenInNewTab.click();
+            wait.until(ExpectedConditions.numberOfWindowsToBe(2)); // va astepta pina se deschide a doua pagina
+            String newTabId = driver.getWindowHandles().toArray()[1].toString();
+            driver.switchTo().window(newTabId); // driver.getWindowHandles() - in debug arata id la toate paginile deschise
+            context.put("location_name", locationName);
+        }*/
     @When("I open a random location in new tab")
     public void iOpenARandomLocationInNewTab() {
         page.buttonOpenInNewTab.click();
@@ -196,23 +194,26 @@ public class LR_UIStepDefinition {
         String newPetStatus = page.pets.getFirst().status.getText();
         assertThat(newPetStatus, equalTo("ONHOLD"));
     }
-// 27.01
+
+    // 27.01
     @Then("I hover the Add pet button it is highlighted")
     public void iHoverTheAddPetButtonItIsHighlighted() {
-    //    System.out.println("Before: " + page.addPetButton.getCssValue("background-color")); - culoare butonului
+        //    System.out.println("Before: " + page.addPetButton.getCssValue("background-color")); - culoare butonului
         actions.hover(page.addPetButton);
-    //    System.out.println("After: " + page.addPetButton.getCssValue("background-color")); - culoare  butonului cu mouse pe el
+        //    System.out.println("After: " + page.addPetButton.getCssValue("background-color")); - culoare  butonului cu mouse pe el
         String backColour = page.addPetButton.getCssValue("background-color");
         assertThat(backColour, equalTo("rgba(29, 78, 216, 1)"));
     }
-// HW 27.01 ex 1
+
+    // HW 27.01 ex 1
     @Then("I hover the Adopt Selected pets button it is highlighted")
     public void iHoverTheAdoptSelectedPetsButtonItIsHighlighted() {
         actions.hover(page.adoptSelectedButton);
         String backColour = page.adoptSelectedButton.getCssValue("background-color");
         assertThat(backColour, equalTo("rgba(209, 213, 219, 1)"));
     }
-// 27.01 - continuare
+
+    // 27.01 - continuare
     @And("Approve first adoption")
     public void approveFirstAdoption() {
         var adoption = page.adoptions.getFirst();
@@ -266,8 +267,8 @@ public void shouldHaveAttribute(WebElement element, String attribute, String val
     public void buttonIsDisabledAndPetIsNotSelected() {
         assertThat(page.deselectButton.getAttribute("disabled"), equalTo("true"));
         actions.shouldNotBeDisplayed(page.pets.getFirst().checkedIcon);
- //       assertThat(page.pets.getFirst().checkedIcon.isDisplayed(), equalTo(true));
- //       driver.findElements(null).size() == 0; // verifica daca elementul cu xpath indicat este
+        //       assertThat(page.pets.getFirst().checkedIcon.isDisplayed(), equalTo(true));
+        //       driver.findElements(null).size() == 0; // verifica daca elementul cu xpath indicat este
     }
 
     @And("Deny first adoption")

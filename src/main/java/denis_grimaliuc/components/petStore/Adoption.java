@@ -1,4 +1,4 @@
-package denis_grimaliuc.components;
+package denis_grimaliuc.components.petStore;
 
 //import example.ui.petstore.components.MiniPet;
 

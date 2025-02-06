@@ -1,6 +1,6 @@
-package denis_grimaliuc.junit;
+package denis_grimaliuc.junit.shopify;
 
-import denis_grimaliuc.poms.ShopifyPage;
+import denis_grimaliuc.poms.base.ShopifyPage;
 import internal.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 
