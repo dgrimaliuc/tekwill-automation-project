@@ -1,4 +1,4 @@
-package Lilia_Rosca.LR_JUnit;
+package Lilia_Rosca.LR_JUnit.Shopify;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

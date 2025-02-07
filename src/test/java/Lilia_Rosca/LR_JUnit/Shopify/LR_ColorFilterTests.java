@@ -1,8 +1,5 @@
-package Lilia_Rosca.LR_JUnit;
+package Lilia_Rosca.LR_JUnit.Shopify;
 
-import Lilia_Rosca.poms.LR_shopifyPage;
-import internal.BaseTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

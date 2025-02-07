@@ -1,4 +1,4 @@
-package Lilia_Rosca.LR_JUnit;
+package Lilia_Rosca.LR_JUnit.Shopify;
 
 import Lilia_Rosca.poms.LR_shopifyPage;
 import internal.BaseTest;
