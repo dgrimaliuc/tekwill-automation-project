@@ -1,4 +1,4 @@
-package denis_grimaliuc.junit;
+package denis_grimaliuc.junit.shopify;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

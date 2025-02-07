@@ -1,7 +1,7 @@
-package denis_grimaliuc.poms;
+package denis_grimaliuc.poms.base;
 
-import denis_grimaliuc.components.Adoption;
-import denis_grimaliuc.components.Pet;
+import denis_grimaliuc.components.petStore.Adoption;
+import denis_grimaliuc.components.petStore.Pet;
 import helpers.BasePage;
 import helpers.customElements.Components;
 import org.openqa.selenium.By;

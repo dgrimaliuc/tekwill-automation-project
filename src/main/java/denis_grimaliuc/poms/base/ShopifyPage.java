@@ -1,4 +1,4 @@
-package denis_grimaliuc.poms;
+package denis_grimaliuc.poms.base;
 
 import denis_grimaliuc.components.shopify.*;
 import helpers.BasePage;
@@ -12,7 +12,7 @@ public class ShopifyPage extends BasePage {
     @FindBy(css = ".cart-button")
     public WebElement cartButton;
 
-    @FindBy(css = ".cart-cards-wrapper")
+    @FindBy(css = ".cart-wrapper")
     public Cart cart;
 
     @FindBy(css = "#dropdownButton")
