@@ -1,12 +1,10 @@
-package IonErm.junit;
+package IonErm.junit.shopify;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static IonErm.components.shopify.ColorSection.getColor;
 import static IonErm.components.shopify.SizeSection.getSize;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.either;
