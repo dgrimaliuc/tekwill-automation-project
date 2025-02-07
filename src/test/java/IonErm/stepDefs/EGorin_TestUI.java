@@ -1,6 +1,6 @@
 package IonErm.stepDefs;
 
-import IonErm.poms.IonErm_PetStorePage;
+import IonErm.poms.pet_store.IonErm_PetStorePage;
 import example.actions.BaseActions;
 import example.data.enums.OS;
 import internal.ChromeDriverProvider;

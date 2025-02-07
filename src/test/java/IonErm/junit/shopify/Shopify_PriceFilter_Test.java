@@ -1,8 +1,5 @@
-package IonErm.junit;
+package IonErm.junit.shopify;
 
-import IonErm.poms.IonErm_ShopifyPage;
-import internal.BaseTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

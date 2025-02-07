@@ -1,4 +1,4 @@
-package IonErm.poms;
+package IonErm.poms.shopify;
 
 import IonErm.components.shopify.*;
 import helpers.BasePage;

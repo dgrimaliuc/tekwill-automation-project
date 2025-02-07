@@ -1,4 +1,4 @@
-package IonErm.poms;
+package IonErm.poms.pet_store;
 
 import IonErm.components.pet_store.Adoptions;
 import IonErm.components.pet_store.Pet;
