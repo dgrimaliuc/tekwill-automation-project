@@ -7,9 +7,12 @@ import java.util.List;
 public class Component implements WebElement {
     private final WebElement parent;
 
-
     public Component(WebElement parent) {
         this.parent = parent;
+    }
+
+    public WebElement getParentElement() {
+        return parent;
     }
 
     @Override
