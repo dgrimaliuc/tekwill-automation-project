@@ -13,7 +13,6 @@ public class LR_NeonStreamBaseTest extends BaseTest {
     @BeforeEach
     public void OpenNSPage() {
         driver.get("https://neon-stream--stg-g1xzvf5x.web.app/");
-
+        actions.waitForNumberOfElements(page.heroCarousel.placeHolders, 0);
     }
-
 }

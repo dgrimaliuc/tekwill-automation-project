@@ -10,6 +10,11 @@ public class LR_HomePage extends BasePage {
     @FindBy(css = "[class*=hero-carousel-wrapper]")
     public LR_HeroCarousel heroCarousel;
 
+// 07.02
+    // LR_carousel
+    // LR_SinglePromoCard
+
+
 
 
     public LR_HomePage(WebDriver driver) {

@@ -9,6 +9,9 @@ public class LR_HeroCard extends Component {
     @FindBy(css = "a[class*=title]")
     public WebElement title;
 
+    @FindBy(css = "img[class*=hero-card-picture]")
+    public WebElement image;
+
     @FindBy(css = "[class*=description]")
     public WebElement description;
 
