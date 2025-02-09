@@ -4,7 +4,7 @@ import helpers.customElements.Component;
 import org.openqa.selenium.WebElement;
 
 public class LR_HCTab extends Component {
-// 05.02
+    // 05.02
     public LR_HCTab(WebElement parent) {
         super(parent);
     }

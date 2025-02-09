@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class LR_SinglePromoCard extends Component {
-// 07.02
+    // 07.02
     @FindBy(css = ".single-card-img-wrapper .image-right")
     public WebElement image;
 

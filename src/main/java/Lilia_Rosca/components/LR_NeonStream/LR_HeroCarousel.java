@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class LR_HeroCarousel extends Component {
-// 05.02
+    // 05.02
     @FindBy(css = "[class*=pagination-wrapper] button[class*=hero-carousel__page]")
     public Components<LR_HCTab> tabs;
 

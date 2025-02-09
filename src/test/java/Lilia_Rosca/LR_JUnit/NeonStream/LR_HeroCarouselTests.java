@@ -10,7 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
 public class LR_HeroCarouselTests extends LR_NeonStreamBaseTest{
-// 05.02
+    // 05.02
     @Test
     @DisplayName("Smoke Hero Carousel Test")
     public void smokeHeroCarouselTest() {
@@ -21,7 +21,7 @@ public class LR_HeroCarouselTests extends LR_NeonStreamBaseTest{
         actions.shouldBeDisplayed(card.description);
         actions.shouldBeDisplayed(card.watchNow);
         actions.shouldBeDisplayed(card.addToWatchList);
-   }
+    }
 
     @Test
     @DisplayName("HC animation timing test")

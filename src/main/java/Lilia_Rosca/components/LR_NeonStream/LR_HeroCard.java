@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class LR_HeroCard extends Component {
-// 05.02
+    // 05.02
     @FindBy(css = "a[class*=title]")
     public WebElement title;
 

@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import static example.actions.BaseActions.*;
 
 public class LR_HomePageTests extends LR_NeonStreamBaseTest{
-// 07.02
+    // 07.02
     @Test
     @DisplayName("Browse card click test")
     public void browseCardClickTest() {

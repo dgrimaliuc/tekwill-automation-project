@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class LR_Carousel extends Component {
-// 07.02
+    // 07.02
     @FindBy(css = ".carousel-title")
     public WebElement title;
 
