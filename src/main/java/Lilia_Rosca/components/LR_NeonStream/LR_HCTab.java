@@ -12,4 +12,5 @@ public class LR_HCTab extends Component {
     public boolean isActive() {
         return this.getAttribute("class").contains("is-active");
     }
+
 }

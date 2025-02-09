@@ -28,7 +28,6 @@ public class LR_HeroCarousel extends Component {
     @FindBy(css = "[class*=placeholder]")
     public List<WebElement> placeHolders;
 
-
     public LR_HeroCarousel(WebElement parent) {
         super(parent);
     }

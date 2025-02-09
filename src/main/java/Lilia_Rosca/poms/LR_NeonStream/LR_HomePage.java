@@ -20,7 +20,6 @@ public class LR_HomePage extends BasePage {
     @FindBy(css = ".single-promo-card-container")
     public Components<LR_SinglePromoCard> singlePromoCards;
 
-
     public LR_HomePage(WebDriver driver) {
         super(driver);
     }

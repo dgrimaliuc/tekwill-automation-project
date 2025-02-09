@@ -113,4 +113,5 @@ public class LR_SortingTests extends LR_ShopifyBaseTests{
         }
         softAssertions.assertAll();
     }
+
 }

@@ -82,5 +82,4 @@ public class LR_HeroCarouselTests extends LR_NeonStreamBaseTest{
         page.heroCarousel.activeCard.title.click();
         actions.waitForCurrentURLContains("/movie/");
     }
-
 }

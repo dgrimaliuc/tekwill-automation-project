@@ -19,6 +19,5 @@ public class LR_Carousel extends Component {
     @FindBy(css = ".scrolling-section > div")
     public Components<LR_BrowseCard> browseCards;
 
-
     public LR_Carousel(WebElement parent) {super(parent);}
 }

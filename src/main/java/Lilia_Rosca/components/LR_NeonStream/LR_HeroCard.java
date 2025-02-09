@@ -24,6 +24,7 @@ public class LR_HeroCard extends Component {
     @FindBy(css = " [data-t=in-watchlist]")
     public WebElement removeFromWatchList;
 
+
     public LR_HeroCard(WebElement parent) {
         super(parent);
     }

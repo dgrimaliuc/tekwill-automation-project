@@ -12,6 +12,5 @@ public class LR_BrowseCard extends Component {
     @FindBy(css = "[class*=browse-card_browse-card-info]")
     public WebElement title;
 
-
     public LR_BrowseCard(WebElement parent) {super(parent);}
 }
