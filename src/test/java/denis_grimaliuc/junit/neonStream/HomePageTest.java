@@ -1,45 +1,40 @@
-package Lilia_Rosca.LR_JUnit.NeonStream;
+package denis_grimaliuc.junit.neonStream;
 
-import helpers.customElements.Component;
-import helpers.customElements.Components;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebElement;
 
-import static example.actions.BaseActions.*;
-
-public class LR_HomePageTests extends LR_NeonStreamBaseTest{
-// 07.02
+public class HomePageTest extends NeonStreamBaseTest {
     @Test
     @DisplayName("Browse card click test")
     public void browseCardClickTest() {
-        var card = page.carousel.getFirst().browseCards.getFirst().title;
-        actions.scrollTo(card, 100);
+        var card = page.carousel.getFirst().cards.getFirst().title;
+        actions.scrollTo(card);
         card.click();
         actions.waitForCurrentURLContains("/movie/");
     }
 
     @Test
-    @DisplayName("Carousel right and left click test")
-    public void carouselRightAndLeftClickTest() {
+    @DisplayName("Carousel right click test")
+    public void carouselRightClickTest() {
         var carousel = page.carousel.getFirst();
         var carouselTitle = carousel.title;
-        actions.scrollTo(carouselTitle, 100);
+        actions.scrollTo(carouselTitle);
         carousel.rightArrow.click();
-        // waitFor(2);
-        actions.shouldHaveAttribute(page.carousel.getFirst().browseCards.getFirst(), "inert", "true");
-        actions.shouldNotHaveAttribute(page.carousel.getFirst().browseCards.get(10), "inert", "true");
+        actions.shouldHaveAttribute(page.carousel.getFirst().cards.getFirst(), "inert", "true");
+        actions.shouldNotHaveAttribute(page.carousel.getFirst().cards.get(12), "inert", "true");
 
         carousel.leftArrow.click();
-        actions.shouldNotHaveAttribute(page.carousel.getFirst().browseCards.getFirst(), "inert", "true");
-        actions.shouldHaveAttribute(page.carousel.getFirst().browseCards.get(10), "inert", "true");
+
+        actions.shouldNotHaveAttribute(page.carousel.getFirst().cards.getFirst(), "inert", "true");
+        actions.shouldHaveAttribute(page.carousel.getFirst().cards.get(12), "inert", "true");
+
     }
 
     @Test
     @DisplayName("Carousel title click test")
     public void carouselTitleClickTest() {
-        page.heroCarousel.cards.getFirst().addToWatchList.click();
-        actions.scrollTo(page.carousel.getFirst().title, 100);
+        page.heroCarousel.cards.getFirst().addToWathList.click();
+        actions.scrollTo(page.carousel.getFirst().title);
         page.carousel.getFirst().title.click();
         actions.waitForCurrentURLContains("/watchlist");
     }
@@ -49,10 +44,10 @@ public class LR_HomePageTests extends LR_NeonStreamBaseTest{
     public void singlePromoShowCardTest() {
         actions.scrollTo(page.singlePromoCards);
         var card = page.singlePromoCards.getFirst();
-        actions.shouldBeDisplayed(card.title);
         actions.shouldBeDisplayed(card.image);
+        actions.shouldBeDisplayed(card.title);
         actions.shouldBeDisplayed(card.description);
-        actions.shouldBeDisplayed(card.addToWatchList);
+        actions.shouldBeDisplayed(card.addToWatchlist);
         actions.shouldBeDisplayed(card.watchNow);
     }
 
@@ -75,8 +70,8 @@ public class LR_HomePageTests extends LR_NeonStreamBaseTest{
     }
 
     @Test
-    @DisplayName("Single promo show card watchNow button click test")
-    public void singlePromoShowCardWatchNowButtonClickTest() {
+    @DisplayName("Single promo show card image click test")
+    public void singlePromoShowCardWatchNowClickTest() {
         actions.scrollTo(page.singlePromoCards);
         var card = page.singlePromoCards.getFirst();
         card.watchNow.click();

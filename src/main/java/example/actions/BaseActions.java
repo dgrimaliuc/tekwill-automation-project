@@ -38,7 +38,7 @@ public class BaseActions {
     }
 
     public static void setDefaultTimeouts(WebDriver driver) {
-        setTimeouts(driver, 10);
+        setTimeouts(driver, 5);
     }
 
     public static void setTimeoutsToMin(WebDriver driver) {
@@ -186,19 +186,40 @@ public class BaseActions {
     }
 
     public void scrollTo(WebElement element) {
+        scrollTo(element, 1000);
+    }
+
+    public void scrollTo(Components<?> elements) {
+        setTimeouts(driver, 2);
+        while (elements.isEmpty()) {
+            executeScript(String.format("""
+                    window.scrollBy({
+                      top: %d, // could be negative value
+                      left: 0,
+                    });
+                    """, 1000), null);
+        }
+        waitForNumberOfElementsToBeMoreThan(elements, 0);
+        scrollIntoCenter(elements.getFirst().getParentElement());
+        setDefaultTimeouts(driver);
+    }
+
+    public void scrollIntoCenter(WebElement element) {
+        executeScript("arguments[0].scrollIntoView({  block: \"center\", inline: \"nearest\" });", element);
+    }
+
+    public void scrollTo(WebElement element, int top) {
         log.trace("Scrolling to element: " + element);
         setTimeouts(driver, 1);
         while (!isDisplayed(element)) {
-            executeScript("""
-                    // Scroll certain amounts from current position
+            executeScript(String.format("""
                     window.scrollBy({
-                      top: 500, // could be negative value
+                      top: %d, // could be negative value
                       left: 0,
-                      behavior: 'smooth'
                     });
-                    """, null);
+                    """, top), null);
         }
-        executeScript("arguments[0].scrollIntoView(true);", element);
+        scrollIntoCenter(element);
         setDefaultTimeouts(driver);
     }
 
