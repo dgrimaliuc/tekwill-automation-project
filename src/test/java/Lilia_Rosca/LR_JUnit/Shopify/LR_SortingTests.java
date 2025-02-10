@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 
 public class LR_SortingTests extends LR_ShopifyBaseTests{
-//05.02
+    //05.02
     @Test
     @DisplayName("Ascending Sorting Test")
     public void ascendingSortingTest() {
@@ -31,10 +31,10 @@ public class LR_SortingTests extends LR_ShopifyBaseTests{
         page.ascendingOrder.click();
 
         for (int i = 0; i < prices.size(); i++) {
-           int price = prices.get(i);
-           int cardPrice = convertPrice(page.cards.get(i).price);
-           log.info("Price: " + price + " Card price: " + cardPrice);
-           assertThat(cardPrice, equalTo(price));
+            int price = prices.get(i);
+            int cardPrice = convertPrice(page.cards.get(i).price);
+            log.info("Price: " + price + " Card price: " + cardPrice);
+            assertThat(cardPrice, equalTo(price));
         }
     }
     // var 2 - softAssertion
@@ -113,4 +113,5 @@ public class LR_SortingTests extends LR_ShopifyBaseTests{
         }
         softAssertions.assertAll();
     }
+
 }

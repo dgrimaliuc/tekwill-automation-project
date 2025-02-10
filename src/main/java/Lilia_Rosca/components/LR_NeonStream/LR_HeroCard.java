@@ -5,9 +5,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class LR_HeroCard extends Component {
-// 05.02
+    // 05.02
     @FindBy(css = "a[class*=title]")
     public WebElement title;
+
+    @FindBy(css = "img[class*=hero-card-picture]")
+    public WebElement image;
 
     @FindBy(css = "[class*=description]")
     public WebElement description;
@@ -20,6 +23,7 @@ public class LR_HeroCard extends Component {
 
     @FindBy(css = " [data-t=in-watchlist]")
     public WebElement removeFromWatchList;
+
 
     public LR_HeroCard(WebElement parent) {
         super(parent);
