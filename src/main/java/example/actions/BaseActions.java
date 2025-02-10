@@ -266,15 +266,4 @@ public class BaseActions {
         actions.moveToElement(element).perform();
     }
 
-    public void waitForCurrentURLContains(String s) {
-
-    }
-
-    public void scrollTo(WebElement carouselTitle, int i) {
-
-    }
-
-    public void shouldHaveAttribute(BrowseCard first, String inert, String aTrue) {
-
-    }
 }
