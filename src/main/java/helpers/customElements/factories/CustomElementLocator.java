@@ -35,6 +35,7 @@ public class CustomElementLocator implements ElementLocator {
     }
 
     public WebElement findElement() {
+        // TODO may bee to add a wait.until ??
         if (this.parentElement != null) {
             return this.parentElement.findElement(this.by);
         } else if (this.parentBy != null) {
