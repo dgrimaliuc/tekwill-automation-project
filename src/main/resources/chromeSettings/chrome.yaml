@@ -1,7 +1,7 @@
 driver: "chrome"
 
 timeouts:
-  explicit: 10
+  explicit: 5
   implicit: 5
 
 capabilities:
@@ -9,3 +9,5 @@ capabilities:
 
 args:
   - --start-maximized
+  - --disable-search-engine-choice-screen
+#  - --headless

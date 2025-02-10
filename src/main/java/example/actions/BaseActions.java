@@ -12,8 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 import static example.data.enums.OS.MAC;
-import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class BaseActions {
 
@@ -24,7 +24,7 @@ public class BaseActions {
 
     public BaseActions(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, 10, 200);
+        wait = new WebDriverWait(driver, 5, 200);
     }
 
     public static void waitFor(int seconds) {
@@ -40,7 +40,7 @@ public class BaseActions {
     }
 
     public static void setDefaultTimeouts(WebDriver driver) {
-        setTimeouts(driver, 10);
+        setTimeouts(driver, 5);
     }
 
     public static void setTimeoutsToMin(WebDriver driver) {
@@ -53,13 +53,25 @@ public class BaseActions {
         driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);
     }
 
+    public void leftClick(WebElement element) {
+        log.trace("Clicking element: " + element);
+        new Actions(driver).moveToElement(element).click(element).perform();
+    }
+
+    public void waitForCurrentURLContains(String url) {
+        log.trace("Waiting for current URL contains: " + url);
+        wait.until(ExpectedConditions.urlContains(url));
+    }
+
     public Object executeScript(String script, Object object) {
         return ((JavascriptExecutor) driver).executeScript(script, object);
     }
 
     public void waitForNumberOfElements(List<WebElement> elements, int count) {
         log.trace("Waiting for number of elements: " + count);
+        setTimeoutsToMin(driver);
         wait.until(driver -> elements.size() == count);
+        setDefaultTimeouts(driver);
     }
 
     public void waitForBackgroundColor(WebElement element, String color) {
@@ -70,7 +82,10 @@ public class BaseActions {
 
     public void shouldNotHaveAttribute(WebElement element, String attribute, String value) {
         wait.until(not(attributeToBe(element, attribute, value)));
-        // driver -> element.getCssValue("background-color").equals(color)
+    }
+
+    public void shouldHaveAttribute(WebElement element, String attribute, String value) {
+        wait.until(attributeToBe(element, attribute, value));
     }
 
     public void shouldHaveAttributeContains(WebElement element, String attribute, String value) {
@@ -92,6 +107,11 @@ public class BaseActions {
         wait.until(textToBePresentInElement(element, text));
     }
 
+    public void shouldBeDisabled(WebElement element) {
+        log.trace("Checking if element is disabled: " + element);
+        wait.until(ExpectedConditions.attributeToBe(element, "disabled", "true"));
+    }
+
     public void shouldNotHaveTextToBe(WebElement element, String text) {
         log.trace("Checking if element has text: " + element);
         wait.until(not(textToBePresentInElement(element, text)));
@@ -104,12 +124,10 @@ public class BaseActions {
 
     public void shouldSee(WebElement element) {
         log.trace("Checking if element is visible: " + element);
-
-
         setTimeoutsToMin(driver);
         wait.until(driver -> {
             try {
-                return element.isDisplayed();
+                return isInView(element);
             } catch (Exception e) {
                 return false;
             }
@@ -117,7 +135,7 @@ public class BaseActions {
         setDefaultTimeouts(driver);
     }
 
-    public void shouldNotSee(WebElement element) {
+    public void shouldNotBeDisplayed(WebElement element) {
         log.trace("Checking if element is not visible: " + element);
         setTimeoutsToMin(driver);
         wait.until(d -> {
@@ -131,7 +149,6 @@ public class BaseActions {
         });
         setDefaultTimeouts(driver);
     }
-
 
     public void waitUntilPageToLoad() {
         log.trace("Waiting for page to load");
@@ -152,7 +169,6 @@ public class BaseActions {
         }
     }
 
-
     public boolean isInView(WebElement element) {
         return (boolean) executeScript("""
                 if (!arguments[0].getBoundingClientRect) {
@@ -172,19 +188,40 @@ public class BaseActions {
     }
 
     public void scrollTo(WebElement element) {
+        scrollTo(element, 1000);
+    }
+
+    public void scrollTo(Components<?> elements) {
+        setTimeouts(driver, 2);
+        while (elements.isEmpty()) {
+            executeScript(String.format("""
+                    window.scrollBy({
+                      top: %d, // could be negative value
+                      left: 0,
+                    });
+                    """, 1000), null);
+        }
+        waitForNumberOfElementsToBeMoreThan(elements, 0);
+        scrollIntoCenter(elements.getFirst().getParentElement());
+        setDefaultTimeouts(driver);
+    }
+
+    public void scrollIntoCenter(WebElement element) {
+        executeScript("arguments[0].scrollIntoView({  block: \"center\", inline: \"nearest\" });", element);
+    }
+
+    public void scrollTo(WebElement element, int top) {
         log.trace("Scrolling to element: " + element);
         setTimeouts(driver, 1);
         while (!isDisplayed(element)) {
-            executeScript("""
-                    // Scroll certain amounts from current position
+            executeScript(String.format("""
                     window.scrollBy({
-                      top: 500, // could be negative value
+                      top: %d, // could be negative value
                       left: 0,
-                      behavior: 'smooth'
                     });
-                    """, null);
+                    """, top), null);
         }
-        executeScript("arguments[0].scrollIntoView(true);", element);
+        scrollIntoCenter(element);
         setDefaultTimeouts(driver);
     }
 
@@ -211,6 +248,17 @@ public class BaseActions {
         wait.until(ExpectedConditions.numberOfElementsToBe(locator, count));
     }
 
+    public void waitForNumberOfElementsToBeMoreThan(By locator, int count) {
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(locator, count));
+    }
+
+    public void waitForNumberOfElementsToBeMoreThan(Components<?> elements, int count) {
+        wait.until(driver -> elements.size() > count);
+    }
+
+    public void waitForNumberOfElementsToBeMoreThan(List<?> elements, int count) {
+        wait.until(driver -> elements.size() > count);
+    }
 
     public void hover(WebElement element) {
         log.trace("Hovering over element: " + element);
