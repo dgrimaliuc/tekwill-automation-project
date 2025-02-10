@@ -17,7 +17,7 @@ public WebElement image;
 public WebElement watchNow;
 
 @FindBy(css = "[data-t=not-in-watchlist]")
-public WebElement addWatchList;
+public WebElement addWatchTOList;
 
 @FindBy(css = "[data-t=in-watchlist]")
 public WebElement removeFromWatchList;

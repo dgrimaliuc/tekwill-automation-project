@@ -1,5 +1,6 @@
 package example.actions;
 
+import CMComponents.neonStream.BrowseCard;
 import helpers.customElements.Components;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -19,6 +20,7 @@ public class BaseActions {
     static Logger log = Logger.getLogger(BaseActions.class);
     private final WebDriver driver;
     private final WebDriverWait wait;
+    public Object shouldBeDisplayed;
 
     public BaseActions(WebDriver driver) {
         this.driver = driver;
@@ -216,4 +218,15 @@ public class BaseActions {
         actions.moveToElement(element).perform();
     }
 
+    public void waitForCurrentURLContains(String s) {
+
+    }
+
+    public void scrollTo(WebElement carouselTitle, int i) {
+
+    }
+
+    public void shouldHaveAttribute(BrowseCard first, String inert, String aTrue) {
+
+    }
 }

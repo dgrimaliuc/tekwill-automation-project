@@ -12,7 +12,7 @@ public WebElement poster;
 @FindBy(css = "img[class*=browse-card_browse-cars-info]")
 public WebElement title;
 
+
     public BrowseCard(WebElement parent) {
         super(parent);
-    }
-}
+    }}

@@ -11,5 +11,4 @@ public class Tab extends Component {
 
     public Tab(WebElement parent) {
         super(parent);
-    }
-}
+}}

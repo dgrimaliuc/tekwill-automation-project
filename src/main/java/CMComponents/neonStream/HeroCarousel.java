@@ -18,7 +18,6 @@ public Components<HeroCard>cards;
 @FindBy(css = "[class*=hero-card-container][class*=active]")
 public HeroCard activeCard;
 
-
 @FindBy(css = "[class*=arrow-left]")
 public WebElement leftArrow;
 

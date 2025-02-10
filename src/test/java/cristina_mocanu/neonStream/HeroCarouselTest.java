@@ -17,7 +17,7 @@ public class HeroCarouselTest extends NeonStreamBaseTest {
         actions.shouldBeDisplayed(card.title);
         actions.shouldBeDisplayed(card.description);
         actions.shouldBeDisplayed(card.image);
-        actions.shouldBeDisplayed(card.addWatchList);
+        actions.shouldBeDisplayed(card.addToWatchList);
         actions.shouldBeDisplayed(card.removeFromWatchList);
     }
 
@@ -30,6 +30,7 @@ public class HeroCarouselTest extends NeonStreamBaseTest {
         var card = page.heroCarousel.cards.get(num);
         actions.shouldHaveTextToBe(card.title, "Venom: The Last Dance");
         actions.shouldHaveTextContains(card.description, "Eddie and Venom are on the run.");
+
 
 
     }
@@ -47,6 +48,4 @@ public class HeroCarouselTest extends NeonStreamBaseTest {
         page.heroCarousel.activeCard.title.click();
         actions.waitForCurrentURLContains("/movie/");
 
-    }
-
-}
+    }}

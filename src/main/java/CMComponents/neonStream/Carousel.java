@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class Carousel extends Component {
+public class Carousel extends Component{
 
 @FindBy(css = ".carousel-title")
 public WebElement title;

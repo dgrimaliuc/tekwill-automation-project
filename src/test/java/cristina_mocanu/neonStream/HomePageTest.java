@@ -44,6 +44,5 @@ public class HomePageTest extends NeonStreamBaseTest{
     page.carousel.getFirst().title.click();
     actions.waitForCurrentURLContains("/watchlist");
 
-    }
 
-}
+    }}

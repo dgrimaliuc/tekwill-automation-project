@@ -7,7 +7,7 @@ import internal.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class NeonStreamBaseTest extends BaseTest {
+public class NeonStreamBaseTest extends BaseTest{
 
     HomePage page = new HomePage(driver);
     BaseActions actions = new BaseActions(driver);
