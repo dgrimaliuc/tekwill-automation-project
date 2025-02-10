@@ -20,6 +20,7 @@ public class BaseActions {
     static Logger log = Logger.getLogger(BaseActions.class);
     private final WebDriver driver;
     private final WebDriverWait wait;
+    public Object shouldBeDisplayed;
 
     public BaseActions(WebDriver driver) {
         this.driver = driver;
