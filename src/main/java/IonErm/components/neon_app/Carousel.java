@@ -18,8 +18,7 @@ public class Carousel extends Component {
 
     @FindBy(css = "[class*=scrolling-section]> div")
     public Components<BrowseCard> cards;
-
-
+    
     public Carousel(WebElement parent) {
         super(parent);
     }
