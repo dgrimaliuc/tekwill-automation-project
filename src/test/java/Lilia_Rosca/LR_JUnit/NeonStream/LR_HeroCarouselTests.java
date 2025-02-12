@@ -14,38 +14,38 @@ public class LR_HeroCarouselTests extends LR_NeonStreamBaseTest{
     @Test
     @DisplayName("Smoke Hero Carousel Test")
     public void smokeHeroCarouselTest() {
-        actions.shouldBeDisplayed(page.heroCarousel);
-        var card = page.heroCarousel.cards.getFirst();
+        actions.shouldBeDisplayed(homePage.heroCarousel);
+        var card = homePage.heroCarousel.cards.getFirst();
         actions.shouldBeDisplayed(card.title);
         actions.shouldBeDisplayed(card.image);
         actions.shouldBeDisplayed(card.description);
         actions.shouldBeDisplayed(card.watchNow);
-        actions.shouldBeDisplayed(card.addToWatchList);
+        actions.shouldBeDisplayed(card.watchlistButton.add);
     }
 
     @Test
     @DisplayName("HC animation timing test")
     public void animationTimingTest() {
-        var classAttribute1 = page.heroCarousel.tabs.getFirst().getAttribute("class");
+        var classAttribute1 = homePage.heroCarousel.tabs.getFirst().getAttribute("class");
         assertThat(classAttribute1, containsString("is-active"));
 
         waitFor(10);
-        var classAttribute2 = page.heroCarousel.tabs.getFirst().getAttribute("class");
+        var classAttribute2 = homePage.heroCarousel.tabs.getFirst().getAttribute("class");
         assertThat(classAttribute2, not(containsString("is-active")));
-        var secondTabClassAttribute = page.heroCarousel.tabs.get(1).getAttribute("class");
+        var secondTabClassAttribute = homePage.heroCarousel.tabs.get(1).getAttribute("class");
         assertThat(secondTabClassAttribute, containsString("is-active"));
     }
 
     @Test
     @DisplayName("HC animation timing test var 2")
     public void animationTimingTest2() {
-        var classAttribute1_2 = page.heroCarousel.tabs.getFirst().isActive();
+        var classAttribute1_2 = homePage.heroCarousel.tabs.getFirst().isActive();
         assertThat(classAttribute1_2, equalTo(true));
 
         waitFor(10);
-        var classAttribute2 = page.heroCarousel.tabs.getFirst().isActive();
+        var classAttribute2 = homePage.heroCarousel.tabs.getFirst().isActive();
         assertThat(classAttribute2, equalTo(false));
-        var secondTabClassAttribute = page.heroCarousel.tabs.get(1).isActive();
+        var secondTabClassAttribute = homePage.heroCarousel.tabs.get(1).isActive();
         assertThat(secondTabClassAttribute, equalTo(true));
     }
 
@@ -53,8 +53,8 @@ public class LR_HeroCarouselTests extends LR_NeonStreamBaseTest{
     @DisplayName("Click on a tab test")
     public void clickOnTabTest() {
         var num = 4;
-        page.heroCarousel.tabs.get(num).click();
-        var card = page.heroCarousel.cards.get(num);
+        homePage.heroCarousel.tabs.get(num).click();
+        var card = homePage.heroCarousel.cards.get(num);
         actions.shouldHaveTextToBe(card.title, "Venom: The Last Dance");
         actions.shouldHaveTextContains(card.description, "Hunted by both of their worlds");
 
@@ -63,23 +63,23 @@ public class LR_HeroCarouselTests extends LR_NeonStreamBaseTest{
     @Test
     @DisplayName("Arrow test")
     public void arrowTest() {
-        actions.leftClick(page.heroCarousel.leftArrow);
-        actions.shouldHaveTextToBe(page.heroCarousel.activeCard.title, "The Fall Guy");
-        actions.leftClick(page.heroCarousel.rightArrow);
-        actions.shouldHaveTextToBe(page.heroCarousel.activeCard.title, "Borderlands");
+        actions.leftClick(homePage.heroCarousel.leftArrow);
+        actions.shouldHaveTextToBe(homePage.heroCarousel.activeCard.title, "The Fall Guy");
+        actions.leftClick(homePage.heroCarousel.rightArrow);
+        actions.shouldHaveTextToBe(homePage.heroCarousel.activeCard.title, "Borderlands");
     }
     // hero card Watch now click test
     @Test
     @DisplayName("Hero card Watch now click test")
     public void heroCardWatchNowClickTest() {
-        page.heroCarousel.activeCard.watchNow.click();
+        homePage.heroCarousel.activeCard.watchNow.click();
         actions.waitForCurrentURLContains("/movie/");
     }
 
     @Test
     @DisplayName("Hero card Title click test")
     public void heroCardTitleClickTest() {
-        page.heroCarousel.activeCard.title.click();
+        homePage.heroCarousel.activeCard.title.click();
         actions.waitForCurrentURLContains("/movie/");
     }
 }

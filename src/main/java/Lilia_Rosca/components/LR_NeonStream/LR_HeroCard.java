@@ -18,11 +18,15 @@ public class LR_HeroCard extends Component {
     @FindBy(css = "button[class*=watch-now-btn]")
     public WebElement watchNow;
 
-    @FindBy(css = " [data-t=not-in-watchlist]")
+/*    @FindBy(css = "[data-t=not-in-watchlist]")
     public WebElement addToWatchList;
 
-    @FindBy(css = " [data-t=in-watchlist]")
-    public WebElement removeFromWatchList;
+    @FindBy(css = "[data-t=in-watchlist]")
+    public WebElement removeFromWatchList;*/
+
+// 10.02
+    @FindBy(css = "div") // "[class*=actions_actions]" nu merge
+    public LR_WatchlistButton watchlistButton;
 
 
     public LR_HeroCard(WebElement parent) {
