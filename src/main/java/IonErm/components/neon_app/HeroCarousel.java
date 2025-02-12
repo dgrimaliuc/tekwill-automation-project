@@ -9,6 +9,7 @@ import java.util.List;
 
 public class HeroCarousel extends Component {
 
+    //    @FindBy(css = "[class*=pagination-wrapper] button[class*=hero-carousel__page]")
     @FindBy(css = "[class*=hero-carousel-pagination-wrapper] [id*='hero-tab-']")
     public Components<Tab> tabs;
 

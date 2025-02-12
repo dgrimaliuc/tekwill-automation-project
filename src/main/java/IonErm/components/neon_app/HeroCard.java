@@ -18,11 +18,8 @@ public class HeroCard extends Component {
     @FindBy(css = "[class*=actions_watch-now]")
     public WebElement watchNow;
 
-    @FindBy(css = "[data-t=not-in-watchlist]")
-    public WebElement addToWatchlist;
-
-    @FindBy(css = "[data-t=in-watchlist]")
-    public WebElement removeFromWatchlist;
+    @FindBy(css = "div")
+    public WatchListBtn watchListButton;
 
     public HeroCard(WebElement parent) {
         super(parent);

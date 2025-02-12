@@ -24,7 +24,6 @@ public class SinglePromoCard extends Component {
     @FindBy(css = "[data-t=in-watchlist]")
     public WebElement removeFromWatchlist;
 
-
     public SinglePromoCard(WebElement parent) {
         super(parent);
     }
