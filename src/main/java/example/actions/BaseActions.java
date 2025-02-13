@@ -98,8 +98,16 @@ public class BaseActions {
     }
 
     public void shouldHaveTextContains(WebElement element, String text) {
+        shouldHaveTextContains(element, text, false);
+    }
+
+    public void shouldHaveTextContains(WebElement element, String text, boolean ignoreCase) {
         log.trace("Checking if element has text: " + element);
-        wait.until(driver -> element.getText().contains(text));
+        if (ignoreCase) {
+            wait.until(driver -> element.getText().toLowerCase().contains(text.toLowerCase()));
+        } else {
+            wait.until(driver -> element.getText().contains(text));
+        }
     }
 
     public void shouldHaveTextToBe(WebElement element, String text) {
