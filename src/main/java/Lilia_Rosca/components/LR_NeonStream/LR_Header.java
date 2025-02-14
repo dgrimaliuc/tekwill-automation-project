@@ -14,6 +14,10 @@ public class LR_Header extends BasePage {
     @FindBy (css = "[class*=navigation-items] a[href ='/watchlist']")
     public WebElement watchlistTab;
 
+// 12.02
+    @FindBy (css = "[class*=search_container] input")
+    public WebElement searchInput;
+
     public LR_Header(WebDriver driver) {
         super(driver);
     }
