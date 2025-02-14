@@ -16,7 +16,11 @@ public class PetsAPITests {
     @DisplayName("Get all pets test")
     public void getPetsTest() {
         var response = getPets("Chisinau", AVAILABLE);
-        response.then().assertThat().statusCode(200).body("size()", greaterThan(0)).body("location", everyItem(equalTo("Chisinau"))).body("status", everyItem(equalTo(AVAILABLE.toString()))).time(lessThan(1000L));
+        response.then().assertThat().statusCode(200)
+                .body("size()", greaterThan(0))
+                .body("location", everyItem(equalTo("Chisinau")))
+                .body("status", everyItem(equalTo(AVAILABLE.toString())))
+                .time(lessThan(1000L));
     }
 
     @Test

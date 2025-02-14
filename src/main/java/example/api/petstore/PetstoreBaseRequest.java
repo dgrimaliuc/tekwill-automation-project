@@ -25,7 +25,7 @@ public class PetstoreBaseRequest {
                 .log().all(); // Log all request details
     }
 
-    protected static Response handleResponse(Response response) {
+    public static Response handleResponse(Response response) {
         System.out.println("--- Response: ");
         return response
                 .then()
