@@ -11,7 +11,7 @@ public class LR_SeriesPage extends BasePage {
     @FindBy(css = "picture[class*=background-picture]")
     public WebElement backImage;
 
-    @FindBy(css = "div [class*=content-header_content-header]")
+    @FindBy(css = "div[class*=content-header_content-header]")
     public LR_ContentHeader contentHeader;
 
     public LR_SeriesPage(WebDriver driver) {super(driver);}
