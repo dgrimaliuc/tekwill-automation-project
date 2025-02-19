@@ -14,6 +14,9 @@ public class Header extends BasePage {
     @FindBy(css = "[class*=navigation-items] a[href='/']")
     public WebElement homeTab;
 
+    @FindBy(css = "[class*=search_container] input")
+    public WebElement search;
+
     public Header(WebDriver driver) {
         super(driver);
     }
