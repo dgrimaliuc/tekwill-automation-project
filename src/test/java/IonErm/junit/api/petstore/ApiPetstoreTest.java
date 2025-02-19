@@ -268,4 +268,23 @@ public class ApiPetstoreTest {
                 .body("location", equalTo(location))
                 .body("status", equalTo(newStatus));
     }
+
+    @Test
+    @DisplayName("Delete single pet")
+    public void deleteSinglePet() {
+        String pet_id = "54a144a4-1bbf-453a-8b67-d2182b36371c";
+        String location = "Chisinau";
+        var response = given()
+                .queryParam("location", location)
+                .pathParam("id", pet_id)
+                .delete("/pets{id}");
+        handleResponse(response);
+        response
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .time(lessThan(3000L))
+                .body("message", equalTo("Pet removed: " + pet_id));
+
+    }
 }
