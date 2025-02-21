@@ -11,7 +11,12 @@
       "type": "string"
     },
     "status": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "available",
+        "approved",
+        "rejected"
+      ]
     }
   },
   "required": [
