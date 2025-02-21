@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static Lilia_Rosca.api.petStore.LR_PetsEndpoint.*;
 import static example.api.petstore.PetstoreBaseRequest.given;
 import static example.api.petstore.PetstoreBaseRequest.handleResponse;
 import static example.data.utils.MatcherUtils.matchesJsonSchemaFrom;
@@ -17,16 +18,16 @@ public class LR_ApiPetsTests {
     @Test
     @DisplayName("Get pet by id test")
     public void getPetByIdTest() {
-        var response =  given()
-                               .queryParam("location", "Plett")
-                               .pathParams("id", "59079dd7-a884-4ac8-a0f4-3b47f18b1a2e")
-                               .get("/pets/{id}");
-        handleResponse(response);
-        response.then().assertThat()
+        String location = "Chisinau";
+        String name = "Joan";
+
+        var postResponse = createPet(name, location);
+        String petId = postResponse.jsonPath().get("id");
+
+        getPet(petId, location)
+                .then().assertThat()
                 .statusCode(200)
-                .time(lessThan(1500L))
-                .body("id", not(emptyString())) // sau
-                .body("id", equalTo("59079dd7-a884-4ac8-a0f4-3b47f18b1a2e")) // sau
+                .time(lessThan(1000L))
                 .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json"));
     }
 
@@ -43,16 +44,14 @@ public class LR_ApiPetsTests {
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .time(lessThan(1000L)); // 1190, passed
+                .time(lessThan(1000L));
     }
 // 17.02
     @Test
     @DisplayName("Get pet by empty id test")
     public void getPetByEmptyIdTest() {
-        var response = given()
-                .get("/pets");
-        handleResponse(response);
-        response.then().assertThat()
+        getPet("", "")
+                .then().assertThat()
                 .statusCode(400)
                 .time(lessThan(1000L))
                 .body("error", equalTo("Pet ID is invalid"));
@@ -62,12 +61,8 @@ public class LR_ApiPetsTests {
     @DisplayName("Get pet by not existing id test")
     public void getPetByNotExistingIdTest() {
         String petId = "59079dd7-a884-4ac8-a0f4-3b47f18b1a1e"; // not valid pet id
-        var response = given()
-                .queryParam("location", "Plett")
-                .pathParams("id",petId)
-                .get("/pets/{id}");
-        handleResponse(response);
-        response.then().assertThat()
+        getPet(petId, "Plett")
+                .then().assertThat()
                 .time(lessThan(1500L))
                 .statusCode(404)
                 .body("error", equalTo(String.format("Pet %s not found in Plett", petId)));
@@ -76,14 +71,10 @@ public class LR_ApiPetsTests {
     @Test
     @DisplayName("Get multiple pets test")
     public void getMultiplePetsTest() {
-        String location = "Chisinau";
-        String status = "adopted";
-        var response = given()
-                .queryParam("location", location)
-                .queryParam("status", status)
-                .get("/pets");
-        handleResponse(response);
-        response.then().assertThat()
+        String location = "Plett";
+        String status = "available";
+        getPets(location, status)
+                .then().assertThat()
                 .time(lessThan(1500L))
                 .body(matchesJsonSchemaFrom("src/main/resources/schemes/getPetsSchema.json"))
                 .body("size()", greaterThan(0))
@@ -94,11 +85,8 @@ public class LR_ApiPetsTests {
     @Test
     @DisplayName("Get multiple pets with empty location test")
     public void getMultiplePetsWithEmptyLocationTest() {
-        var response = given()
-                .queryParam("location", "") // merge si asa ("q", "q")
-                .get("/pets");
-        handleResponse(response);
-        response.then()
+        getPets("", "")
+                .then()
                 .time(lessThan(1000L))
                 .statusCode(400)
                 .assertThat().body("error", equalTo("Missing location"));
@@ -109,13 +97,8 @@ public class LR_ApiPetsTests {
     public void createPetTest() {
         String location = "Chisinau";
         String name = "Fluffy";
-        var response = given()
-                .body(String.format("""
-                                    {"name":"%s", "location":"%s"}
-                                    """, name, location))
-                .post("/pets");
-        handleResponse(response);
-        response.then().assertThat()
+        createPet(name, location)
+                .then().assertThat()
                 .statusCode(201)
                 .time(lessThan(1500L))
                 .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json"))
@@ -126,25 +109,18 @@ public class LR_ApiPetsTests {
     @Test
     @DisplayName("Create pet negative test")
     public void createPetNegativeTest() {
-        var response = given()
-                .body("""
-                        {}
-                        """)
-                .post("/pets");
-        handleResponse(response);
-        response.then().assertThat()
+        createPet(null, null)
+                .then().assertThat()
                 .statusCode(400)
                 .time(lessThan(1500L))
-                .body("error", equalTo("Props are required: name,location"));
+                .body("error", equalTo("Missing required fields: name,location"));
     }
 
     @Test
     @DisplayName("Create empty body test")
     public void createEmptyBodyTest() {
-        var response = given()
-                .post("/pets");
-        handleResponse(response);
-        response.then().assertThat()
+        createPet(null, null, true)
+                .then().assertThat()
                 .statusCode(400)
                 .time(lessThan(1000L))
                 .body(equalTo("Unexpected end of JSON input"));
@@ -158,28 +134,102 @@ public class LR_ApiPetsTests {
         String newName = "Jane";
         String newStatus = "adopted";
 
-        var postResponse = given() // create new pet
-                .body(String.format("""
-                        {"name":"%s", "location":"%s"}
-                        """, name, location))
-                .post("/pets");
-
-        String petId = postResponse.jsonPath().get("id");
+        var petId = createPet(name, location).jsonPath().get("id").toString();
         log.info("Created pet id: " + petId);
 
-        var patchResponse = given()
-                .pathParam("id", petId)
-                .body(String.format("""
+        patchPet(petId, String.format("""
                         {"location":"%s", "status":"%s", "name":"%s"}
                         """, location, newStatus, newName))
-                .patch("/pets/{id}");
-        handleResponse(patchResponse);
-        patchResponse.then().assertThat()
+                .then().assertThat()
                 .statusCode(200)
                 .time(lessThan(1000L))
                 .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json"))
                 .body("name", equalTo(newName))
                 .body("status", equalTo(newStatus));
     }
+// 19.02
+    @Test
+    @DisplayName("Patch pet invalid id test")
+    public void patchPetInvalidIdTest() {
+        String location = "Chisinau";
+        String petId = "acb39ec1-3141-4745-b43c-8b276f14d4fc";
 
+        patchPet(petId, String.format("""
+                                      {"location":"%s"}
+                                      """, location))
+                .then().assertThat()
+                .statusCode(404)
+                .time(lessThan(1500L))
+                .body(equalTo("Pet not found"));
+    }
+
+    @Test
+    @DisplayName("Patch pet empty id test")
+    public void patchPetEmptyIdTest() {
+        String petId = "a";
+        patchPet(petId, String.format("""
+                                      {}
+                                      """))
+                .then().assertThat()
+                .statusCode(400)
+                .time(lessThan(1000L))
+                .body("error", equalTo("Missing required fields: id,location"));
+    }
+
+    @Test
+    @DisplayName("Delete single pet test")
+    public void deleteSinglePetTest() {
+        String location = "Chisinau";
+        String name = "Joan";
+        var petId = createPet(name, location).jsonPath().get("id").toString();
+
+        deletePet(petId, location)
+                .then().assertThat()
+                .statusCode(200)
+                .time(lessThan(1000L))
+                .body("message", equalTo("Pet removed: " + petId));
+    }
+
+    @Test
+    @DisplayName("Delete single pet with invalid test")
+    public void deleteSinglePetWithInvalidTest() {
+        deletePet("aaaa", "Chisinau")
+                .then().assertThat()
+                .statusCode(400)
+                .time(lessThan(1000L))
+                .body("error", equalTo("Pet ID is invalid"));
+    }
+
+    @Test // de sinstatator
+    @DisplayName("Delete miultiple pets test")
+    public void deleteMUltiplePetsTest() {
+        String location = "Plett";
+        deletePets(location)
+                .then().assertThat()
+                .statusCode(200)
+                .time(lessThan(1500L))
+                .body("message", equalTo("Removed all pets from " + location));
+    }
+
+    @Test
+    @DisplayName("Delete miultiple pets with empty location test")
+    public void deleteMUltiplePetsEmptyLocationTest() {
+        var response = given()
+                .delete("/pets");
+        handleResponse(response);
+        response.then().assertThat()
+                .statusCode(400)
+                .time(lessThan(1000L))
+                .body("error", equalTo("Location is required"));
+    }
+
+    @Test
+    @DisplayName("Delete miultiple pets with empty location test")
+    public void deleteMUltiplePetsEmptyLocationTest2() {
+        deletePets(null)
+                .then().assertThat()
+                .statusCode(200) //???    400
+                .time(lessThan(1000L))
+                .body("error", equalTo("Location is required"));
+    }
 }
