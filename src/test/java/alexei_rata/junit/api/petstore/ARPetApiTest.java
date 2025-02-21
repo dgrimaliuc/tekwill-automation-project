@@ -19,7 +19,7 @@ public class ARPetApiTest {
     @DisplayName("Get pet by id test")
     public void testGetPetById() {
         String location = "Plett";
-        String petName = "ARPetDelete01";
+        String petName = "ARPetGetById01";
 
         var petId = createPet(location, petName).jsonPath().get("id").toString();
         log.info("Created new pet with ID: " + petId);
@@ -30,6 +30,11 @@ public class ARPetApiTest {
                 .statusCode(200)
                 .time(lessThan(5000L))
                 .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json"))
+        ;
+        deletePet(location,petId)
+                .then()
+                .assertThat()
+                .statusCode(200)
         ;
     }
 
