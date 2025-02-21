@@ -105,7 +105,7 @@ public class PetsApiTest {
                 .assertThat()
                 .time(lessThan(1000L))
                 .statusCode(400)
-                .body("error", equalTo("Props are required: name,location"));
+                .body("error", equalTo("Missing required fields: name, location"));
 
     }
 
@@ -170,7 +170,7 @@ public class PetsApiTest {
                 { }
                 """).then()
                 .assertThat()
-                .body("error", equalTo("Props are required: id,location"))
+                .body("error", equalTo("Missing required fields: id, location"))
                 .statusCode(400)
                 .time(lessThan(1000L));
     }
