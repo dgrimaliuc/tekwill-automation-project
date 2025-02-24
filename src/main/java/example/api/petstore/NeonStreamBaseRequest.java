@@ -3,16 +3,18 @@ package example.api.petstore;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 
-public class PetstoreBaseRequest extends BaseRequest {
+public class NeonStreamBaseRequest extends BaseRequest {
 
     static {
-        RestAssured.baseURI = "https://pet-store.nodeapp.workers.dev/api";
+        RestAssured.baseURI = "https://user-collection.nodeapp.workers.dev";
     }
 
 
     public static RequestSpecification given() {
         System.out.println("--- Request: ");
         return RestAssured.given()
-                .log().all(); // Log all request details
+                .log().all();
     }
+
+
 }
