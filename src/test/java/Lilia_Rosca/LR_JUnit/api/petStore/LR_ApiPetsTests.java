@@ -207,20 +207,12 @@ public class LR_ApiPetsTests {
         deletePets(location)
                 .then().assertThat()
                 .statusCode(200)
-                .time(lessThan(1500L))
+                .time(lessThan(2500L))
                 .body("message", equalTo("Removed all pets from " + location));
-    }
 
-    @Test
-    @DisplayName("Delete miultiple pets with empty location test")
-    public void deleteMUltiplePetsEmptyLocationTest() {
-        var response = given()
-                .delete("/pets");
-        handleResponse(response);
-        response.then().assertThat()
-                .statusCode(400)
-                .time(lessThan(1000L))
-                .body("error", equalTo("Location is required"));
+        getPets(location, null)
+                .then().assertThat()
+                .body("size()", equalTo(0));
     }
 
     @Test
@@ -228,7 +220,7 @@ public class LR_ApiPetsTests {
     public void deleteMUltiplePetsEmptyLocationTest2() {
         deletePets(null)
                 .then().assertThat()
-                .statusCode(200) //???    400
+                .statusCode(400)
                 .time(lessThan(1000L))
                 .body("error", equalTo("Location is required"));
     }

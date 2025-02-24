@@ -84,11 +84,10 @@ public class LR_PetsEndpoint extends PetstoreBaseRequest {
 
     public static Response deletePets(String location) {
         var request = given();
-        if (location == null) {
-            location = "";
+        if (location != null && !location.isEmpty()) {
+            request.queryParam("location", location);
         }
         var response = request
-                .queryParam("location", location)
                 .delete("/pets");
         handleResponse(response);
         return response;
