@@ -8,7 +8,7 @@ import static IonErm.utility.DogNameGenerator.generateDogName;
 import static example.data.utils.MatcherUtils.matchesJsonSchemaFrom;
 import static org.hamcrest.Matchers.*;
 
-public class ApiPetstoreTest {
+public class PetsApiTest {
 
     public static String name = generateDogName();
     public static String location = "Chisinau";
@@ -18,8 +18,8 @@ public class ApiPetstoreTest {
     @Test
     @DisplayName("Get pet by id")
     public void getPetById() {
-        String pet_id = createPet(name, location).jsonPath().get("id");
-        getPet(pet_id, location)
+        String petId = createPet(name, location).jsonPath().get("id");
+        getPet(petId, location)
                 .then()
                 .assertThat()
                 .statusCode(200)
@@ -120,7 +120,7 @@ public class ApiPetstoreTest {
                 .assertThat()
                 .statusCode(400)
                 .time(lessThan(5000L))
-                .body("error", equalTo("Props are required: name,location"));
+                .body("error", equalTo("Missing required fields: name, location"));
     }
 
     @Test
@@ -139,8 +139,8 @@ public class ApiPetstoreTest {
     @DisplayName("Patch a single pet test")
     public void patchAPetTest() {
         String newName = generateDogName();
-        var pet_id = createPet(name, location).jsonPath().get("id").toString();
-        patchPet(pet_id, String.format(
+        var petId = createPet(name, location).jsonPath().get("id").toString();
+        patchPet(petId, String.format(
                 """
                             {
                                "location":"%s",
@@ -162,8 +162,8 @@ public class ApiPetstoreTest {
     @DisplayName("Patch single pet test")
     public void patchSinglePetTestTest() {
         String newName = generateDogName();
-        var pet_id = createPet(name, location).jsonPath().get("id").toString();
-        patchPet(pet_id, String.format(
+        var petId = createPet(name, location).jsonPath().get("id").toString();
+        patchPet(petId, String.format(
                 """
                         {
                             "name":"%s",
@@ -192,14 +192,14 @@ public class ApiPetstoreTest {
                 .assertThat()
                 .statusCode(400)
                 .time(lessThan(4000L))
-                .body("error", equalTo("Props are required: id,location"));
+                .body("error", equalTo("Missing required fields: id, location"));
     }
 
     @Test
     @DisplayName("Patch pet invalid id test")
     public void patchInvalidIdPetTestTest() {
-        String pet_id = "61d36976-401b-46e6-846b-10ec5f6a0f76"; //invalid
-        patchPet(pet_id, String.format(
+        String petId = "61d36976-401b-46e6-846b-10ec5f6a0f76"; //invalid
+        patchPet(petId, String.format(
                 """
                         {
                             "name":"%s",
@@ -219,32 +219,32 @@ public class ApiPetstoreTest {
     @Test
     @DisplayName("Delete single pet test")
     public void deleteSinglePetTest() {
-        String pet_id = "54a144a4-1bbf-453a-8b67-d2182b36371c";
-        deletePet(pet_id, location)
+        String petId = "54a144a4-1bbf-453a-8b67-d2182b36371c";
+        deletePet(petId, location)
                 .then()
                 .assertThat()
                 .statusCode(200)
                 .time(lessThan(3000L))
-                .body("message", equalTo("Pet removed: " + pet_id));
+                .body("message", equalTo("Pet removed: " + petId));
     }
 
     @Test
     @DisplayName("Delete one pet test")
     public void deleteOnePetTest() {
-        String pet_id = createPet(name, "Chisinau").jsonPath().get("id");
-        deletePet(pet_id, location)
+        String petId = createPet(name, "Chisinau").jsonPath().get("id");
+        deletePet(petId, location)
                 .then()
                 .assertThat()
                 .statusCode(200)
                 .time(lessThan(3000L))
-                .body("message", equalTo("Pet removed: " + pet_id));
+                .body("message", equalTo("Pet removed: " + petId));
     }
 
     @Test
     @DisplayName("Delete one pet with invalid id test")
     public void deleteOnePetWithInvalidIdTest() {
-        String pet_id = "###";
-        deletePet(pet_id, location)
+        String petId = "###";
+        deletePet(petId, location)
                 .then()
                 .assertThat()
                 .statusCode(400)
