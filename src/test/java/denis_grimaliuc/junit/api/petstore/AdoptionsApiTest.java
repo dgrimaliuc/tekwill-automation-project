@@ -1,18 +1,17 @@
 package denis_grimaliuc.junit.api.petstore;
 
-import org.apache.log4j.Logger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static denis_grimaliuc.api.petStore.AdoptionsEndpoint.getAdoption;
-import static denis_grimaliuc.api.petStore.AdoptionsEndpoint.getAdoptions;
+import java.util.List;
+
+import static denis_grimaliuc.api.petStore.AdoptionsEndpoint.*;
+import static denis_grimaliuc.api.petStore.PetsEndpoint.createPet;
+import static denis_grimaliuc.api.petStore.PetsEndpoint.getPet;
 import static example.data.utils.MatcherUtils.matchesJsonSchemaFrom;
 import static org.hamcrest.Matchers.*;
 
 public class AdoptionsApiTest {
-
-
-    Logger log = Logger.getLogger(PetsApiTest.class);
 
 
     @Test
@@ -84,6 +83,129 @@ public class AdoptionsApiTest {
                 .body("status", everyItem(equalTo(status)));
 
 
+    }
+
+    @Test
+    @DisplayName("Get multiple adoptions with no location test")
+    public void getMultipleAdoptionWithNoLocationTests() {
+        String location = null;
+        String status = "approved";
+        getAdoptions(location, status)
+                .then()
+                .assertThat()
+                .time(lessThan(1000L))
+                .statusCode(400)
+                .body("error", equalTo("Missing location"));
+
+    }
+
+    @Test
+    @DisplayName("Create adoption  test")
+    public void createAdoptionTest() {
+        String location = "Chisinau";
+
+        var petId1 = createPet("John", location).jsonPath().getString("id");
+        var petId2 = createPet("John", location).jsonPath().getString("id");
+
+        createAdoption(location, List.of(petId1, petId2))
+                .then()
+                .assertThat()
+                .statusCode(201)
+                .time(lessThan(2000L))
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/addAdoptionSchema.json"))
+                .body("status", equalTo("available"))
+                .body("pets", hasItems(petId1, petId2))
+                .body("pets", hasSize(2));
+    }
+
+
+    @Test
+    @DisplayName("Create adoption empty pet list test")
+    public void createAdoptionWithoutPetsTest() {
+        String location = "Chisinau";
+
+
+        createAdoption(location, List.of())
+                .then()
+                .assertThat()
+                .time(lessThan(2000L))
+                .statusCode(400)
+                .body("error", equalTo("No pets selected"));
+    }
+
+
+    @Test
+    @DisplayName("Create adoption without location test")
+    public void createAdoptionWithoutLocationTest() {
+        createAdoption(null, List.of())
+                .then()
+                .assertThat()
+                .time(lessThan(2000L))
+                .statusCode(400)
+                .body("error", equalTo("Missing required fields: location"));
+    }
+
+    @Test
+    @DisplayName("Patch adoption status test")
+    public void patchAdoptionStatusTest() {
+        String location = "Chisinau";
+
+
+        var petId = createPet("John", location).jsonPath().getString("id");
+
+        var adoptionId = createAdoption(location, List.of(petId)).jsonPath().get("id").toString();
+
+        getPet(petId, location)
+                .then()
+                .assertThat()
+                .body("status", equalTo("onhold"));
+
+        var newStatus = "approved";
+        patchAdoption(adoptionId, location, newStatus)
+                .then()
+                .assertThat()
+                .time(lessThan(2000L))
+                .statusCode(200)
+                .body("status", equalTo(newStatus));
+
+        getPet(petId, location)
+                .then()
+                .assertThat()
+                .body("status", equalTo("adopted"));
+
+    }
+
+    @Test
+    @DisplayName("Delete adoption test")
+    public void deleteAdoptionTest() {
+        String location = "Chisinau";
+
+        var petId = createPet("John", location).jsonPath().getString("id");
+
+        var adoptionId = createAdoption(location, List.of(petId)).jsonPath().get("id").toString();
+
+        deleteAdoption(adoptionId, location)
+                .then()
+                .assertThat()
+                .time(lessThan(2000L))
+                .statusCode(200)
+                .body("message", equalTo("Adoption removed: " + adoptionId));
+    }
+
+    @Test
+    @DisplayName("Delete all adoptions")
+    public void deleteAllAdoptionsTest() {
+        String location = "Chisinau";
+        deleteAllAdoption(location)
+                .then()
+                .assertThat()
+                .time(lessThan(2000L))
+                .statusCode(200)
+                .body("message", equalTo("Removed all adoptions from " + location));
+
+        getAdoptions(location, "").then().assertThat()
+                .statusCode(200)
+                .body("size()", equalTo(0));
     }
 
 

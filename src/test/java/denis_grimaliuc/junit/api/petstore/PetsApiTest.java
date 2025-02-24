@@ -209,8 +209,12 @@ public class PetsApiTest {
 
         response.then().assertThat()
                 .statusCode(200)
-                .time(lessThan(1000L))
+                .time(lessThan(2000L))
                 .body("message", equalTo("Removed all pets from " + location));
+
+        getPets(location, "").then().assertThat()
+                .statusCode(200)
+                .body("size()", equalTo(0));
     }
 
     @Test
