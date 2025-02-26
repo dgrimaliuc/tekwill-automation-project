@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static IonErm.api.petstore.PetEndpoint.*;
-import static IonErm.utility.DogNameGenerator.generateDogName;
+import static IonErm.utility.RandomGenerator.generateDogName;
 import static example.data.utils.MatcherUtils.matchesJsonSchemaFrom;
 import static org.hamcrest.Matchers.*;
 
