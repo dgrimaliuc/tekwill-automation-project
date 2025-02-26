@@ -29,9 +29,16 @@ public class UserEndpoint extends NeonStreamBaseRequest {
         return response;
     }
 
+    public static Response loginUser(String token) {
+        var request = given()
+                .header("Authorization", "Basic " + token);
+        var response = request.post("/user/login");
+        handleResponse(response);
+        return response;
+    }
+
     public static Response loginUser(String email, String password) {
         var request = given()
-                .header("authentication", "Basic " + encode(email + ":" + password))
                 .body(String.format("""
                         {
                             "email": "%s",
@@ -45,7 +52,6 @@ public class UserEndpoint extends NeonStreamBaseRequest {
 
     public static Response deleteUser(String email, String password) {
         var request = given()
-                .header("authentication", "Basic " + encode(email + ":" + password))
                 .body(String.format("""
                         {
                             "email": "%s",
