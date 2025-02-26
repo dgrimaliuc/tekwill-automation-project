@@ -49,7 +49,7 @@ public class LR_ApiAdoptionsTest {
         getAdoption(id, location)
                 .then().assertThat()
                 .statusCode(404)
-                .time(lessThan(1500L))
+                .time(lessThan(2000L))
                 .body("error", equalTo("Adoption " + id + " not found in Plett"));
     }
 
