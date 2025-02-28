@@ -6,7 +6,7 @@ import io.restassured.response.Response;
 import static org.apache.logging.log4j.util.Base64Util.encode;
 
 public class LR_NSUserEndpoint extends NeonStreamBaseRequest {
-    // 24-26.02
+// 24-26.02
     public static Response createUser(String email, String password) {
         var request = given()
                 .body(String.format("""
