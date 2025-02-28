@@ -1,16 +1,16 @@
 package IonErm.junit.api.petstore;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static IonErm.api.petstore.PetEndpoint.*;
-import static IonErm.utility.RandomGenerator.generateDogName;
 import static example.data.utils.MatcherUtils.matchesJsonSchemaFrom;
 import static org.hamcrest.Matchers.*;
 
 public class PetsApiTest {
 
-    public static String name = generateDogName();
+    public static String name = RandomStringUtils.randomAlphanumeric(17).toUpperCase();
     public static String location = "Chisinau";
     public static String status = "available";
 
@@ -138,7 +138,7 @@ public class PetsApiTest {
     @Test
     @DisplayName("Patch a single pet test")
     public void patchAPetTest() {
-        String newName = generateDogName();
+        String newName = "jkkjhguh";
         var petId = createPet(name, location).jsonPath().get("id").toString();
         patchPet(petId, String.format(
                 """
@@ -161,7 +161,7 @@ public class PetsApiTest {
     @Test
     @DisplayName("Patch single pet test")
     public void patchSinglePetTestTest() {
-        String newName = generateDogName();
+        String newName = "jygitfjhv";
         var petId = createPet(name, location).jsonPath().get("id").toString();
         patchPet(petId, String.format(
                 """

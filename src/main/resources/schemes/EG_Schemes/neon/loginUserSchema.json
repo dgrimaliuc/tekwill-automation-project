@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string"
+    },
+    "localId": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "idToken": {
+      "type": "string"
+    },
+    "registered": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "kind",
+    "localId",
+    "email",
+    "idToken",
+    "registered"
+  ]
+}
