@@ -10,16 +10,19 @@ import static org.hamcrest.Matchers.*;
 
 public class LR_neonStreamUsersTests {
 // 24-26.02
-    @Test // create a user valid email and password (meeting all complexity requirements) providing them in body
+    @Test
     @DisplayName("Create user using body test")
     public void createUserUsingBodyTest() {
-        String email = "test_lr_111@gmail.com"; // (RandomStringUtils.randomAlphanumeric(7) + "@gmail.com");
+        String email = "test_lr_111@gmail.com";
+        // (RandomStringUtils.randomAlphanumeric(7) + "@gmail.com");
+        // ???? error - something converts Upper case letters to lower case
         String password = "LR&123456test";
         createUser(email, password)
                 .then().assertThat()
                 .statusCode(200)
                 .time(lessThan(2000L))
                 .body("email", equalTo(email))
+                .body("email", containsString("@"))
                 .body(matchesJsonSchemaFrom("src/main/resources/schemes/neonStream/createUserSchema.json"));
                // at least a number, uppercase letter, lowercase letter, special character
     }
@@ -48,7 +51,7 @@ public class LR_neonStreamUsersTests {
                 .body("error", equalTo("Missing required fields: password"));
     }
 
-    @Test // verify that all errors are returned in response
+    @Test
     @DisplayName("Create user with wrong password test")
     public void createUserWithWrongPasswordTest() {
         String email = "test_lr_111@gmail.com";
@@ -57,6 +60,7 @@ public class LR_neonStreamUsersTests {
                 .then().assertThat()
                 .statusCode(400)
                 .time(lessThan(2000L))
+                // at least 6 characters, a lower case, an upper case, non-alphanumeric
                 .body("error.message", equalTo("PASSWORD_DOES_NOT_MEET_REQUIREMENTS : Missing password requirements: [Password must contain at least 6 characters, Password must contain a lower case character, Password must contain an upper case character, Password must contain a non-alphanumeric character]"));
     }
     @Test
@@ -83,13 +87,20 @@ public class LR_neonStreamUsersTests {
                 .body("error.message", equalTo("EMAIL_EXISTS"));
     }
 
-    @Test //using Authorization header with Base64-encoded email and password (meeting all complexity requirements)
-    @DisplayName("Create user using Basic auth test")
-    public void createUserUsingBasicAuthTest() {
-    }
+/*    @Test
+    //using Authorization header with Base64-encoded email and password (meeting all complexity requirements)
+    @DisplayName("Create user using auth test")
+    public void createUserUsingAuthTest() {
+        String email = "test_lr_222@gmail.com";
+        String password = "LR&123456test";
+        createUserAuth(email, password)
+                .then().assertThat()
+                .statusCode(200)
+                .time(lessThan(2000L))
+                ;
+    }*/
 
     // Fail to create a new user with Authorization header containing invalid Base64 encoding
-    //  atob ('string')
 
     @Test
     @DisplayName("Successfully Login Test")
@@ -101,7 +112,7 @@ public class LR_neonStreamUsersTests {
                 .statusCode(200)
                 .time(lessThan(2000L))
                 .body("email", equalTo(email))
-                // schema - to create ??
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/neonStream/loginSchema.json"))
                 .body("registered", equalTo(true));
     }
     @Test
@@ -160,7 +171,7 @@ public class LR_neonStreamUsersTests {
                 .body("error.message", equalTo("INVALID_LOGIN_CREDENTIALS"));
     }
 
-    @Test
+    @Test // ?? same error
     @DisplayName("Delete already deleted User Test")
     public void deleteAlreadyDeletedUserTest(){
         String email = "test_lr_222@gmail.com";
