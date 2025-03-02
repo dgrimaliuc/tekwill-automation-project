@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string"
+    },
+    "idToken": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "refreshToken": {
+      "type": "string"
+    },
+    "expiresIn": {
+      "type": "string"
+    },
+    "localId": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "idToken",
+    "email",
+    "refreshToken",
+    "expiresIn",
+    "localId"
+  ]
+}
