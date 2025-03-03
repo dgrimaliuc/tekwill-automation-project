@@ -19,13 +19,21 @@ public class LR_NSUserEndpoint extends NeonStreamBaseRequest {
         handleResponse(response);
         return response;
     }
-/*    public static Response createUserAuth (String email, String password) {
+    public static Response createUserAuth (String email, String password) {
         var request = given()
-                .auth().basic(email, password); //.header("authorization", "Basic " + encode(email + ":" + password));
+                .auth().preemptive().basic(email, password);
         var response = request.post("/user/create");
         handleResponse(response);
         return response;
-    }*/
+    }
+
+    public static Response createUser (String token) {
+        var request = given()
+                .header("authorization", "Basic " + token);
+        var response = request.post("/user/create");
+        handleResponse(response);
+        return response;
+    }
 
     public static Response loginUser (String email, String password) {
         var request = given()
@@ -40,7 +48,13 @@ public class LR_NSUserEndpoint extends NeonStreamBaseRequest {
         return response;
     }
 
-    // method for log in with Authorization header with Base64-encoded email and password
+     public static Response loginUser (String token) {
+        var request = given()
+                .header("authorization", "Basic " + token);
+        var response = request.post("/user/login");
+        handleResponse(response);
+        return response;
+    }
 
     public static Response deleteUser (String email, String password) {
         var request = given()
@@ -55,5 +69,11 @@ public class LR_NSUserEndpoint extends NeonStreamBaseRequest {
         return response;
     }
 
-    // method for delete a user and all its content using valid Authorization header with Base64-encoded email and password
+    public static Response deleteUser (String token) {
+        var request = given()
+                .header("authorization", "Basic " + token);
+        var response = request.delete("/user");
+        handleResponse(response);
+        return response;
+    }
 }

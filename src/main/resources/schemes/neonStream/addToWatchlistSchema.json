@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "title": {
+        "type": "string"
+      },
+      "tagline": {
+        "type": "string"
+      },
+      "image": {
+        "type": "string",
+        "format": "uri"
+      },
+      "mediaType": {
+        "type": "string",
+        "enum": ["movie", "tv"]
+      }
+    },
+    "required": ["id", "title", "tagline", "image", "mediaType"],
+    "additionalProperties": false
+  }
+}
