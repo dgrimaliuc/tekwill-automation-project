@@ -30,7 +30,6 @@ public class LR_NSUserEndpoint extends NeonStreamBaseRequest {
     public static Response createUser (String token) {
         var request = given()
                 .header("authorization", "Basic " + token);
-        //.header("authorization", "Basic " + encode(email + ":" + password));
         var response = request.post("/user/create");
         handleResponse(response);
         return response;

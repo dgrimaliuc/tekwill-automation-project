@@ -22,7 +22,7 @@ public class LR_neonStreamUsersTests {
                 .statusCode(200)
                 .time(lessThan(2000L))
                 .body("email", equalTo(email))
-                .body("email", containsString("@"))
+                .body("email", containsString("@")) // not necessary
                 .body(matchesJsonSchemaFrom("src/main/resources/schemes/neonStream/createUserSchema.json"));
                // at least a number, uppercase letter, lowercase letter, special character
         deleteUser(email, password);
@@ -43,7 +43,7 @@ public class LR_neonStreamUsersTests {
     @Test
     @DisplayName("Create user with empty password test")
     public void createUserWithEmptyPasswordTest() {
-        String email = "test_lr_111@gmail.com"; // containing space
+        String email = "test_lr_111@gmail.com";
         String password = "";
         createUser(email, password)
                 .then().assertThat()
@@ -233,8 +233,7 @@ public class LR_neonStreamUsersTests {
                 .then().assertThat()
                 .statusCode(400)
                 .time(lessThan(2000L))
-                .body("error", equalTo("Missing required fields: email, password"))
-        ;
+                .body("error", equalTo("Missing required fields: email, password"));
     }
 
     @Test
@@ -261,7 +260,6 @@ public class LR_neonStreamUsersTests {
                 .then().assertThat()
                 .statusCode(403)
                 .time(lessThan(2000L))
-                .body("error", equalTo("Invalid token"))
-        ;
+                .body("error", equalTo("Invalid token"));
     }
 }
