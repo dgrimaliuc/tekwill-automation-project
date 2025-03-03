@@ -15,13 +15,7 @@ public class UserEndpoint extends NeonStreamBaseRequest {
 
     public static Response createUser(String email, String password) {
         var request = given()
-                .body(String.format("""
-                        {
-                        "email": "%s",
-                        "password": "%s"
-                        }
-                        
-                        """, email, password));
+                .auth().preemptive().basic(email, password);
         var response = request.post("/user/create");
         handleResponse(response);
         return response;
@@ -37,12 +31,7 @@ public class UserEndpoint extends NeonStreamBaseRequest {
 
     public static Response loginUser(String email, String password) {
         var request = given()
-                .body(String.format("""
-                        {
-                            "email": "%s",
-                            "password": "%s"
-                        }
-                        """, email, password));
+                .auth().preemptive().basic(email, password);
         var response = request.post("/user/login");
         handleResponse(response);
         return response;
@@ -50,12 +39,7 @@ public class UserEndpoint extends NeonStreamBaseRequest {
 
     public static Response deleteUser(String email, String password) {
         var request = given()
-                .body(String.format("""
-                        {
-                            "email": "%s",
-                            "password": "%s"
-                        }
-                        """, email, password));
+                .auth().preemptive().basic(email, password);
         var response = request.delete("/user");
         handleResponse(response);
         return response;
