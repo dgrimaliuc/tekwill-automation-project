@@ -52,10 +52,11 @@ public class WatchlistApiTest extends NeonStreamBaseRequest {
                 .assertThat()
                 .statusCode(200)
                 .time(lessThan(5000L))
-                .body(matchesJsonSchemaFrom("src/main/resources/schemes/EG_Schemes/neon/addWatchlistSchema.json")); //?
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/EG_Schemes/neon/addWatchlistSchema.json"))
+                .body("[0].id", equalTo(1396))
+                .body("[0].mediaType", equalTo("tv"));
     }
-
-
+    
     @Test
     @DisplayName("Fail to add an item to the watchlist with missing email")
     public void addWatchlistEmptyEmailTest() {
