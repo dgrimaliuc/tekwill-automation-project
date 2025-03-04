@@ -5,7 +5,7 @@ import io.restassured.response.Response;
 
 public class PlayheadsEndpoint extends NeonStreamBaseRequest {
 
-    public static Response addEpisodePlayheads(String id, String mediaType, Integer playheads, Integer season, Integer episode, String email, String password) {
+    public static Response addPlayheads(String id, String mediaType, Integer playheads, Integer season, Integer episode, String email, String password) {
         var request = given()
                 .body(String.format("""
                         {

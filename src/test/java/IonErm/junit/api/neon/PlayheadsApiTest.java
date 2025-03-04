@@ -16,15 +16,26 @@ public class PlayheadsApiTest extends NeonStreamBaseRequest {
     String token = "aWdvdnhuQGdtYWlsLmNvbTomMWFSNjEheEFBQQ==";
 
     @Test
-    @DisplayName("Successfully add a movie playhead with a valid playheads value (within duration range) using email and password in the request body")
-    public void addPlayheadsPositiveTest() {
+    @DisplayName("Successfully add a episode playhead with a valid playheads value (within duration range) using email and password in the request body")
+    public void addPlayheadsEpisodeTest() {
         deletePlayheads(email, password);
-        addEpisodePlayheads("1396", "episode", 20, 1, 1, email, password)
+        addPlayheads("1396", "episode", 20, 1, 1, email, password)
                 .then()
                 .assertThat()
                 .statusCode(200)
                 .time(lessThan(5000L))
                 .body(matchesJsonSchemaFrom("src/main/resources/schemes/EG_Schemes/neon/addPlayheadersSchema.json"));
+    }
+
+    @Test
+    @DisplayName("Successfully add a movie playhead with a valid playheads value (within duration range) using email and password in the request body")
+    public void addPlayheadsMovieTest() {
+        deletePlayheads(email, password);
+        addPlayheads("22", "movie", 4000, null, null, email, password)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .time(lessThan(5000L));
     }
 
     @Test
@@ -42,7 +53,7 @@ public class PlayheadsApiTest extends NeonStreamBaseRequest {
     @Test
     @DisplayName("Fail to add a playhead when email is missing in the request body")
     public void playheadsEmptyEmailTest() {
-        addEpisodePlayheads("1396", "episode", 20, 1, 1, "", password)
+        addPlayheads("1396", "episode", 20, 1, 1, "", password)
                 .then()
                 .assertThat()
                 .statusCode(403)
@@ -53,7 +64,7 @@ public class PlayheadsApiTest extends NeonStreamBaseRequest {
     @Test
     @DisplayName("Fail to add a playhead when email is null in the request body")
     public void playheadsNullEmailTest() {
-        addEpisodePlayheads("1396", "episode", 20, 1, 1, null, password)
+        addPlayheads("1396", "episode", 20, 1, 1, null, password)
                 .then()
                 .assertThat()
                 .statusCode(400)
@@ -65,7 +76,7 @@ public class PlayheadsApiTest extends NeonStreamBaseRequest {
     @DisplayName("Fail to add a playhead when password is null in the request body")
     public void playheadsNullPasswordTest() {
         deletePlayheads(email, password);
-        addEpisodePlayheads("1396", "episode", 20, 1, 1, email, null)
+        addPlayheads("1396", "episode", 20, 1, 1, email, null)
                 .then()
                 .assertThat()
                 .statusCode(400)
@@ -76,7 +87,7 @@ public class PlayheadsApiTest extends NeonStreamBaseRequest {
     @Test
     @DisplayName("Fail to add a playhead when content ID, mediaType and playheads parameters are missing")
     public void playheadsNotParametersTest() {
-        addEpisodePlayheads("", "", null, null, null, email, password)
+        addPlayheads("", "", null, null, null, email, password)
                 .then()
                 .assertThat()
                 .statusCode(400)
@@ -88,7 +99,7 @@ public class PlayheadsApiTest extends NeonStreamBaseRequest {
     @DisplayName("Fail to add a playhead when mediaType is invalid")
     public void playheadsInvalidMediaTypeTest() {
         deletePlayheads(email, password);
-        addEpisodePlayheads("1396", "tv", 1000, 1, 2, email, password)
+        addPlayheads("1396", "tv", 1000, 1, 2, email, password)
                 .then()
                 .assertThat()
                 .statusCode(400)
@@ -100,7 +111,7 @@ public class PlayheadsApiTest extends NeonStreamBaseRequest {
     @DisplayName("Fail to add a playhead when content ID is invalid")
     public void playheadsInvalidIdTest() {
         deletePlayheads(email, password);
-        addEpisodePlayheads("----*", "episode", 1000, 1, 2, email, password)
+        addPlayheads("----*", "episode", 1000, 1, 2, email, password)
                 .then()
                 .assertThat()
                 .statusCode(400)
@@ -112,7 +123,7 @@ public class PlayheadsApiTest extends NeonStreamBaseRequest {
     @DisplayName("Fail to add a playhead when playheads value is negative, or exceeds the content duration")
     public void playheadsNegativeValueTest() {
         deletePlayheads(email, password);
-        addEpisodePlayheads("1396", "episode", -3500, 1, 2, email, password)
+        addPlayheads("1396", "episode", -3500, 1, 2, email, password)
                 .then()
                 .assertThat()
                 .statusCode(400)
@@ -124,7 +135,7 @@ public class PlayheadsApiTest extends NeonStreamBaseRequest {
     @DisplayName("Fail to add a playhead when season or episode number is missing for mediaType ‘episode’")
     public void playheadsSeasonEpisodeMissingTest() {
         deletePlayheads(email, password);
-        addEpisodePlayheads("1396", "episode", 1500, null, null, email, password)
+        addPlayheads("1396", "episode", 1500, null, null, email, password)
                 .then()
                 .assertThat()
                 .statusCode(400)
@@ -136,7 +147,7 @@ public class PlayheadsApiTest extends NeonStreamBaseRequest {
     @DisplayName("Fail to add a playhead when user does not exist")
     public void playheadsUserNotExistTest() {
         deletePlayheads(email, password);
-        addEpisodePlayheads("1396", "episode", 1500, 1, 2, "qwerty@gmail.com", "QweRty12")
+        addPlayheads("1396", "episode", 1500, 1, 2, "qwerty@gmail.com", "QweRty12")
                 .then()
                 .assertThat()
                 .statusCode(400)
