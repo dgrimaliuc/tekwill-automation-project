@@ -8,6 +8,7 @@ import static cristinamocanu.neonStreamApi.CMNSUserEndpoint.*;
 import static example.actions.BaseActions.getRandomString;
 import static example.data.utils.MatcherUtils.matchesJsonSchemaFrom;
 import static org.apache.logging.log4j.util.Base64Util.encode;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.hamcrest.Matchers.*;
 
 public class UserTest extends NeonStreamBaseRequest {
@@ -33,6 +34,7 @@ public class UserTest extends NeonStreamBaseRequest {
                 .time(lessThan(2000L))
                 .statusCode(400)
                 .body("error.message", equalTo("EMAIL_EXISTS"));
+
     }
 
 
@@ -304,7 +306,6 @@ public class UserTest extends NeonStreamBaseRequest {
     }
 
 
-
     @Test
     @DisplayName("Delete Multiple items from Watchlist with Header")
     public void deleteMultipleItemFromWatchlistTestHeader() {
@@ -326,7 +327,6 @@ public class UserTest extends NeonStreamBaseRequest {
                 .body("message", equalTo("Watchlist of " + newMail + " deleted"));
 
     }
-
 
 
     @Test
@@ -363,4 +363,207 @@ public class UserTest extends NeonStreamBaseRequest {
                 .body("error.message", equalTo("INVALID_LOGIN_CREDENTIALS"));
 
     }
+
+    @Test
+    @DisplayName("Successfully add a movie playhead using email and password in the request body")
+    public void addMovieItemToPlayheadTest() {
+        var newMail = email;
+        var newPassword = password;
+        createUserCM(newMail, newPassword);
+        loginUser(newMail, newPassword);
+        addItemInPlayheadsRequestBody(newMail, newPassword, "movie", "762509", 750)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .time(lessThan(4000L))
+                .body("id[0]", equalTo(762509))
+                .body("playheads[0]", equalTo("750"));
+
+
+    }
+
+
+    @Test
+    @DisplayName("Successfully add an episode playhead with season and episode details using Authorization header")
+    public void addEpisodeItemToPlayheadTest() {
+        var newMail = email;
+        var newPassword = password;
+        createUserCM(newMail, newPassword);
+        loginUser(newMail, newPassword);
+       addItemInPlayheadsHeader(newMail, newPassword, "episode", "4614", 200, "2","2" )
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .time(lessThan(4000L));
+
+    }
+
+
+
+    @Test
+    @DisplayName("Fail to add a playhead when email or password is missing in the request body")
+    public void failToAddEmailPlayheadTest() {
+        var newMail = email;
+        var newPassword = password;
+        createUserCM(newMail, newPassword);
+        loginUser(newMail, newPassword);
+        addItemInPlayheadsRequestBody("", newPassword, "movie", "762509", 750)
+                .then()
+                .assertThat()
+                .statusCode(403)
+                .time(lessThan(4000L))
+                .body("error", equalTo("Not Authorized"));
+
+    }
+
+    @Test
+    @DisplayName("Fail to add a playhead when content ID, mediaType and playheads parameters are missing")
+    public void failToAddParametersTest() {
+        var newMail = email;
+        var newPassword = password;
+        createUserCM(newMail, newPassword);
+        loginUser(newMail, newPassword);
+        addItemInPlayheadsRequestBody(newMail, newPassword, "", "", 750)
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .time(lessThan(4000L))
+                .body("error", equalTo("Missing required fields: id, mediaType"));
+
 }
+
+
+    @Test
+    @DisplayName(" Fail to add a playhead when mediaType is invalid (e.g., ‘tv’)")
+    public void invalidMediaTypeTest() {
+        var newMail = email;
+        var newPassword = password;
+        createUserCM(newMail, newPassword);
+        loginUser(newMail, newPassword);
+        addItemInPlayheadsRequestBody(newMail, newPassword, "tv", "762509", 750)
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .time(lessThan(4000L))
+                .body("error", equalTo("Invalid mediaType: tv. Must be 'episode' or 'movie'"));
+
+    }
+
+
+    @Test
+    @DisplayName("Fail to add a playhead when content ID is invalid")
+    public void invalidContentIdTest() {
+        var newMail = email;
+        var newPassword = password;
+        createUserCM(newMail, newPassword);
+        loginUser(newMail, newPassword);
+        addItemInPlayheadsRequestBody(newMail, newPassword, "movie", "76250985732652093", 750)
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .time(lessThan(4000L))
+                .body("error", equalTo("The resource you requested could not be found."));
+    }
+
+
+
+    @Test
+    @DisplayName("Fail to add a playhead when playheads value is negative, or exceeds the content duration")
+    public void invalidPlayheadTest() {
+        var newMail = email;
+        var newPassword = password;
+        createUserCM(newMail, newPassword);
+        loginUser(newMail, newPassword);
+        addItemInPlayheadsRequestBody(newMail, newPassword, "movie", "762509", 14750)
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .time(lessThan(4000L))
+                .body("error", equalTo("Invalid playhead, must be between 0 and 7080"));
+}
+
+
+
+    @Test
+    @DisplayName("Fail to add a playhead when season or episode number is missing for mediaType ‘episode'")
+    public void missingSeasonPlayheadTest() {
+        var newMail = email;
+        var newPassword = password;
+        createUserCM(newMail, newPassword);
+        loginUser(newMail, newPassword);
+        addItemInPlayheadsHeader(newMail, newPassword, "episode", "4614", 200, "","2" )
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .time(lessThan(4000L))
+                .body("error", equalTo("Missing required fields: season"));
+}
+    @Test
+    @DisplayName("Fail to add a playhead when user does not exist")
+    public void invalidUserPlayheadTest() {
+        var newMail = email;
+        var newPassword = password;
+
+        loginUser(newMail, newPassword);
+        addItemInPlayheadsRequestBody(newMail, newPassword, "movie", "762509", 14750)
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .time(lessThan(4000L))
+                .body("error.message", equalTo("INVALID_LOGIN_CREDENTIALS"));
+
+
+}
+
+
+    @Test
+    @DisplayName("Successfully delete a user and all its content using valid email and password in the request body")
+    public void deleteUserTest() {
+    createUserCM(email, password);
+     deleteUserHeader(email, password)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .time(lessThan(5000L));
+
+
+    }
+    @Test
+    @DisplayName("Fail to delete a user that does not exist")
+    public void failTodDeleteUserTest() {
+        createUserCM("emailnotexist@gmail.com", password);
+        deleteUserHeader(email, password)
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .time(lessThan(5000L))
+                .body("error.message",equalTo("INVALID_LOGIN_CREDENTIALS"));
+
+
+}
+
+    @Test
+    @DisplayName("Fail to delete a user when the account is already deleted")
+    public void failToDeleteAlreadyDeletedUserTest() {
+
+        deleteUserHeader("emailfordelete1@gmail.com", "1235Aa@123")
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .time(lessThan(5000L))
+                .body("error.message",equalTo("INVALID_LOGIN_CREDENTIALS"));
+
+}
+
+    @Test
+    @DisplayName(" Fail to delete a user if the request is missing authentication")
+    public void missingAuthDeleteUserTest() {
+        createUserCM(email, password);
+        deleteUserHeader("", "")
+                .then()
+                .assertThat()
+                .statusCode(400)
+                .time(lessThan(5000L))
+                .body("error", equalTo("Missing required fields: email, password"));
+
+    }}
