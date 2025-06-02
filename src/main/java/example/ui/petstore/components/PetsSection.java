@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static example.api.petstore.endpoints.PetsEndpoint.addPet;
 
 public class PetsSection extends Component {
 
@@ -36,10 +35,10 @@ public class PetsSection extends Component {
 
     public List<Map<String, String>> addPets(String location, int count) {
         List<Map<String, String>> pets = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            var pet = addPet(location, "Cat");
-            pets.add(pet.jsonPath().getMap(""));
-        }
+//        for (int i = 0; i < count; i++) {
+//            var pet = addPet(location, "Cat");
+//            pets.add(pet.jsonPath().getMap(""));
+//        }
         return pets;
     }
 

@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static example.api.petstore.endpoints.AdoptionsEndpoint.createAdoption;
+import static example.api.petstore.AdoptionsEndpoint.createAdoption;
+
 
 public class AdoptionsSection extends Component {
 
