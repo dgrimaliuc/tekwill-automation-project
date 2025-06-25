@@ -6,9 +6,12 @@ Feature: My first feature file
     Then the result should be 8
 
 
-  Scenario: Substraction of two numbers
-      Given I have two numbers 3 and 5
-      When i substract the number
-      Then the result should be 6
+  Scenario: Subtraction of two numbers
+      Given I have two numbers 12 and 8
+      When I subtract the number
+      Then the result should be 4
 
-    Scenario:
+    Scenario: Concatenation of two strings
+      Given I have two strings "Hello" and "World"
+      When I concatenate the strings
+      Then the result should be "HelloWorld"
