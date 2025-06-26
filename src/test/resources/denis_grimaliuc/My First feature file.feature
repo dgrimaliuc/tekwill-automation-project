@@ -1,0 +1,18 @@
+Feature: My first feature file
+
+  Scenario: Addition of two numbers
+    Given I have two numbers 5 and 3
+    When I add the numbers
+    Then the result should be 8
+
+  Scenario: Subtraction of two numbers
+    Given I have two numbers 10 and 4
+    When I subtract the numbers
+    Then the result should be 6
+
+  Scenario: Concatenation of two strings
+    Given I have two strings "Hello" and "World"
+    When I concatenate the strings
+    Then the result should be "HelloWorld"
+
+

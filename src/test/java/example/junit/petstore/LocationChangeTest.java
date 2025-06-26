@@ -20,7 +20,7 @@ public class LocationChangeTest extends BasePetstoreTest {
 
         assertThat(url, containsString("?location=" + expectedLocation.replaceAll(" ", "+")));
         var expectedTitleP = "Pets in " + expectedLocation;
-        assertThat(petStore.petsSection.title.getText(), equalTo(expectedTitleP));
+        assertThat(petStore.petsSection.title.getText(), (equalTo(expectedTitleP)));
 
         var expectedTitleA = "Adoptions in " + expectedLocation;
         assertThat(petStore.adoptionsSection.title.getText(), equalTo(expectedTitleA));

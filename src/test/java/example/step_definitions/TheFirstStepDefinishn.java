@@ -122,13 +122,7 @@ public class TheFirstStepDefinishn {
         int result = firstNumber - secondNumber;
         context.put("result", result);
     }
-
-    @Then("the result should be {int}")
-    public void the_result_should_be(Integer int1) {
-        int result = (int) context.get("result");
-        log.info("The result should be " + int1 + " and actual is " + result);
-        assertThat(result, equalTo(int1));
-    }
+ 
 
     @Given("I have a number {int}")
     public void i_have_a_number(Integer int1) {
@@ -139,14 +133,6 @@ public class TheFirstStepDefinishn {
     public void the_number_should_be_even() {
         int myNum = (int) context.get("my_number");
         assertThat(myNum % 2 == 0, equalTo(true));
-    }
-
-    @When("I add the numbers")
-    public void i_add_the_numbers() {
-        int fNum = (int) context.get("first_number");
-        int sNum = (int) context.get("second_number");
-        int sum = fNum + sNum;
-        context.put("result", sum);
     }
 
 

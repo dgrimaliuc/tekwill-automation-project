@@ -33,3 +33,5 @@ Feature: Adoptions Tests
     Then Adoption with rejected status is displayed
     When I reload page
     Then Rejected adoption is not displayed
+    And Rejected adoption is not displayed
+
