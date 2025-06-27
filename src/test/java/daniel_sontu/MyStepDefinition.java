@@ -1,10 +1,10 @@
 package daniel_sontu;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.CoreMatchers;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 
 public class MyStepDefinition {
 
@@ -57,4 +57,19 @@ public class MyStepDefinition {
     public void iSubtractTheNumber() {
         result = a-b;
     }
-}
+
+    @Given("I have a string {string}")
+    public void iHaveOneString(String input){
+        string1 = input;
+    }
+
+    @When("i check the length of the string")
+    public void iCheckTheLengthOfTheString() {
+        result = string1.length();
+    }
+    @Then("the length should be {int}")
+        public void theLengthShouldNe(int expectedLength){
+            MatcherAssert.assertThat(result, CoreMatchers.equalTo(expectedLength));
+        }
+
+    }

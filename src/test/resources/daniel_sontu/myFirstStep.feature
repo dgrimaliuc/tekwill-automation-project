@@ -15,3 +15,8 @@ Feature: My first feature file
       Given I have two strings "Hello" and "World"
       When I concatenate the strings
       Then the result should be "HelloWorld"
+
+      Scenario: String length validation
+        Given I have a string "OpenAI"
+        When i check the length of the string
+        Then the length should be 6
