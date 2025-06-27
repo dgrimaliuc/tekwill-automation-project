@@ -72,4 +72,8 @@ public class MyStepDefinition {
             MatcherAssert.assertThat(result, CoreMatchers.equalTo(expectedLength));
         }
 
+    @Then("I check if the string contains {string}")
+    public void iCheckIfTheStringContains(String arg0) {
+        MatcherAssert.assertThat(string1, CoreMatchers.containsString(arg0));
     }
+}

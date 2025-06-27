@@ -20,3 +20,7 @@ Feature: My first feature file
         Given I have a string "OpenAI"
         When i check the length of the string
         Then the length should be 6
+
+        Scenario: String contains validation
+          Given I have a string "OpenAI"
+          Then I check if the string contains "AI"
