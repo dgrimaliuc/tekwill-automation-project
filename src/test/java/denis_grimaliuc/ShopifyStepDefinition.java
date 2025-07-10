@@ -208,4 +208,113 @@ public class ShopifyStepDefinition {
 
     }
 
+    @When("I select the White color filter")
+    public void iSelectTheWhiteColorFilter() {
+        shopifyPage.whiteColorFilter.click();
+    }
+
+    @When("I select the Red color filter")
+    public void iSelectTheRedColorFilter() {
+        shopifyPage.redColorFilter.click();
+    }
+
+    @Then("I should see products with {string} and {string} colors")
+    public void iShouldSeeProductsWithAndColors(String fColor, String sColor) {
+
+        log.info("Verifying products with price from $25 to $50 are displayed");
+        actions.waitForNumberOfElementsToBeMoreThan(shopifyPage.cards, 0);
+
+        for (WebElement color : shopifyPage.colors) {
+            String actualColor = color.getAttribute("data-t");
+
+            assertThat(actualColor, either(
+                    equalTo(fColor.toLowerCase()))
+                    .or(
+                            equalTo(sColor.toLowerCase())));
+
+        }
+    }
+
+    @When("I select the S size filter")
+    public void iSelectTheSSizeFilter() {
+        shopifyPage.sSizeFilter.click();
+    }
+
+    @Then("I should see products with {string} size")
+    public void iShouldSeeProductsWithSize(String expectedSize) {
+        log.info("Verifying products with size " + expectedSize + " are displayed");
+        actions.waitForNumberOfElementsToBeMoreThan(shopifyPage.cards, 0);
+
+
+        for (WebElement sizeE : shopifyPage.sizes) {
+            String actualSize = sizeE.getText().trim();
+            assertThat(actualSize, equalTo("Size: " + expectedSize.toUpperCase()));
+        }
+
+    }
+
+    @When("I select the M size filter")
+    public void iSelectTheMSizeFilter() {
+        shopifyPage.mSizeFilter.click();
+    }
+
+    @When("I select the XL size filter")
+    public void iSelectTheXLSizeFilter() {
+        shopifyPage.xlSizeFilter.click();
+    }
+
+    @Then("I should see products with {string} and {string} sizes")
+    public void iShouldSeeProductsWithAndSizes(String fSize, String sSecond) {
+        log.info("Verifying products with size " + fSize + " and " + sSecond + " are displayed");
+        actions.waitForNumberOfElementsToBeMoreThan(shopifyPage.cards, 0);
+
+
+        for (WebElement sizeE : shopifyPage.sizes) {
+            String actualSize = sizeE.getText().trim();
+            assertThat(actualSize, Matchers.either(
+                    equalTo("Size: " + fSize.toUpperCase())).or(
+                    equalTo("Size: " + sSecond.toUpperCase()))
+            );
+        }
+    }
+
+    @When("I select Male filter")
+    public void iSelectMaleFilter() {
+        shopifyPage.maleGenderFilter.click();
+    }
+
+    @Then("I should see products with {string} gender")
+    public void iShouldSeeProductsWithGender(String expectedGender) {
+        log.info("Verifying products with gender " + expectedGender + " are displayed");
+        actions.waitForNumberOfElementsToBeMoreThan(shopifyPage.genders, 0);
+
+
+        for (WebElement genderE : shopifyPage.genders) {
+            String actualGender = genderE.getText().trim();
+            assertThat(actualGender, equalTo(expectedGender.toLowerCase())
+            );
+        }
+    }
+
+    @When("I select Female filter")
+    public void iSelectFemaleFilter() {
+        shopifyPage.femaleGenderFilter.click();
+    }
+
+    @Then("I should see products with {string} and {string} genders")
+    public void iShouldSeeProductsWithAndGenders(String fGender, String sGender) {
+        log.info("Verifying products with gender " + fGender + " and " + sGender + " are displayed");
+        actions.waitForNumberOfElementsToBeMoreThan(shopifyPage.genders, 0);
+
+
+        for (WebElement genderE : shopifyPage.genders) {
+            String actualGender = genderE.getText().trim();
+            assertThat(actualGender, Matchers.either(
+                            equalTo(fGender.toLowerCase()))
+                    .or(
+                            equalTo(sGender.toLowerCase())
+                    )
+            );
+        }
+    }
 }
