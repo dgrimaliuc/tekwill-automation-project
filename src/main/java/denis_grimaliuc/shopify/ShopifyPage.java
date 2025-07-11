@@ -1,6 +1,7 @@
 package denis_grimaliuc.shopify;
 
 import helpers.BasePage;
+import helpers.customElements.Components;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -42,9 +43,11 @@ public class ShopifyPage extends BasePage {
     @FindBy(css = ".cart-button")
     public WebElement cartButton;
 
+    @FindBy(css = ".card")
+    public Components<Card> cards;
 
-    @FindBy(xpath = "//div[@class='card']")
-    public List<WebElement> cards;
+    @FindBy(css = ".cart-cards-wrapper")
+    public Cart cart;
 
     @FindBy(css = "#card-image")
     public List<WebElement> images;
@@ -66,27 +69,6 @@ public class ShopifyPage extends BasePage {
 
     @FindBy(xpath = "//p[@id='card-gender']")
     public List<WebElement> genders;
-
-
-    @FindBy(css = ".cart-card-image")
-    public WebElement cartItemImage;
-
-    @FindBy(css = ".cart-card-info h4")
-    public WebElement cartItemTitle;
-
-    @FindBy(css = ".cart-card-info p:nth-child(2)")
-    public WebElement cartItemPrice;
-
-    @FindBy(css = ".cart-card-info p:nth-child(3)")
-    public WebElement cartItemColor;
-
-    @FindBy(css = ".cart-card-info p:nth-child(4)")
-    public WebElement cartItemSize;
-    @FindBy(css = ".item-quantity")
-    public WebElement cartItemQuantity;
-
-    @FindBy(css = ".total-price")
-    public WebElement cartTotalPrice;
 
 
     public ShopifyPage(WebDriver driver) {
