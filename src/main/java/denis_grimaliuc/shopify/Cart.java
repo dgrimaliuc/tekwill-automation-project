@@ -14,6 +14,10 @@ public class Cart extends Component {
     public WebElement totalPrice;
     @FindBy(css = ".order-button")
     public WebElement orderButton;
+    @FindBy(css = ".empty-cart-container")
+    public WebElement emptyContainer;
+    @FindBy(css = ".empty-cart-title")
+    public WebElement emptyTitle;
 
     public Cart(WebElement parent) {
         super(parent);

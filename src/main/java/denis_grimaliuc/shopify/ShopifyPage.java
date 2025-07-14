@@ -21,6 +21,9 @@ public class ShopifyPage extends BasePage {
     @FindBy(xpath = "//*[@value='Black']")
     public WebElement blackColorFilter;
 
+    @FindBy(xpath = "//*[@value='Blue']")
+    public WebElement blueColorFilter;
+
     @FindBy(xpath = "//*[@value='White']")
     public WebElement whiteColorFilter;
     @FindBy(xpath = "//*[@value='Red']")
@@ -40,13 +43,21 @@ public class ShopifyPage extends BasePage {
     @FindBy(xpath = "//input[@value='Female']")
     public WebElement femaleGenderFilter;
 
+    @FindBy(id = "dropdownButton")
+    public WebElement dropdownButton;
+    @FindBy(xpath = "//li[text()='Ascending']")
+    public WebElement ascendingOption;
+
+    @FindBy(xpath = "//li[text()='Descending']")
+    public WebElement descendingOption;
+
     @FindBy(css = ".cart-button")
     public WebElement cartButton;
 
     @FindBy(css = ".card")
     public Components<Card> cards;
 
-    @FindBy(css = ".cart-cards-wrapper")
+    @FindBy(css = ".cart-wrapper")
     public Cart cart;
 
     @FindBy(css = "#card-image")
@@ -70,15 +81,15 @@ public class ShopifyPage extends BasePage {
     @FindBy(xpath = "//p[@id='card-gender']")
     public List<WebElement> genders;
 
-
     public ShopifyPage(WebDriver driver) {
         super(driver);
     }
 
-
     public static Integer formatPrice(String priceText) {
-        return Integer.parseInt(priceText.replaceAll("\\$", "").trim());
+        return Integer.parseInt(priceText
+                .replaceAll("\\$", "")
+                .replaceAll("Price:\\s*", "")
+
+                .trim());
     }
-
-
 }
