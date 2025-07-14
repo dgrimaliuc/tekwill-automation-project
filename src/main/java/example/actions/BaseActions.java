@@ -158,6 +158,11 @@ public class BaseActions {
         setDefaultTimeouts(driver);
     }
 
+    public Alert waitForAlert() {
+        log.trace("Waiting for alert to be present");
+        return wait.until(ExpectedConditions.alertIsPresent());
+    }
+
     public void waitUntilPageToLoad() {
         log.trace("Waiting for page to load");
         wait.until(driver -> executeScript("return document.readyState", null).equals("complete"));
@@ -237,7 +242,6 @@ public class BaseActions {
         setDefaultTimeouts(driver);
     }
 
-
     public boolean isDisplayed(WebElement element) {
         log.trace("Checking if element is displayed: " + element);
         try {
@@ -277,5 +281,4 @@ public class BaseActions {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
     }
-
 }
