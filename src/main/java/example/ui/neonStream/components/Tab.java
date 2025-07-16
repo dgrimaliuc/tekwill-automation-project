@@ -1,12 +1,12 @@
 package example.ui.neonStream.components;
 
 import helpers.customElements.Component;
-import org.openqa.selenium.WebElement;
+import helpers.customElements.factories.ComponentContext;
 
 public class Tab extends Component {
 
-    public Tab(WebElement parent) {
-        super(parent);
+    public Tab(ComponentContext context) {
+        super(context);
     }
 
     public boolean isActive() {

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class HomePageTest extends NeonStreamBaseTest {
+
     @Test
     @DisplayName("Browse card click test")
     public void browseCardClickTest() {
@@ -27,7 +28,6 @@ public class HomePageTest extends NeonStreamBaseTest {
 
         actions.shouldNotHaveAttribute(homePage.carousel.getFirst().cards.getFirst(), "inert", "true");
         actions.shouldHaveAttribute(homePage.carousel.getFirst().cards.get(12), "inert", "true");
-
     }
 
     @Test

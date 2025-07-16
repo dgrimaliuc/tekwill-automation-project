@@ -14,7 +14,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <cucumber.version>7.11.1</cucumber.version>
         <parallelCount>1</parallelCount>
-        <current_os>unselected</current_os>
+        <current_os>Unselected</current_os>
 
     </properties>
 
@@ -58,17 +58,21 @@
 
     <dependencies>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>1.14.12</version>
         </dependency>
-
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>3.2.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>

@@ -12,14 +12,15 @@ public class HeroCarouselTest extends NeonStreamBaseTest {
     @Test
     @DisplayName("Smoke Hero Carousel Test")
     public void smokeHeroCarouselTest() {
-        actions.shouldBeDisplayed(homePage.heroCarousel);
+        actions.shouldBeDisplayed(homePage.heroCarousel.activeCard);
         var card = homePage.heroCarousel.cards.getFirst();
+        homePage.heroCarousel.tabs.getFirst().click();
 
-        actions.shouldBeDisplayed(card.title);
-        actions.shouldBeDisplayed(card.image);
-        actions.shouldBeDisplayed(card.description);
-        actions.shouldBeDisplayed(card.watchNow);
-        actions.shouldBeDisplayed(card.watchListButton.add);
+        actions.shouldSee(card.title);
+        actions.shouldSee(card.image);
+        actions.shouldSee(card.description);
+        actions.shouldSee(card.watchNow);
+        actions.shouldSee(card.watchListButton.add);
     }
 
     @Test
@@ -45,9 +46,7 @@ public class HeroCarouselTest extends NeonStreamBaseTest {
         var card = homePage.heroCarousel.cards.get(num);
         actions.shouldHaveTextToBe(card.title, "Venom: The Last Dance");
         actions.shouldHaveTextContains(card.description, "Eddie and Venom are on the run.");
-
     }
-
 
     @Test
     @DisplayName("Arrows test")
@@ -55,9 +54,8 @@ public class HeroCarouselTest extends NeonStreamBaseTest {
         actions.leftClick(homePage.heroCarousel.leftArrow);
         actions.shouldHaveTextToBe(homePage.heroCarousel.activeCard.title, "The Fall Guy");
         actions.leftClick(homePage.heroCarousel.rightArrow);
-        actions.shouldHaveTextToBe(homePage.heroCarousel.activeCard.title, "Borderlands");
+        actions.shouldHaveTextToBe(homePage.heroCarousel.activeCard.title, "The Gorge");
     }
-
 
     @Test
     @DisplayName("Hero card Watch now click test")

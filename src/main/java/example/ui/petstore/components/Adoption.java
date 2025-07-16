@@ -2,6 +2,7 @@ package example.ui.petstore.components;
 
 import helpers.customElements.Component;
 import helpers.customElements.Components;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -22,7 +23,7 @@ public class Adoption extends Component {
     @FindBy(css = "[data-t=deny-button]")
     public WebElement denyButton;
 
-    public Adoption(WebElement parent) {
-        super(parent);
+    public Adoption(ComponentContext context) {
+        super(context);
     }
 }

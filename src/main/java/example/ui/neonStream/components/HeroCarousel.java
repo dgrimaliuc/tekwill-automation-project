@@ -2,6 +2,7 @@ package example.ui.neonStream.components;
 
 import helpers.customElements.Component;
 import helpers.customElements.Components;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -22,8 +23,8 @@ public class HeroCarousel extends Component {
     @FindBy(css = "[id*=hero-tab]")
     public Components<Tab> tabs;
 
-    public HeroCarousel(WebElement parent) {
-        super(parent);
+    public HeroCarousel(ComponentContext context) {
+        super(context);
     }
 
     public int findHeroCard(String type) {
@@ -32,9 +33,7 @@ public class HeroCarousel extends Component {
             if (cards.get(i).title.getAttribute("href").contains(type.toLowerCase())) {
                 return i;
             }
-
         }
         return Integer.MIN_VALUE;
     }
-
 }

@@ -2,6 +2,7 @@ package example.ui.petstore.components;
 
 import helpers.customElements.Component;
 import helpers.customElements.Components;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -11,7 +12,6 @@ import java.util.Map;
 
 import static example.api.petstore.AdoptionsEndpoint.createAdoption;
 
-
 public class AdoptionsSection extends Component {
 
     @FindBy(tagName = "h2")
@@ -20,8 +20,8 @@ public class AdoptionsSection extends Component {
     @FindBy(css = "[data-t=single-adoption]")
     public Components<Adoption> adoptions;
 
-    public AdoptionsSection(WebElement parent) {
-        super(parent);
+    public AdoptionsSection(ComponentContext context) {
+        super(context);
     }
 
     public List<Map<String, String>> addAdoptions(String location, List<String> pets, int count) {

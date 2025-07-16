@@ -1,6 +1,7 @@
 package example.ui.petstore.components;
 
 import helpers.customElements.Component;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -14,7 +15,7 @@ public class Location extends Component {
     @FindBy(css = "[data-t=open-in-new-tab]")
     public WebElement openInNewTabBtn;
 
-    public Location(WebElement parent) {
-        super(parent);
+    public Location(ComponentContext context) {
+        super(context);
     }
 }

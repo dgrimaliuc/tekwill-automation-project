@@ -1,6 +1,7 @@
 package example.components.shopify;
 
 import helpers.customElements.Component;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -15,7 +16,7 @@ public class PriceSection extends Component {
     @FindBy(css = "[value='Over $100']")
     public WebElement over100;
 
-    public PriceSection(WebElement parent) {
-        super(parent);
+    public PriceSection(ComponentContext context) {
+        super(context);
     }
 }

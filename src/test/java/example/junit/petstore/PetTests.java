@@ -22,7 +22,6 @@ public class PetTests extends BaseTest {
         driver.get("https://petstore-eb41f.web.app/?location=" + randomLocation);
     }
 
-
     @Test
     @DisplayName("Add pet test")
     public void addPetTest() {
@@ -99,8 +98,5 @@ public class PetTests extends BaseTest {
         petStore.addPets(1);
         actions.waitForNumberOfElements(petSection.pets, 1);
         actions.shouldNotBeDisplayed(petSection.defaultText);
-
     }
-
-
 }

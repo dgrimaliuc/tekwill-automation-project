@@ -1,6 +1,7 @@
 package example.ui.neonStream.components;
 
 import helpers.customElements.Component;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -20,7 +21,7 @@ public class HeroCard extends Component {
     @FindBy(css = "[class*=hero-card-picture]")
     public WebElement backgroundImage;
 
-    public HeroCard(WebElement parent) {
-        super(parent);
+    public HeroCard(ComponentContext context) {
+        super(context);
     }
 }

@@ -37,8 +37,8 @@ public class PetStore extends BasePage {
         driver.get("https://petstore-eb41f.web.app/");
     }
 
-    public List<Map<String, String>> addPets(int count) {
-        return petsSection.addPets(location.locationInput.getAttribute("value"), count);
+    public void addPets(int count) {
+        petsSection.addPets(count);
     }
 
     public List<Map<String, String>> addAdoptions(List<String> pets, int count) {

@@ -5,62 +5,71 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.AbstractAnnotations;
 import org.openqa.selenium.support.pagefactory.Annotations;
-import org.openqa.selenium.support.pagefactory.ByChained;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
 public class CustomElementLocator implements ElementLocator {
-
+    final By parent;
+    final By locator;
+    final Integer index;
     private final SearchContext searchContext;
-    private final By parentBy;
-    private final WebElement parentElement;
-    private final By by;
 
-
-    public CustomElementLocator(SearchContext searchContext, Field field, By parentBy) {
-        this(searchContext, new Annotations(field), null, parentBy);
+    public CustomElementLocator(SearchContext searchContext, Field field, By parentBy, Integer index) {
+        this(searchContext, new Annotations(field), parentBy, index);
     }
 
-    public CustomElementLocator(SearchContext searchContext, Field field, WebElement parentElement) {
-        this(searchContext, new Annotations(field), parentElement, null);
-    }
-
-    public CustomElementLocator(SearchContext searchContext, AbstractAnnotations annotations, WebElement parentElement, By parentBy) {
+    public CustomElementLocator(SearchContext searchContext, AbstractAnnotations annotations, By parentBy, Integer index) {
         this.searchContext = searchContext;
-        this.by = annotations.buildBy();
-        this.parentElement = parentElement;
-        this.parentBy = parentBy;
+        this.locator = annotations.buildBy();
+        this.parent = parentBy;
+        this.index = index;
     }
 
     public WebElement findElement() {
-        // TODO may bee to add a wait.until ??
-        if (this.parentElement != null) {
-            return this.parentElement.findElement(this.by);
-        } else if (this.parentBy != null) {
-            WebElement parentEl = this.searchContext.findElement(parentBy);
-            if (parentBy.equals(this.by)) {
+        // TODO if there is cases then parent is null
+        if (this.parent != null) {
+            WebElement parentEl = this.searchContext.findElement(this.parent);
+            if (parent.equals(this.locator)) {
                 return parentEl;
             } else
-                return parentEl.findElement(this.by);
+                return parentEl.findElement(this.locator);
         } else {
-            return this.searchContext.findElement(this.by);
+            return this.searchContext.findElement(this.locator);
         }
     }
 
     public List<WebElement> findElements() {
-        if (this.parentElement != null) {
-            return this.parentElement.findElements(this.by);
-        } else if (this.parentBy != null) {
-            ByChained chained = new ByChained(parentBy, this.by);
-            return this.searchContext.findElements(chained);
-        } else {
-            return this.searchContext.findElements(this.by);
+        WebElement parentEl = null;
+        if (parent != null) {
+            parentEl = this.searchContext.findElement(this.parent);
+            if (parent.equals(this.locator)) {
+                return List.of(parentEl);
+            }
         }
+
+        return parentEl.findElements(this.locator);
+
+//        return retry(() -> searchContext.findElements(effectiveLocator), 2);
+    }
+//
+//    public static <T> T retry(Supplier<T> action, int attempts) {
+//        for (int i = 0; i < attempts; i++) {
+//            try {
+//                return action.get();
+//            } catch (StaleElementReferenceException e) {
+//                System.out.println("StaleElementReferenceException caught, retrying... Attempt " + (i + 1));
+//            }
+//        }
+//        throw new StaleElementReferenceException("Max retries exceeded");
+//    }
+
+    public Integer getIndex() {
+        return this.index;
     }
 
     public String toString() {
-        return this.getClass().getSimpleName() + " '" + this.by + "'";
+        return this.getClass().getSimpleName() + " '" + this.locator + "'";
     }
 }

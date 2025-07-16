@@ -2,6 +2,7 @@ package helpers.customElements.factories;
 
 import helpers.customElements.Component;
 import helpers.customElements.Components;
+import helpers.customElements.factories.handlers.DynamicWebElementHandler;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,31 +12,29 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
-import org.openqa.selenium.support.pagefactory.internal.LocatingElementHandler;
 import org.openqa.selenium.support.pagefactory.internal.LocatingElementListHandler;
 
 import java.lang.reflect.*;
 import java.util.List;
 
 public class CustomFieldDecorator implements FieldDecorator {
-    protected CustomElementLocatorFactory factory;
+    protected LocatorFactory factory;
 
-    public CustomFieldDecorator(CustomElementLocatorFactory factory) {
+    public CustomFieldDecorator(LocatorFactory factory) {
         this.factory = factory;
     }
 
     public Object decorate(ClassLoader loader, Field field) {
-
         if (!this.isDecoratable(field)) {
             return null;
         } else {
             CustomElementLocator locator = getLocator(field);
             if (Component.class.isAssignableFrom(field.getType())) {
-                return this.singleComponentObject(field, loader, locator);
+                return this.singleComponentObject(field, locator);
             } else if (WebElement.class.isAssignableFrom(field.getType())) {
                 return this.proxyForLocator(loader, locator);
             } else if (Components.class.isAssignableFrom(field.getType())) {
-                return this.proxyForComponentsLocator(field, loader, locator);
+                return this.proxyForComponentsLocator(field, locator);
             } else if (List.class.isAssignableFrom(field.getType())) {
                 return this.proxyForListLocator(loader, locator);
             } else
@@ -44,11 +43,7 @@ public class CustomFieldDecorator implements FieldDecorator {
     }
 
     private CustomElementLocator getLocator(Field field) {
-        if (this.factory.getParentElement() == null) {
-            return this.factory.createLocator(field);
-        } else {
-            return this.factory.createComponentsLocator(field);
-        }
+        return this.factory.createLocator(field);
     }
 
     protected boolean isDecoratable(Field field) {
@@ -76,7 +71,7 @@ public class CustomFieldDecorator implements FieldDecorator {
     }
 
     protected WebElement proxyForLocator(ClassLoader loader, CustomElementLocator locator) {
-        InvocationHandler handler = new LocatingElementHandler(locator);
+        InvocationHandler handler = new DynamicWebElementHandler(locator);
         return (WebElement) Proxy.newProxyInstance(loader, new Class[]{WebElement.class, WrapsElement.class, Locatable.class}, handler);
     }
 
@@ -85,26 +80,16 @@ public class CustomFieldDecorator implements FieldDecorator {
         return (List<WebElement>) Proxy.newProxyInstance(loader, new Class[]{List.class}, handler);
     }
 
-    protected Object singleComponentObject(Field field, ClassLoader loader, CustomElementLocator locator) {
-        try {
-            WebElement parentElement = this.proxyForLocator(loader, locator);
-            By parent = this.factory.getParent();
-            Object component = field.getType().getDeclaredConstructor(WebElement.class).newInstance(parentElement);
-            WebDriver driver = this.factory.getDriver();
-            CustomPageFactory.initElements(driver, component, parent);
-            return component;
-
-        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException |
-                 IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-
+    protected Object singleComponentObject(Field field, CustomElementLocator locator) {
+        By parent = locator.locator;
+        WebDriver driver = this.factory.getDriver();
+        return ComponentProxyFactory.createLazyComponent(field, () -> new ComponentContext(driver, parent, locator.getIndex()));
     }
 
-    protected Components<?> proxyForComponentsLocator(Field field, ClassLoader loader, CustomElementLocator locator) {
-        Class<?> componentType = ((Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0]);
-        InvocationHandler handler = new LocatingElementComponentsHandler(this.factory.getDriver(), locator, componentType);
-        List<?> proxy = (List<?>) Proxy.newProxyInstance(loader, new Class[]{List.class}, handler);
-        return new Components<>(proxy);
+    protected Components<?> proxyForComponentsLocator(Field field, CustomElementLocator locator) {
+        By parent = locator.locator;
+        WebDriver driver = this.factory.getDriver();
+
+        return ComponentProxyFactory.createLazyComponents(field, () -> new ComponentContext(driver, parent, null));
     }
 }

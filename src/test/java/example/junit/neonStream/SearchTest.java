@@ -55,9 +55,8 @@ public class SearchTest extends NeonStreamBaseTest {
     @Test
     @DisplayName("Direct navigation to search page with query test")
     public void directNavigationTest() {
-        driver.get("https://neon-stream--stg-g1xzvf5x.web.app/search?q=the");
+        driver.get("https://neon-stream.web.app/search?q=the");
         actions.waitForNumberOfElementsToBeMoreThan(searchPage.cards, 5);
         actions.shouldHaveAttribute(header.searchInput, "value", "the");
-
     }
 }

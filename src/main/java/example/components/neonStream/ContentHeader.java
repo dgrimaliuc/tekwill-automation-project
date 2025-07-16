@@ -1,6 +1,7 @@
 package example.components.neonStream;
 
 import helpers.customElements.Component;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -19,7 +20,7 @@ public class ContentHeader extends Component {
     @FindBy(css = "[class*=actions_actions]")
     public WatchListButton watchListButton;
 
-    public ContentHeader(WebElement parent) {
-        super(parent);
+    public ContentHeader(ComponentContext context) {
+        super(context);
     }
 }

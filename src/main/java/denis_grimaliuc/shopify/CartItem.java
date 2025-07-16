@@ -1,6 +1,7 @@
 package denis_grimaliuc.shopify;
 
 import helpers.customElements.Component;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -31,7 +32,7 @@ public class CartItem extends Component {
     @FindBy(css = ".item-quantity")
     public WebElement quantity;
 
-    public CartItem(WebElement parent) {
-        super(parent);
+    public CartItem(ComponentContext context) {
+        super(context);
     }
 }

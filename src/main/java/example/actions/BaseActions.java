@@ -16,7 +16,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class BaseActions {
-
     static Logger log = Logger.getLogger(BaseActions.class);
     private final WebDriver driver;
     private final WebDriverWait wait;
@@ -28,8 +27,12 @@ public class BaseActions {
     }
 
     public static void waitFor(int seconds) {
+        waitForMills(seconds * 1000);
+    }
+
+    public static void waitForMills(int milliseconds) {
         try {
-            Thread.sleep(seconds * 1000L);
+            Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -44,7 +47,7 @@ public class BaseActions {
     }
 
     public static void setTimeoutsToMin(WebDriver driver) {
-        setTimeouts(driver, 2);
+        setTimeouts(driver, 1);
     }
 
     public static void setTimeouts(WebDriver driver, int timeout) {
@@ -158,6 +161,11 @@ public class BaseActions {
         setDefaultTimeouts(driver);
     }
 
+    public Alert waitForAlert() {
+        log.trace("Waiting for alert to be present");
+        return wait.until(ExpectedConditions.alertIsPresent());
+    }
+
     public void waitUntilPageToLoad() {
         log.trace("Waiting for page to load");
         wait.until(driver -> executeScript("return document.readyState", null).equals("complete"));
@@ -200,7 +208,7 @@ public class BaseActions {
     }
 
     public void scrollTo(Component element) {
-        scrollTo(element.getParentElement());
+        scrollTo(element.findParent());
     }
 
     public void scrollTo(Components<?> elements) {
@@ -214,7 +222,7 @@ public class BaseActions {
                     """, 1000), null);
         }
         waitForNumberOfElementsToBeMoreThan(elements, 0);
-        scrollIntoCenter(elements.getFirst().getParentElement());
+        scrollIntoCenter(elements.getFirst().findParent());
         setDefaultTimeouts(driver);
     }
 
@@ -236,7 +244,6 @@ public class BaseActions {
         scrollIntoCenter(element);
         setDefaultTimeouts(driver);
     }
-
 
     public boolean isDisplayed(WebElement element) {
         log.trace("Checking if element is displayed: " + element);
@@ -277,5 +284,4 @@ public class BaseActions {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
     }
-
 }

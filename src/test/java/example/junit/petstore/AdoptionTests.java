@@ -18,12 +18,13 @@ public class AdoptionTests extends BasePetstoreTest {
     @DisplayName("Adoption create test")
     public void createAdoptionTest() {
         var petsCount = 1;
-        var petName = petStore.addPets(petsCount).get(0).get("name");
+        petStore.addPets(petsCount);
+        var petName = petsSection.pets.getFirst().name.getText();
 
         driver.navigate().refresh();
         actions.waitForNumberOfElements(petsSection.pets, petsCount);
 
-        var uiPet = petsSection.pets.get(0);
+        var uiPet = petsSection.pets.getFirst();
         uiPet.click();
         petsSection.adoptBtn.click();
         actions.waitForNumberOfElements(adoptionsSection.adoptions, 1);
@@ -65,11 +66,11 @@ public class AdoptionTests extends BasePetstoreTest {
     public void denyAdoptionTest() {
         petsSection.addPetBtn.click();
         actions.waitForNumberOfElements(petsSection.pets, 1);
-        var pet = petsSection.pets.get(0);
+        var pet = petsSection.pets.getFirst();
         pet.click();
         petsSection.adoptBtn.click();
         actions.waitForNumberOfElements(adoptionsSection.adoptions, 1);
-        var adoption = adoptionsSection.adoptions.get(0);
+        var adoption = adoptionsSection.adoptions.getFirst();
         adoption.denyButton.click();
 
         actions.shouldHaveTextToBe(adoption.status, "DENIED");
@@ -107,6 +108,5 @@ public class AdoptionTests extends BasePetstoreTest {
         driver.navigate().refresh();
         actions.waitForNumberOfElements(petsSection.pets, 1);
         actions.waitForNumberOfElements(adoptionsSection.adoptions, 1);
-
     }
 }

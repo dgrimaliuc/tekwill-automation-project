@@ -2,13 +2,9 @@ package example.ui.petstore.components;
 
 import helpers.customElements.Component;
 import helpers.customElements.Components;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 
 public class PetsSection extends Component {
 
@@ -29,17 +25,14 @@ public class PetsSection extends Component {
     @FindBy(css = "[data-t=single-pet]")
     public Components<Pet> pets;
 
-    public PetsSection(WebElement parent) {
-        super(parent);
+    public PetsSection(ComponentContext context) {
+        super(context);
     }
 
-    public List<Map<String, String>> addPets(String location, int count) {
-        List<Map<String, String>> pets = new ArrayList<>();
-//        for (int i = 0; i < count; i++) {
-//            var pet = addPet(location, "Cat");
-//            pets.add(pet.jsonPath().getMap(""));
-//        }
-        return pets;
+    public void addPets(int count) {
+        for (int i = 0; i < count; i++) {
+            this.addPetBtn.click();
+        }
     }
 
     public void selectFirst(int count) {

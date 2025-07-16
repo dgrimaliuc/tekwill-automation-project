@@ -7,11 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static example.actions.BaseActions.setDefaultTimeouts;
-
 @SuppressWarnings("unused")
 public class BaseTest {
-
     public final Logger log = Logger.getLogger(BaseTest.class);
     public final WebDriver driver;
     public BaseActions actions = null;
@@ -19,9 +16,8 @@ public class BaseTest {
 
     public BaseTest() {
         driver = new ChromeDriverProvider().getDriver();
-        setDefaultTimeouts(driver);
+//     TODO test and remove setDefaultTimeouts(driver);
     }
-
 
     @BeforeEach
     public void setUp() {

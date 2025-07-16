@@ -1,6 +1,7 @@
 package example.components.neonStream;
 
 import helpers.customElements.Component;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -12,7 +13,7 @@ public class WatchListButton extends Component {
     @FindBy(css = "[data-t=in-watchlist]")
     public WebElement remove;
 
-    public WatchListButton(WebElement parent) {
-        super(parent);
+    public WatchListButton(ComponentContext context) {
+        super(context);
     }
 }

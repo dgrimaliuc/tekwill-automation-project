@@ -1,31 +1,27 @@
-package example.components.neonStream;
+package denis_grimaliuc.neonStream;
 
 import helpers.customElements.Component;
 import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class SinglePromoCard extends Component {
+public class HeroCard extends Component {
 
-    @FindBy(css = ".single-card-img-wrapper .image-right")
-    public WebElement image;
-
-    @FindBy(css = ".single-show-card-title")
+    @FindBy(css = "a[class*=styles_title]")
     public WebElement title;
 
-    @FindBy(css = ".single-show-card-description")
+    @FindBy(css = "div[class*=styles_description]")
     public WebElement description;
-
-    @FindBy(css = "[class*=actions_watch-now-btn]")
+    @FindBy(css = "[class*=styles_hero-card-picture]")
+    public WebElement picture;
+    @FindBy(css = "[class*=watch-now-btn]")
     public WebElement watchNow;
-
     @FindBy(css = "[data-t=not-in-watchlist]")
     public WebElement addToWatchlist;
-
     @FindBy(css = "[data-t=in-watchlist]")
     public WebElement removeFromWatchlist;
 
-    public SinglePromoCard(ComponentContext context) {
+    public HeroCard(ComponentContext context) {
         super(context);
     }
 }

@@ -4,6 +4,7 @@ package example.components.petStore;
 
 import helpers.customElements.Component;
 import helpers.customElements.Components;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -11,7 +12,6 @@ public class Adoption extends Component {
     //
     @FindBy(xpath = ".//*[@data-t='pet-name']")
     public Components<MiniPet> pets;
-
 
 //    @FindBy(xpath = ".//*[@data-t='pet-name']")
 //    public List<WebElement> pets;
@@ -27,8 +27,7 @@ public class Adoption extends Component {
     @FindBy(xpath = ".//button[@data-t='deny-button']")
     public WebElement denyBtn;
 
-
-    public Adoption(WebElement parent) {
-        super(parent);
+    public Adoption(ComponentContext context) {
+        super(context);
     }
 }

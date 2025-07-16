@@ -1,6 +1,7 @@
 package denis_grimaliuc.shopify;
 
 import helpers.customElements.Component;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -26,7 +27,7 @@ public class Card extends Component {
     @FindBy(css = "#add_to_cart_button")
     public WebElement addToCartButton;
 
-    public Card(WebElement parent) {
-        super(parent);
+    public Card(ComponentContext context) {
+        super(context);
     }
 }

@@ -2,6 +2,7 @@ package example.components.neonStream;
 
 import helpers.customElements.Component;
 import helpers.customElements.Components;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -26,7 +27,7 @@ public class HeroCarousel extends Component {
     @FindBy(css = "[class*=placeholder]")
     public List<WebElement> placeholders;
 
-    public HeroCarousel(WebElement parent) {
-        super(parent);
+    public HeroCarousel(ComponentContext context) {
+        super(context);
     }
 }

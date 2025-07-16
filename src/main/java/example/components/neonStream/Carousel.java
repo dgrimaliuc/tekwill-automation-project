@@ -2,6 +2,7 @@ package example.components.neonStream;
 
 import helpers.customElements.Component;
 import helpers.customElements.Components;
+import helpers.customElements.factories.ComponentContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -17,8 +18,7 @@ public class Carousel extends Component {
     @FindBy(css = ".scrolling-section > div")
     public Components<BrowseCard> cards;
 
-
-    public Carousel(WebElement parent) {
-        super(parent);
+    public Carousel(ComponentContext context) {
+        super(context);
     }
 }

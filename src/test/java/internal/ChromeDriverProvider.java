@@ -51,9 +51,9 @@ public class ChromeDriverProvider {
 
     private void setImplicitTimeout(ChromeDriver driver, Map<String, Object> settings) {
         int timeout = ((Map<String, Integer>) settings.get("timeouts")).get("implicit");
-        driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(timeout, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+//        driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
+//        driver.manage().timeouts().setScriptTimeout(timeout, TimeUnit.SECONDS);
     }
 
     private ChromeDriver createDriver() {
