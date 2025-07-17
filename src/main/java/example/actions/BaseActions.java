@@ -63,6 +63,11 @@ public class BaseActions {
         wait.until(ExpectedConditions.urlContains(url));
     }
 
+    public void waitForCurrentURLMatches(String matches) {
+        log.trace("Waiting for current URL matches: " + matches);
+        wait.until(ExpectedConditions.urlMatches(matches));
+    }
+
     public Object executeScript(String script, Object object) {
         return ((JavascriptExecutor) driver).executeScript(script, object);
     }
