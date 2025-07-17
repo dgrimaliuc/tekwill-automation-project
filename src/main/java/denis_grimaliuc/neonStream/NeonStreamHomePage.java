@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class NeonStreamPage extends BasePage {
+public class NeonStreamHomePage extends BasePage {
 
     @FindBy(css = "[class*=styles_hero-carousel-wrapper]")
     public HeroCarousel heroCarousel;
@@ -15,7 +15,10 @@ public class NeonStreamPage extends BasePage {
     @FindBy(css = "[class*=placeholder]")
     public List<WebElement> placeholders;
 
-    public NeonStreamPage(WebDriver driver) {
+    @FindBy(xpath = "//div[@class='carousel-wrapper' and .//*[text()='Your Watchlist']]")
+    public Collection watchlistCollection;
+
+    public NeonStreamHomePage(WebDriver driver) {
         super(driver);
     }
 }
