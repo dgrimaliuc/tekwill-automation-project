@@ -29,5 +29,6 @@ Feature: Shopify test
       Given I open Shopify page
       When select filter over 100
       Then Shoude find the products which have price over 100
+      
 
 

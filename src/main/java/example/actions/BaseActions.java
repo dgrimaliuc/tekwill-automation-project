@@ -21,6 +21,7 @@ public class BaseActions {
     private final WebDriver driver;
     private final WebDriverWait wait;
     public Object shouldBeDisplayed;
+    private Component arrowRight;
 
     public BaseActions(WebDriver driver) {
         this.driver = driver;
@@ -49,8 +50,12 @@ public class BaseActions {
 
     public static void setTimeouts(WebDriver driver, int timeout) {
         driver.manage().timeouts().implicitlyWait(timeout, SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(timeout, SECONDS);
-        driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);
+        
+    }
+
+    public void whaitForCurrentURLmatchers(String matches) {
+        log.trace("Whait for curent URL matchers " + matches);
+        wait.until(ExpectedConditions.urlMatches(matches));
     }
 
     public void leftClick(WebElement element) {
@@ -182,15 +187,15 @@ public class BaseActions {
                 if (!arguments[0].getBoundingClientRect) {
                     return false
                 }
-                                
+                
                 const rect = arguments[0].getBoundingClientRect()
-                                
+                
                 const windowHeight = (window.innerHeight || document.documentElement.clientHeight)
                 const windowWidth = (window.innerWidth || document.documentElement.clientWidth)
-                                
+                
                 const vertInView = (rect.top <= windowHeight) && ((rect.top + rect.height) > 0)
                 const horInView = (rect.left <= windowWidth) && ((rect.left + rect.width) > 0)
-                                
+                
                 return (vertInView && horInView)
                 """, element);
     }

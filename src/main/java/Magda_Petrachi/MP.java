@@ -1,4 +1,4 @@
 package Magda_Petrachi;
 
-public interface R {
+public class MP {
 }

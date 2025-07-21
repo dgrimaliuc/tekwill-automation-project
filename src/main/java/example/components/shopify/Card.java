@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class Card extends Component {
 
+    public static Component addToCardButton;
     @FindBy(css = "#card-image")
     public WebElement image;
 

@@ -1,20 +1,16 @@
-package Magda_Petrachi;
+package Magda_Petrachi.ShopifyCurcumber;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.messages.types.DataTable;
-import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class SecondHW{
+public class SecondHW {
     String str;
     int a, b, result;
     String aString, bString, resultString;
@@ -31,7 +27,7 @@ public class SecondHW{
     @Given("I have a list with elements MP")
     public void iHaveAListWithElementsMP(List<String> list) {
         this.stringList = list;
-        }
+    }
 
 
     @When("I check the size of the list MP")
@@ -43,6 +39,6 @@ public class SecondHW{
     @Then("the size of the list should be {int} MP")
     public void theSizeOfTheListShouldBeMP(int expectedSize) {
         MatcherAssert.assertThat(result, equalTo(expectedSize));
-        }
     }
+}
 

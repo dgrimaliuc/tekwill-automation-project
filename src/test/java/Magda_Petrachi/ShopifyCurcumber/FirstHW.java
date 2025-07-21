@@ -1,4 +1,4 @@
-package Magda_Petrachi;
+package Magda_Petrachi.ShopifyCurcumber;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;

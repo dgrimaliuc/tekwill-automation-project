@@ -163,10 +163,10 @@ public class TheFirstStepDefinishn {
         context.put("value", value);
     }
 
+
     @Then("the value should be {string}")
     public void the_value_should_be(String expectedValue) {
         String actualValue = (String) context.get("value");
         assertThat(actualValue, equalTo(expectedValue));
-    }
+    }}
 
-}

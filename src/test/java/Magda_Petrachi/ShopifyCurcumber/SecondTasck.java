@@ -1,9 +1,9 @@
-package Magda_Petrachi;
+package Magda_Petrachi.ShopifyCurcumber;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.datatable.DataTable;
 import org.hamcrest.MatcherAssert;
 
 import java.util.Arrays;
@@ -29,8 +29,8 @@ public class SecondTasck {
         stringMap = new HashMap<>();
         for (Map<String, String> row : table.asMaps()) {
             stringMap.put(row.get("key"), row.get("value"));
+        }
     }
-}
 
     @When("I retrieve the value for the key {string} MP")
     public void iRetrieveTheValueForTheKeyMP(String key) {

@@ -11,6 +11,7 @@ public class WatchlistCollection extends Component {
     @FindBy(css = "[class*=browse-card-info] > p")
     public List<WebElement> titles;
 
+
     public WatchlistCollection(WebElement parent) {
         super(parent);
     }
