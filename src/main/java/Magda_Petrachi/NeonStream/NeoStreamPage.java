@@ -20,7 +20,12 @@ public class NeoStreamPage extends BasePage {
     @FindBy(css = "[class*=placeholder]")
     public List<WebElement> placeholders;
 
+    @FindBy(xpath = "//div[@class='carousel-wrapper' and .//*[text()='Your WatchList']]")
+    public Collections watchListCollection;
+
     public NeoStreamPage(WebDriver driver) {
         super(driver);
     }
+
+
 }

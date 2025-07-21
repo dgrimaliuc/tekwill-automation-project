@@ -16,8 +16,12 @@ public class HeroCard extends Component {
     @FindBy(css = "button[class*=watch-now-btn]")
     public WebElement watchNow;
 
-    @FindBy(css = "div")
+    @FindBy(css = ".actions_watchlist-button__EAhGY.actions_default-button__S42R6")
     public WatchListButton watchListButton;
+
+    @FindBy(css = ".actions_wl_container__B3VYN")
+    public WatchListButton removeListButton;
+
 
     public HeroCard(WebElement parent) {
         super(parent);
