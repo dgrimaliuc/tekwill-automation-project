@@ -17,6 +17,13 @@ public class NeonStreamHomePage extends BasePage {
 
     @FindBy(xpath = "//div[@class='carousel-wrapper' and .//*[text()='Your Watchlist']]")
     public Collection watchlistCollection;
+    @FindBy(xpath = "//div[@class='carousel-wrapper' and .//*[text()='Upcoming Movies']]")
+    public Collection upcomingMovies;
+
+    @FindBy(css = ".single-promo-card-wrapper")
+    public SinglePromoCard singlePromoCard;
+    @FindBy(css = ".single-card")
+    public SingleShowCard singleShowCard;
 
     public NeonStreamHomePage(WebDriver driver) {
         super(driver);
