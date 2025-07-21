@@ -148,6 +148,19 @@ public class BaseActions {
         setDefaultTimeouts(driver);
     }
 
+    public void shouldNotSee(WebElement element) {
+        log.trace("Checking if element is visible: " + element);
+        setTimeoutsToMin(driver);
+        wait.until(driver -> {
+            try {
+                return !isInView(element);
+            } catch (Exception e) {
+                return true;
+            }
+        });
+        setDefaultTimeouts(driver);
+    }
+
     public void shouldNotBeDisplayed(WebElement element) {
         log.trace("Checking if element is not visible: " + element);
         setTimeoutsToMin(driver);
