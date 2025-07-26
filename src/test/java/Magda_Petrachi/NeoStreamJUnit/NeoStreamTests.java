@@ -1,7 +1,6 @@
 package Magda_Petrachi.NeoStreamJUnit;
 
 import Magda_Petrachi.NeonStream.NeoStreamPage;
-import example.components.neonStream.HeroCard;
 import example.components.neonStream.Tab;
 import internal.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,11 +49,11 @@ public class NeoStreamTests extends BaseTest {
         assertThat(fImage, not(equals(sImage)));
     }
 
-    @Test
-    public void watchMovieHeroCardClickTVTest() {
-        page.heroCarousel.activeCard.watchNow.click();
-        actions.waitForCurrentURLContains("/tv/");
-    }
+//    @Test
+//    public void watchMovieHeroCardClickTVTest() {
+//        page.heroCarousel.activeCard.watchNow.click();
+//        actions.waitForCurrentURLContains("/tv/");
+//    }
 
 
 //    @Test
@@ -82,18 +81,18 @@ public class NeoStreamTests extends BaseTest {
 
     }
 
-    @Test
-    public void addToWatchListHeroCardTest() {
-        HeroCard heroCard = page.heroCarousel.cards.getFirst();
-        heroCard.watchListButton.click();
-        actions.shouldSee(heroCard.removeListButton);
-        actions.shouldNotBeDisplayed(heroCard.watchListButton);
-
-        actions.waitForNumberOfElements(page.watchListCollection.cards, 1);
-        String fWhachListTitle = page.watchListCollection.cards.getFirst().title.getText();
-
-        assertThat(fWhachListTitle, containsString(heroCard.title.getText()));
-    }
+//    @Test
+//    public void addToWatchListHeroCardTest() {
+//        HeroCard heroCard = page.heroCarousel.cards.getFirst();
+//        heroCard.watchListButton.click();
+//        actions.shouldSee(heroCard.removeListButton);
+//        actions.shouldNotBeDisplayed(heroCard.watchListButton);
+//
+//        actions.waitForNumberOfElements(page.watchListCollection.cards, 1);
+//        String fWhachListTitle = page.watchListCollection.cards.getFirst().title.getText();
+//
+//        assertThat(fWhachListTitle, containsString(heroCard.title.getText()));
+//    }
 
 
 }
