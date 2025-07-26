@@ -12,8 +12,9 @@ public class BrowseCard extends Component {
     @FindBy(css = "[class*=media-type]")
     public WebElement mediaType;
 
-    @FindBy(css = "[class*=brose-card-info]")
+    @FindBy(css = "[class*=browse-card-info]")
     public WebElement title;
+
 
     public BrowseCard(WebElement parent) {
         super(parent);
