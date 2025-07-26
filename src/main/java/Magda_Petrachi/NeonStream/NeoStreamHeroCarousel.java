@@ -9,19 +9,25 @@ import org.openqa.selenium.support.FindBy;
 
 public class NeoStreamHeroCarousel extends Component {
 
-    @FindBy(xpath = "//div[contains(@class,'hero-carousel-left') and .img[contavins(@class, 'left')]]")
+    @FindBy(xpath = "//div[contains(@class,'hero-carousel-left') and .img[contains(@class, 'left')]]")
     public WebElement arrowLeft;
 
-    @FindBy(xpath = "//div[contains(@class,'hero-carousel-arrows') and .img[contavins(@class, 'right')]]")
+    @FindBy(xpath = "//div[contains(@class,'hero-carousel-arrows') and .img[contains(@class, 'right')]]")
     public WebElement arrowRight;
 
     @FindBy(css = "[class*=hero-card-container]")
     public Components<HeroCarousel> cards;
 
+
     @FindBy(css = "button[class*=hero-carousel__page]")
     public Components<TabNeoStream> tabs;
+    @FindBy(css = "[class*=watch-now-btn]")
+    public WebElement watchNowButton;
+    @FindBy(css = "[data-t=not-in-watchlist]")
+    public WebElement addToWatchlist;
+    @FindBy(css = "[data-t=in-watchlist]")
+    public WebElement removeFromWatchlist;
     private Card activeCard;
-
 
     public NeoStreamHeroCarousel(WebElement parent) {
         super(parent);

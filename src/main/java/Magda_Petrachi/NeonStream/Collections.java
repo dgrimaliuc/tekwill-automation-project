@@ -12,6 +12,13 @@ public class Collections extends Component {
     @FindBy(css = ".carousel-title")
     public List<WebElement> title;
 
+    @FindBy(css = "[class*=arrow-left]")
+    public WebElement arrowLeft;
+
+    @FindBy(css = "[class*=arrow-right]")
+    public WebElement arrowRight;
+
+
     @FindBy(css = ".scrolling-section > div:has([class*=browse-card])")
     public Components<BrowseCard> cards;
 

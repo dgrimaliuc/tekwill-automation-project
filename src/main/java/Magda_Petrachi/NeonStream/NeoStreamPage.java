@@ -23,6 +23,18 @@ public class NeoStreamPage extends BasePage {
     @FindBy(xpath = "//div[@class='carousel-wrapper' and .//*[text()='Your WatchList']]")
     public Collections watchListCollection;
 
+    @FindBy(xpath = "//div[@class='carousel-wrapper' and .//*[text()='Upcoming Movies']]")
+    public Collections upcomingMovies;
+
+    @FindBy(css = ".single-promo-card-wrapper")
+    public SimplePromoCard simplePromoCard;
+
+    @FindBy(css = ".single-card")
+    public SimpleShowCard simpleShowCard;
+
+    @FindBy(css = "a[href='/browse']")
+    public WebElement browseButton;
+
     public NeoStreamPage(WebDriver driver) {
         super(driver);
     }

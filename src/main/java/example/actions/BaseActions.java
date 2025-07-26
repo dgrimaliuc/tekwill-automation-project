@@ -21,6 +21,7 @@ public class BaseActions {
     private final WebDriver driver;
     private final WebDriverWait wait;
     public Object shouldBeDisplayed;
+    public Component searchInput;
     private Component arrowRight;
 
     public BaseActions(WebDriver driver) {
@@ -50,7 +51,7 @@ public class BaseActions {
 
     public static void setTimeouts(WebDriver driver, int timeout) {
         driver.manage().timeouts().implicitlyWait(timeout, SECONDS);
-        
+
     }
 
     public void whaitForCurrentURLmatchers(String matches) {
