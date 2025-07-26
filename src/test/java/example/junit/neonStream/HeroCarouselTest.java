@@ -16,7 +16,7 @@ public class HeroCarouselTest extends NeonStreamBaseTest {
         var card = homePage.heroCarousel.cards.getFirst();
 
         actions.shouldBeDisplayed(card.title);
-        actions.shouldBeDisplayed(card.image);
+        actions.shouldBeDisplayed(card.picture);
         actions.shouldBeDisplayed(card.description);
         actions.shouldBeDisplayed(card.watchNow);
         actions.shouldBeDisplayed(card.watchListButton.add);
