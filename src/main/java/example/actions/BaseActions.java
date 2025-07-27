@@ -63,6 +63,11 @@ public class BaseActions {
         wait.until(ExpectedConditions.urlContains(url));
     }
 
+    public void waitForCurrentURLMatches(String matches) {
+        log.trace("Waiting for current URL matches: " + matches);
+        wait.until(ExpectedConditions.urlMatches(matches));
+    }
+
     public Object executeScript(String script, Object object) {
         return ((JavascriptExecutor) driver).executeScript(script, object);
     }
@@ -143,6 +148,19 @@ public class BaseActions {
         setDefaultTimeouts(driver);
     }
 
+    public void shouldNotSee(WebElement element) {
+        log.trace("Checking if element is visible: " + element);
+        setTimeoutsToMin(driver);
+        wait.until(driver -> {
+            try {
+                return !isInView(element);
+            } catch (Exception e) {
+                return true;
+            }
+        });
+        setDefaultTimeouts(driver);
+    }
+
     public void shouldNotBeDisplayed(WebElement element) {
         log.trace("Checking if element is not visible: " + element);
         setTimeoutsToMin(driver);
@@ -156,6 +174,11 @@ public class BaseActions {
             return !isDisplayed;
         });
         setDefaultTimeouts(driver);
+    }
+
+    public Alert waitForAlert() {
+        log.trace("Waiting for alert to be present");
+        return wait.until(ExpectedConditions.alertIsPresent());
     }
 
     public void waitUntilPageToLoad() {
@@ -237,7 +260,6 @@ public class BaseActions {
         setDefaultTimeouts(driver);
     }
 
-
     public boolean isDisplayed(WebElement element) {
         log.trace("Checking if element is displayed: " + element);
         try {
@@ -277,5 +299,4 @@ public class BaseActions {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();
     }
-
 }
