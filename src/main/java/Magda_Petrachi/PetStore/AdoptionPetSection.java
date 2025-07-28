@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class AdoptionPetSection extends Component {
 
-    @FindBy(css = "[data-t=adoptions-section] .text-2xl.ml-4")
+    @FindBy(css = "[data-t=adoptions-section] .text-2xl")
     public WebElement title;
 
     @FindBy(css = "[data-t=status-text]")
