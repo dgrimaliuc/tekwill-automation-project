@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class AdoptionPetSection extends Component {
 
-    @FindBy(xpath = "//div[@data-t='adoptions-section']//h2[contains(@class, 'text-2xl') and text()='Adoptions in']")
+    @FindBy(css = "[data-t=adoptions-section] .text-2xl.ml-4")
     public WebElement title;
 
     @FindBy(css = "[data-t=status-text]")
@@ -16,6 +16,4 @@ public class AdoptionPetSection extends Component {
     public AdoptionPetSection(WebElement parent) {
         super(parent);
     }
-
-    
 }

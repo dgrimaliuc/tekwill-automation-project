@@ -9,13 +9,13 @@ public class PetStorePage extends BasePage {
     @FindBy(css = "div[data-t=location-section]")
     public LocationSection locationSection;
 
-    @FindBy(xpath = "//div[@data-t='info-section']//h2[contains(@class, 'text-2xl') and text()=' The game']")
+    @FindBy(css = "[data-t=info-section]")
     public InfoSection infoSection;
 
-    @FindBy(xpath = "//div[@data-t='adoptions-section']//h2[contains(@class, 'text-2xl') and text()='Adoptions in']")
+    @FindBy(css = "[data-t=adoptions-section]")
     public AdoptionPetSection adoptionPetSection;
 
-    @FindBy(xpath = "//div[@data-t='pets-section']//h2[contains(@class, 'text-2xl')]")
+    @FindBy(css = "[data-t=pets-section]")
     public PetInSection petInSection;
 
 

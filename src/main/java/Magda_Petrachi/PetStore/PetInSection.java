@@ -19,7 +19,7 @@ public class PetInSection extends Component {
     public WebElement adoptionButton;
 
 
-    @FindBy(xpath = "//div[contains(@class, 'text-2xl') and text()='Pets in Plett']")
+    @FindBy(css = "[data-t=pets-section] .text-2xl]")
     public WebElement availablePetInLocation;
 
     @FindBy(css = "[data-t=pet-status]")
@@ -30,5 +30,5 @@ public class PetInSection extends Component {
         super(parent);
     }
 
-    
+
 }
