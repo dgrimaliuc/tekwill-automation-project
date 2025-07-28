@@ -21,8 +21,7 @@ public class BaseActions {
     private final WebDriver driver;
     private final WebDriverWait wait;
     public Object shouldBeDisplayed;
-    public WebElement searchInput;
-
+    
     public BaseActions(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, 5, 200);
