@@ -223,8 +223,8 @@ public class NeoStreamTests extends BaseTest {
     @Test
     public void moreSearchResultTest() {
         String query = "The";
-        actions.searchInput.click();
-        actions.searchInput.sendKeys(query);
+        search.searchInput.click();
+        search.searchInput.sendKeys(query);
         actions.waitForNumberOfElementsToBeMoreThan(search.cards, 5);
         int currentlyDisplayed = search.cards.size();
         actions.scrollTo(search.cards.getLast());
