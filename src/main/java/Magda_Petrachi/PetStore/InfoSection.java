@@ -15,6 +15,7 @@ public class InfoSection extends Component {
     @FindBy(css = "[data-t=adoptions-count]")
     public WebElement adoptionCount;
 
+
     public InfoSection(WebElement parent) {
         super(parent);
     }

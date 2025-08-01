@@ -18,6 +18,9 @@ public class PetStorePage extends BasePage {
     @FindBy(css = "[data-t=pets-section]")
     public PetInSection petInSection;
 
+    @FindBy(css = "[data-t=single-pet]")
+    public PetCard petCard;
+
 
     public PetStorePage(WebDriver driver) {
         super(driver);

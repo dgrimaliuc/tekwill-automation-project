@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class LocationSection extends Component {
 
-    @FindBy(css = "data-t=change-location")
+    @FindBy(css = "[data-t=change-location]")
     public WebElement changeLocation;
 
     @FindBy(css = "[data-t=open-in-new-tab]")

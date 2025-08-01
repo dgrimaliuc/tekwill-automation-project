@@ -4,6 +4,8 @@ import internal.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertFalse;
+
 public class PetStoreTest extends BaseTest {
 
     PetStorePage home = new PetStorePage(driver);
@@ -51,11 +53,26 @@ public class PetStoreTest extends BaseTest {
 
     @Test
     public void openLocationWithURLlocation() {
-        driver.get("https://petstore-eb41f.web.app/?location=Falesti");
-        actions.waitForCurrentURLContains("Falesti");
         String location = "Falesti";
+        driver.get("https://petstore-eb41f.web.app/?location=Falesti");
+        actions.waitForCurrentURLContains("=Falesti");
+
         actions.shouldSee(home.petInSection.title);
         actions.shouldSee(home.adoptionPetSection.title);
+    }
+
+    @Test
+    public void emptyPetSectionTest() {
+        home.locationSection.locationInput.click();
+        home.locationSection.locationInput.clear();
+        String query = "aaaaaaa";
+        driver.get("https://petstore-eb41f.web.app/?location=" + query);
+        actions.shouldHaveTextToBe(home.petInSection.noResult, "No rows. Try reset filters");
+    }
+
+    @Test
+    public void buttonAdoptIsDisableTest() {
+        assertFalse("Adoption pet button is be disabled", home.petInSection.adoptionButton.isEnabled());
     }
 
 
