@@ -38,24 +38,6 @@ public class NeoStreamTests extends BaseTest {
         actions.waitForCurrentURLContains("/movie/");
     }
 
-//    @Test
-//    public void waitForActiveCardToChangeTest() {
-//        String fTabClass = home.heroCarousel.tabs.getFirst().getAttribute("class");
-//        String sTabClass = page.heroCarousel.tabs.getFirst().getAttribute("class");
-//        assertThat(fTabClass, containsString("is-active"));
-//        String fImage = home.heroCarousel.activeCard.image.getAttribute("src");
-//        String sImage = page.heroCarousel.activeCard.image.getAttribute("src");
-//
-//        waitFor(10);
-//
-//        String fTabClass = home.heroCarousel.tabs.get(1).getAttribute("class");
-//        String sTabClass = page.heroCarousel.tabs.get(1).getAttribute("class");
-//        assertThat(sTabClass, containsString("is-active"));
-//
-//        String fImage = home.heroCarousel.activeCard.image.getAttribute("scr");
-//        String sImage = page.heroCarousel.activeCard.image.getAttribute("scr");
-//        assertThat(fImage, not(equals(sImage)));
-//    }
 
     @Test
     public void watchMovieHeroCardClickTVTest() {
@@ -64,55 +46,7 @@ public class NeoStreamTests extends BaseTest {
         actions.waitForCurrentURLContains("/tv/");
     }
 
-//    @Test
-//    public void leftArrowsClickTest() {
-//        home.heroCarousel.leftArrow.click();
-//        Tab lastTab = home.heroCarousel.tabs.getLast();
-//        page.heroCarousel.leftArrow.click();
-//        Tab lastTab = page.heroCarousel.tabs.getLast();
-//        assertThat(String.valueOf(lastTab.isActive()), equalTo(true));
-//    }
 
-    @Test
-    public void tabClickTest() {
-//        var index = 3;
-//        home.heroCarousel.tabs.get(index).click();
-//        String expImage = home.heroCarousel.cards.get(index).image.getAttribute("scr");
-//        String activeImg = home.heroCarousel.activeCard.image.getAttribute("scr");
-//        page.heroCarousel.tabs.get(index).click();
-//        String expImage = page.heroCarousel.cards.get(index).image.getAttribute("scr");
-//        String activeImg = page.heroCarousel.activeCard.image.getAttribute("scr");
-//        assertThat(activeImg, equalTo(expImage));
-//        assertThat(home.heroCarousel.tabs.get(index).isActive(), equalTo(true));
-//        assertThat(page.heroCarousel.tabs.get(index).isActive(), equalTo(true));
-
-    }
-
-//    @Test
-//    public void addToWatchListHeroCardTest() {
-//        NeonStreamHeroCard heroCard = home.heroCarousel.cards.getFirst();
-//        HeroCard heroCard = page.heroCarousel.cards.getFirst();
-//        heroCard.watchListButton.click();
-
-    /// /            actions.shouldSee(heroCard.removeFromWatchlist);
-//        actions.shouldNotBeDisplayed(heroCard.watchListButton);
-//
-//        actions.waitForNumberOfElements(home.watchListCollection.cards, 1);
-//        String fWhachListTitle = home.watchListCollection.cards.getFirst().title.getText();
-//        actions.waitForNumberOfElements(page.watchListCollection.cards, 1);
-//        String fWhachListTitle = page.watchListCollection.cards.getFirst().title.getText();
-//
-//        assertThat(fWhachListTitle, containsString(heroCard.title.getText()));
-//    }
-
-//    @Test
-//    public void whachlistTitleClickTest() {
-//        NeoStreamHeroCarousel heroCard = home.heroCarousel.cards.getFirst();
-//        heroCard.addToWatchlist.click();
-//
-//        actions.waitForNumberOfElements(home.watchListCollection.cards, 1);
-//        actions.waitForCurrentURLContains("/whatchlist/");
-//    }
     @Test
     public void arrowColectionClikTest() {
         actions.scrollTo(home.upcomingMovies);
@@ -185,15 +119,6 @@ public class NeoStreamTests extends BaseTest {
 
     }
 
-//    @Test
-//    public void browsePageSmokeTest() {
-//        home.browseButton.click();
-//        actions.shouldSee(browse.title);
-//        actions.shouldSee(browse.browseActions);
-//        actions.waitForNumberOfElementsToBeMoreThan(browse.browseCard, 1);
-//        browse.browseCard.click();
-//        actions.waitForCurrentURLContains(".*movie|tv.*");
-//    }
 
     @Test
     public void searchPageSmokeTest() {
