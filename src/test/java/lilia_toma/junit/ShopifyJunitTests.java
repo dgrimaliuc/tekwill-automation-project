@@ -1,16 +1,11 @@
 package lilia_toma.junit;
 
 import example.actions.BaseActions;
-import example.components.shopify.PriceSection;
 import internal.BaseTest;
 import lilia_toma.Shopify.Card;
-import lilia_toma.Shopify.CardPrice;
 import lilia_toma.Shopify.CartItem;
 import lilia_toma.Shopify.ShopifyPageLT;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static lilia_toma.Shopify.ShopifyPageLT.formatPrice;
@@ -33,6 +28,7 @@ public class ShopifyJunitTests extends BaseTest {
     public void openShopifyPage(){
         shopifyPageLT.cards.getFirst().addToCartButton.click();
         Card card = shopifyPageLT.cards.getFirst();
+
 
         String title = card.title.getText();
        String color = card.color.getAttribute("data-t");

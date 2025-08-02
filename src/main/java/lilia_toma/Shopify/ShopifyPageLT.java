@@ -74,6 +74,8 @@ public class ShopifyPageLT extends BasePage {
     @FindBy(css = ".card")
     public Components<Card> cards;
 
+    @FindBy(css = ".cart-wrapper")
+    public Cart cart;
 
     @FindBy(css = "#card-image")
     public List<WebElement> images;
