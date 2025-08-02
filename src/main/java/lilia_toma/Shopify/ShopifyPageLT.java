@@ -125,7 +125,11 @@ public class ShopifyPageLT extends BasePage {
     }
 
     public static Integer formatPrice(String priceText) {
-        return Integer.parseInt(priceText.replaceAll("\\$", "").trim());
+        return Integer.parseInt(priceText
+                .replaceAll("\\$", "")
+                .replaceAll("Price:\\s*", "")
+
+                .trim());
     }
 
 }
