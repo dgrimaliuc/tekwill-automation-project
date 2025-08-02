@@ -21,7 +21,7 @@ public class ShopifyV2 extends BasePage {
     @FindBy(css = ".card")
     public Components<Card> cards;
 
-    @FindBy(css = ".cart-button")
+    @FindBy(xpath = "//*[@class='cart-button']")
     public WebElement cartIcon;
 
     @FindBy(css = ".cart-cards-wrapper")
