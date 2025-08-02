@@ -1,7 +1,6 @@
 package lilia_toma.Shopify;
 
 import helpers.BasePage;
-import helpers.customElements.Components;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -68,11 +67,11 @@ public class ShopifyPageLT extends BasePage {
     public WebElement cartButton;
 
 
-//    @FindBy(xpath = "//div[@class='card']")
-//    public List<WebElement> cards;
+    @FindBy(xpath = "//div[@class='card']")
+    public List<WebElement> cards;
 /** In cazul Components, inlocuim FindBy de mai sus cu urmatorul:*/
-    @FindBy(css = ".card")
-    public Components<Card> cards;
+//    @FindBy(css = ".card")
+//    public Components<Card> cards;
 
     @FindBy(css = ".cart-wrapper")
     public Cart cart;

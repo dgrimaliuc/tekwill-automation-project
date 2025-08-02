@@ -1,11 +1,10 @@
-package denis_grimaliuc.shopify;
+package lilia_toma.Shopify;
 
 import helpers.customElements.Component;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class Card extends Component {
-
     @FindBy(css = "#card-title")
     public WebElement title;
 
@@ -18,15 +17,18 @@ public class Card extends Component {
     @FindBy(css = "#card-size")
     public WebElement size;
 
+    @FindBy(css = "#card-gender")
+    public WebElement gender;
+
     @FindBy(css = "#card-image")
     public WebElement image;
 
-    @FindBy(css = "#card-gender")
-    public WebElement gender;
     @FindBy(css = "#add_to_cart_button")
     public WebElement addToCartButton;
 
     public Card(WebElement parent) {
         super(parent);
     }
+
+
 }
