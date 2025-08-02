@@ -15,6 +15,7 @@ public class Cart extends Component {
     @FindBy(css = ".order-button")
     public WebElement orderButton;
 
+
     public Cart(WebElement parent) {
         super(parent);
     }
