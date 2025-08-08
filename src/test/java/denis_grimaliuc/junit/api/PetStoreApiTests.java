@@ -4,10 +4,12 @@ import example.api.petstore.PetstoreBaseRequest;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+
+import static denis_grimaliuc.api.petStore.PetEndpoint.addPet;
 import static example.data.utils.MatcherUtils.matchesJsonSchemaFrom;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.*;
 
 public class PetStoreApiTests extends PetstoreBaseRequest {
 
@@ -17,7 +19,9 @@ public class PetStoreApiTests extends PetstoreBaseRequest {
     public void getMultiplePetsTest() {
         var request = given();
 
-        request.queryParam("location", location);
+        request
+                .queryParam("location", location)
+                .queryParam("status", "available");
 
         Response response = request.get("/pets");
 
@@ -28,6 +32,7 @@ public class PetStoreApiTests extends PetstoreBaseRequest {
                 .assertThat()
                 .statusCode(200)
                 .time(lessThan(2000L))
+                .body("status", everyItem(equalTo("available")))
                 .body("size()", greaterThan(0));
     }
 
@@ -79,8 +84,8 @@ public class PetStoreApiTests extends PetstoreBaseRequest {
 
     @Test
     public void patchPetTest() {
-
-        String petId = "d61787ae-1ad9-4bea-804e-e91df658ab3c";
+        HashMap<String, String> pet = addPet("Dexter", "Chisinau");
+        String petId = pet.get("id");
 
         var request = given();
 
