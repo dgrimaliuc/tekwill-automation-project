@@ -15,7 +15,8 @@
       "enum": [
         "available",
         "approved",
-        "rejected"
+        "rejected",
+        "denied"
       ]
     }
   },
