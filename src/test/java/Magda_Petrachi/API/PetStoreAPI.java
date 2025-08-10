@@ -33,7 +33,7 @@ public class PetStoreAPI extends PetstoreBaseRequest {
                 .time(lessThan(3000L))
                 .body("id", equalTo(id))
                 .body("location", equalTo(location))
-                .body(matchesJsonSchemaFrom("src/main/resources/schemes/getAdoptionsSchema.json");
+                .body(matchesJsonSchemaFrom("src/main/resources/schemes/getAdoptionsSchema.json"));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class PetStoreAPI extends PetstoreBaseRequest {
                         {
                             "name": "Dexter 2",
                             "location": "Chisinau",
-                            "status": "adopted"
+                            "status": "adopted",
                         }         
                         """);
 
@@ -175,7 +175,6 @@ public class PetStoreAPI extends PetstoreBaseRequest {
                 .body("status", equalTo("adopted"))
                 .body(matchesJsonSchemaFrom("src/main/resources/schemes/addPetSchema.json"));
     }
-
 
 
 }
