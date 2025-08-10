@@ -14,10 +14,10 @@ public class PetEndPoint extends PetstoreBaseRequest {
                 "location" : "%s"
                 }
                 """.formatted(name, location));
-        var response = request.port("/pets");
+        var response = request.post("/pets");
         handleResponse(response);
 
-        return response.basePath().get("$");
+        return response.jsonPath().get("$");
 
     }
 
@@ -32,5 +32,5 @@ public class PetEndPoint extends PetstoreBaseRequest {
         return response.jsonPath().get("$");
     }
 
-    
+
 }

@@ -134,8 +134,6 @@ public class AdoptionAPI extends PetstoreBaseRequest {
 
         pet = getPet(pet.get("id"), location);
 
-//        assertThat(pet.get("status"), equalTo(available));
-
     }
 
 
