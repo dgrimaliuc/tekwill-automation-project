@@ -1,5 +1,6 @@
 package example.actions;
 
+import com.google.gson.Gson;
 import helpers.customElements.Component;
 import helpers.customElements.Components;
 import org.apache.commons.lang.RandomStringUtils;
@@ -18,6 +19,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 public class BaseActions {
 
     static Logger log = Logger.getLogger(BaseActions.class);
+    public static Gson gson = new Gson();
     private final WebDriver driver;
     private final WebDriverWait wait;
     public Object shouldBeDisplayed;
