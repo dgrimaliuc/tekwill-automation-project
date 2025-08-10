@@ -8,6 +8,8 @@ import jdk.internal.classfile.components.ClassPrinter;
 import java.util.HashMap;
 import java.util.List;
 
+import static groovy.json.JsonOutput.toJson;
+
 public class AdoptionEndPoint extends PetstoreBaseRequest {
     private static final String adoptionEndpoint = "/adoptions";
 
@@ -20,7 +22,7 @@ public class AdoptionEndPoint extends PetstoreBaseRequest {
                     "location": "%s"
                 }         
                 """.formatted(location,
-                gson.toJson(pets)
+                toJson(pets)
         ));
 
         var response = request.post("/adoption");
