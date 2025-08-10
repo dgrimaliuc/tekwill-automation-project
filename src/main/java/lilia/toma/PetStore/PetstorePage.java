@@ -42,7 +42,6 @@ public class PetstorePage extends BasePage{
     @FindBy (css = "[class='flex items-center']")
     public WebElement petsResult;
 
-
     @FindBy (css = "[data-t='adopt-button']")
     public WebElement adoptButton;
 

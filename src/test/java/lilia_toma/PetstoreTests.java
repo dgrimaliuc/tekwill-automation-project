@@ -180,4 +180,5 @@ public class PetstoreTests extends BaseTest {
         System.out.println("Culoarea butonului la hover este: " + hoverColor);
     }
 
+
 }
