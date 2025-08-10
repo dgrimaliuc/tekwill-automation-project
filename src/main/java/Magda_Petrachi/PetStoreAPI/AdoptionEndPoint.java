@@ -24,5 +24,4 @@ public class AdoptionEndPoint extends PetstoreBaseRequest {
 
         return response.jsonPath().get("$");
     }
-
 }

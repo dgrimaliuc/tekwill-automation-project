@@ -31,6 +31,4 @@ public class PetEndPoint extends PetstoreBaseRequest {
         handleResponse(response);
         return response.jsonPath().get("$");
     }
-
-
 }
