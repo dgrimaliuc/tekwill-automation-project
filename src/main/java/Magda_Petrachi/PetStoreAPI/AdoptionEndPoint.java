@@ -1,7 +1,6 @@
 package Magda_Petrachi.PetStoreAPI;
 
 import example.api.petstore.PetstoreBaseRequest;
-import jdk.internal.classfile.components.ClassPrinter;
 
 import java.util.HashMap;
 
@@ -12,7 +11,6 @@ public class AdoptionEndPoint extends PetstoreBaseRequest {
 
     public static HashMap<String, String> addAdoption(String location, String... pets) {
         var request = given();
-        ClassPrinter.Node gson = null;
         request.body("""
                 {
                     "pets": "%s",
