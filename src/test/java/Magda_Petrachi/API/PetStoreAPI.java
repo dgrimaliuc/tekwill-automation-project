@@ -33,7 +33,7 @@ public class PetStoreAPI extends PetstoreBaseRequest {
                 .time(lessThan(3000L))
                 .body("id", equalTo(id))
                 .body("location", equalTo(location))
-                .body(matchesJsonSchemaFrom(addAdoptionSchema.json))
+                .body(matchesJsonSchemaFrom("src/main/resourcesschemes/getAdoptionsSchema.json");
     }
 
     @Test
