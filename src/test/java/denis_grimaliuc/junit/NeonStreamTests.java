@@ -5,6 +5,8 @@ import internal.BaseTest;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static example.actions.BaseActions.waitFor;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -16,6 +18,8 @@ public class NeonStreamTests extends BaseTest {
     NeonStreamHomePage home = new NeonStreamHomePage(driver);
     NeonStreamContentPage content = new NeonStreamContentPage(driver);
     NeonStreamWatchEpisodePage episode = new NeonStreamWatchEpisodePage(driver);
+    NeonStreamBrowsePage browse = new NeonStreamBrowsePage(driver);
+    NeonStreamSearchPage search = new NeonStreamSearchPage(driver);
 
     @BeforeEach
     public void setup() {
@@ -215,5 +219,60 @@ public class NeonStreamTests extends BaseTest {
         home.singleShowCard.watchNowButton.click();
         actions.waitForCurrentURLContains("/watch/1/1");
         actions.shouldHaveTextContains(episode.title, expectedTitle.toUpperCase());
+    }
+
+    @Test
+    public void browsePageSmokeTest() {
+        home.browseButton.click();
+        actions.shouldSee(browse.title);
+        actions.shouldSee(browse.browseActions);
+        actions.waitForNumberOfElementsToBeMoreThan(browse.cards, 1);
+        browse.cards.getFirst().click();
+        actions.waitForCurrentURLMatches(".*(movie|tv).*");
+    }
+
+    @Test
+    public void searchPageSmokeTest() {
+        search.searchInput.click();
+        actions.shouldHaveTextToBe(search.noResultsSection.title, "Ready to dive in?");
+        actions.shouldHaveTextToBe(search.noResultsSection.description, "Start your search to explore a world of amazing content.");
+        actions.shouldSee(search.noResultsSection.stars);
+    }
+
+    @Test
+    public void searchQueryParamSyncTest() {
+        String query = "the";
+        driver.get("https://neon-stream.web.app/search?q=" + query);
+        actions.shouldHaveAttribute(search.searchInput, "value", query);
+        search.shouldSeeResultsFor(query);
+    }
+
+    @ParameterizedTest(name = "Search for a query test '{0}'")
+    @ValueSource(strings = {"Naruto", "2018"})
+    public void searchByTitleTest(String text) {
+        search.searchInput.click();
+        search.searchInput.sendKeys(text);
+        search.shouldSeeResultsFor(text);
+    }
+
+    @Test
+    public void notResultsFoundTest() {
+        String text = "qweasdqwerads123";
+        search.searchInput.click();
+        search.searchInput.sendKeys(text);
+        actions.shouldHaveTextToBe(search.noResultsSection.title, "No results found");
+        actions.shouldHaveTextToBe(search.noResultsSection.description, "Sorry, we couldn't find any results for your search. Try again with a different query.");
+        actions.shouldSee(search.noResultsSection.stars);
+    }
+
+    @Test
+    public void moreSearchResultsTest() {
+        String query = "The";
+        search.searchInput.click();
+        search.searchInput.sendKeys(query);
+        actions.waitForNumberOfElementsToBeMoreThan(search.cards, 5);
+        int currentlyDisplayed = search.cards.size();
+        actions.scrollTo(search.cards.getLast());
+        actions.waitForNumberOfElementsToBeMoreThan(search.cards, currentlyDisplayed);
     }
 }
