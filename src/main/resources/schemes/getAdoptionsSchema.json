@@ -1,7 +1,6 @@
 {
   "type": "array",
   "items": {
-    "type": "object",
     "properties": {
       "pets": {
         "type": "array"
@@ -13,19 +12,13 @@
         "type": "string"
       },
       "status": {
-        "type": "string",
-        "enum": [
-          "available",
-          "approved",
-          "rejected"
-        ]
+        "type": "string"
       }
     },
     "required": [
       "pets",
-      "status",
-      "id",
-      "location"
+      "location",
+      "id"
     ]
   }
 }

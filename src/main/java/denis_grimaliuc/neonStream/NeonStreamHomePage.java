@@ -25,6 +25,9 @@ public class NeonStreamHomePage extends BasePage {
     @FindBy(css = ".single-card")
     public SingleShowCard singleShowCard;
 
+    @FindBy(css = "a[href='/browse']")
+    public WebElement browseButton;
+
     public NeonStreamHomePage(WebDriver driver) {
         super(driver);
     }
