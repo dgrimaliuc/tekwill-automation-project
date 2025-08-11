@@ -1,29 +1,41 @@
 package Magda_Petrachi.NeonStream;
 
 import example.components.neonStream.HeroCarousel;
+import example.ui.shopify.components.Card;
 import helpers.customElements.Component;
 import helpers.customElements.Components;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.List;
-
 public class NeoStreamHeroCarousel extends Component {
 
-    @FindBy(css = "[class*=arrow-left]")
+    @FindBy(xpath = "//div[contains(@class,'hero-carousel-left') and .img[contains(@class, 'left')]]")
     public WebElement arrowLeft;
 
-    @FindBy(css = "[class*=arrow-right]")
+    @FindBy(xpath = "//div[contains(@class,'hero-carousel-arrows') and .img[contains(@class, 'right')]]")
     public WebElement arrowRight;
 
     @FindBy(css = "[class*=hero-card-container]")
     public Components<HeroCarousel> cards;
 
-    @FindBy(css = "button[class*=hero-carousel__page]")
-    public List<WebElement> tabs;
 
+    @FindBy(css = "button[class*=hero-carousel__page]")
+    public Components<TabNeoStream> tabs;
+    @FindBy(css = "[class*=watch-now-btn]")
+    public WebElement watchNowButton;
+    @FindBy(css = "[data-t=not-in-watchlist]")
+    public WebElement addToWatchlist;
+    @FindBy(css = "[data-t=in-watchlist]")
+    public WebElement removeFromWatchlist;
+    private Card activeCard;
 
     public NeoStreamHeroCarousel(WebElement parent) {
         super(parent);
     }
+
+    public void findContent(String contentType) {
+        while (!activeCard.title.getAttribute("href").contains(contentType)) ;
+        arrowRight.click();
+    }
+
 }
